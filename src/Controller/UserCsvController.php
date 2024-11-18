@@ -11,6 +11,36 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserCsvController extends AbstractController
 {
+    // Показываем CSV файл
+    #[Route('/user-csv', name: 'user_csv_index')]
+    public function index(): Response
+    {
+        $filePath = __DIR__ . '/../../exports/userCsv.csv';
+
+        // Проверяем, существует ли CSV файл
+        if (!file_exists($filePath)) {
+            return new Response('CSV файл не найден', 404);
+        }
+
+        // Открываем CSV файл
+        $file = fopen($filePath, 'r');
+        $users = [];
+
+        // Пропускаем заголовки (если они есть)
+        $headers = fgetcsv($file);
+
+        // Читаем все строки
+        while (($data = fgetcsv($file)) !== false) {
+            $users[] = $data;
+        }
+
+        fclose($file);
+
+        // Отправляем данные в шаблон для отображения
+        return $this->render('user_csv/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
     #[Route('/user-csv/new', name: 'user_csv_new')]
     public function new(Request $request): Response
     {
@@ -19,10 +49,13 @@ class UserCsvController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Сохранение пользователя в CSV
             $this->writeToCsv($userCsv);
 
-            $this->addFlash('success', 'User added to CSV successfully!');
+            // Уведомление об успешном добавлении
+            $this->addFlash('success', 'Пользователь успешно добавлен в CSV!');
 
+            // Перенаправление на текущую страницу после успешного добавления
             return $this->redirectToRoute('user_csv_new');
         }
 

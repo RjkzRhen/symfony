@@ -15,18 +15,19 @@ class UserCsvType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('lastName', TextType::class)
-            ->add('firstName', TextType::class)
-            ->add('middleName', TextType::class, ['required' => false])
-            ->add('age', IntegerType::class)
-            ->add('username', TextType::class)
-            ->add('password', PasswordType::class);
+            ->add('lastName', TextType::class, ['label' => 'Фамилия'])
+            ->add('firstName', TextType::class, ['label' => 'Имя'])
+            ->add('middleName', TextType::class, ['label' => 'Отчество', 'required' => false])
+            ->add('age', IntegerType::class, ['label' => 'Возраст'])
+            ->add('username', TextType::class, ['label' => 'Имя пользователя'])
+            ->add('password', PasswordType::class, ['label' => 'Пароль']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UserCsv::class,
+            'data_class' => UserCsv::class, // Указываем, что форма работает с сущностью UserCsv
         ]);
     }
 }
+

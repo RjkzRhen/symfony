@@ -9,5 +9,5 @@ RUN apk add --no-cache \
     libzip-dev \
     oniguruma-dev \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
-
+RUN chown -R www-data:www-data /var/php/symfony_project
 WORKDIR /var/php/symfony_project
