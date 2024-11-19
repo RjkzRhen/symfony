@@ -1,83 +1,86 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller; // Определяем пространство имен для контроллера
 
-use App\Entity\UserCsv;
-use App\Form\UserCsvType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\UserCsv; // Подключаем сущность UserCsv
+use App\Form\UserCsvType; // Подключаем форму UserCsvType
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; // Подключаем базовый класс контроллера
+use Symfony\Component\HttpFoundation\Request; // Подключаем класс Request для обработки HTTP запросов
+use Symfony\Component\HttpFoundation\Response; // Подключаем класс Response для возврата HTTP ответов
+use Symfony\Component\Routing\Annotation\Route; // Подключаем аннотацию Route для определения маршрутов
 
-class UserCsvController extends AbstractController
+class UserCsvController extends AbstractController // Определяем класс контроллера, наследующийся от AbstractController
 {
-    // РџРѕРєР°Р·С‹РІР°РµРј CSV С„Р°Р№Р»
-    #[Route('/user-csv', name: 'user_csv_index')]
-    public function index(): Response
+    // Маршрут для отображения CSV файла
+    #[Route('/user-csv', name: 'user_csv_index')] // Определяем маршрут для отображения CSV файла
+    public function index(): Response // Определяем метод index, который возвращает Response
     {
-        $filePath = __DIR__ . '/../../exports/userCsv.csv';
+        $filePath = __DIR__ . '/../../exports/userCsv.csv'; // Определяем путь к CSV файлу
 
-        // РџСЂРѕРІРµСЂСЏРµРј, СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё CSV С„Р°Р№Р»
-        if (!file_exists($filePath)) {
-            return new Response('CSV С„Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ', 404);
+        // Проверяем, существует ли CSV файл
+        if (!file_exists($filePath)) { // Проверяем, существует ли файл по указанному пути
+            return new Response('CSV файл не найден', 404); // Возвращаем ответ с кодом 404, если файл не найден
         }
 
-        // РћС‚РєСЂС‹РІР°РµРј CSV С„Р°Р№Р»
-        $file = fopen($filePath, 'r');
-        $users = [];
+        // Открываем CSV файл
+        $file = fopen($filePath, 'r'); // Открываем файл для чтения
+        $users = []; // Инициализируем массив для хранения данных из CSV
 
-        // РџСЂРѕРїСѓСЃРєР°РµРј Р·Р°РіРѕР»РѕРІРєРё (РµСЃР»Рё РѕРЅРё РµСЃС‚СЊ)
-        $headers = fgetcsv($file);
+        // Пропускаем заголовки (если они есть)
+        $headers = fgetcsv($file); // Читаем первую строку (заголовки) и пропускаем её
 
-        // Р§РёС‚Р°РµРј РІСЃРµ СЃС‚СЂРѕРєРё
-        while (($data = fgetcsv($file)) !== false) {
-            $users[] = $data;
+        // Читаем все строки
+        while (($data = fgetcsv($file)) !== false) { // Читаем строки из файла до тех пор, пока они не закончатся
+            $users[] = $data; // Добавляем строку в массив users
         }
 
-        fclose($file);
+        fclose($file); // Закрываем файл
 
-        // РћС‚РїСЂР°РІР»СЏРµРј РґР°РЅРЅС‹Рµ РІ С€Р°Р±Р»РѕРЅ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
-        return $this->render('user_csv/index.html.twig', [
-            'users' => $users,
-        ]);
-    }
-    #[Route('/user-csv/new', name: 'user_csv_new')]
-    public function new(Request $request): Response
-    {
-        $userCsv = new UserCsv();
-        $form = $this->createForm(UserCsvType::class, $userCsv);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // РЎРѕС…СЂР°РЅРµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ CSV
-            $this->writeToCsv($userCsv);
-
-            // РЈРІРµРґРѕРјР»РµРЅРёРµ РѕР± СѓСЃРїРµС€РЅРѕРј РґРѕР±Р°РІР»РµРЅРёРё
-            $this->addFlash('success', 'РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓСЃРїРµС€РЅРѕ РґРѕР±Р°РІР»РµРЅ РІ CSV!');
-
-            // РџРµСЂРµРЅР°РїСЂР°РІР»РµРЅРёРµ РЅР° С‚РµРєСѓС‰СѓСЋ СЃС‚СЂР°РЅРёС†Сѓ РїРѕСЃР»Рµ СѓСЃРїРµС€РЅРѕРіРѕ РґРѕР±Р°РІР»РµРЅРёСЏ
-            return $this->redirectToRoute('user_csv_new');
-        }
-
-        return $this->render('user_csv/new.html.twig', [
-            'form' => $form->createView(),
+        // Отправляем данные в шаблон для отображения
+        return $this->render('user_csv/index.html.twig', [ // Рендерим шаблон user_csv/index.html.twig и передаем в него массив users
+            'users' => $users, // Передаем массив пользователей в шаблон
         ]);
     }
 
-    private function writeToCsv(UserCsv $userCsv): void
+    // Маршрут для создания нового пользователя и сохранения его в CSV файл
+    #[Route('/user-csv/new', name: 'user_csv_new')] // Определяем маршрут для создания нового пользователя и сохранения его в CSV файл
+    public function new(Request $request): Response // Определяем метод new, который принимает Request
     {
-        $filePath = __DIR__ . '/../../exports/userCsv.csv';
+        $userCsv = new UserCsv(); // Создаем новый объект UserCsv
+        $form = $this->createForm(UserCsvType::class, $userCsv); // Создаем форму для объекта UserCsv
 
-        // Р•СЃР»Рё С„Р°Р№Р» РµС‰С‘ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚, РґРѕР±Р°РІР»СЏРµРј Р·Р°РіРѕР»РѕРІРѕРє
-        $fileExists = file_exists($filePath);
-        $handle = fopen($filePath, 'a');
+        $form->handleRequest($request); // Обрабатываем запрос и заполняем форму данными из запроса
+        if ($form->isSubmitted() && $form->isValid()) { // Проверяем, была ли отправлена форма и является ли она валидной
+            // Сохранение пользователя в CSV
+            $this->writeToCsv($userCsv); // Вызываем метод для записи данных в CSV файл
 
-        if (!$fileExists) {
-            fputcsv($handle, ['Last Name', 'First Name', 'Middle Name', 'Age', 'Username', 'Password']);
+            // Уведомление об успешном добавлении
+            $this->addFlash('success', 'Пользователь успешно добавлен в CSV!'); // Добавляем флэш-сообщение об успешном добавлении
+
+            // Перенаправление на текущую страницу после успешного добавления
+            return $this->redirectToRoute('user_csv_new'); // Перенаправляем пользователя на маршрут user_csv_new
         }
 
-        // Р”РѕР±Р°РІР»СЏРµРј РґР°РЅРЅС‹Рµ
-        fputcsv($handle, [
+        return $this->render('user_csv/new.html.twig', [ // Рендерим шаблон user_csv/new.html.twig и передаем в него форму
+            'form' => $form->createView(), // Передаем форму в шаблон
+        ]);
+    }
+
+    // Метод для записи данных пользователя в CSV файл
+    private function writeToCsv(UserCsv $userCsv): void // Определяем приватный метод writeToCsv, который принимает объект UserCsv
+    {
+        $filePath = __DIR__ . '/../../exports/userCsv.csv'; // Определяем путь к CSV файлу
+
+        // Если файл ещё не существует, добавляем заголовок
+        $fileExists = file_exists($filePath); // Проверяем, существует ли файл по указанному пути
+        $handle = fopen($filePath, 'a'); // Открываем файл для добавления данных в конец
+
+        if (!$fileExists) { // Если файл не существует
+            fputcsv($handle, ['Last Name', 'First Name', 'Middle Name', 'Age', 'Username', 'Password']); // Добавляем заголовок в файл
+        }
+
+        // Добавляем данные
+        fputcsv($handle, [ // Добавляем строку с данными пользователя в файл
             $userCsv->lastName,
             $userCsv->firstName,
             $userCsv->middleName,
@@ -86,6 +89,6 @@ class UserCsvController extends AbstractController
             $userCsv->password,
         ]);
 
-        fclose($handle);
+        fclose($handle); // Закрываем файл
     }
 }
