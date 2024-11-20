@@ -14,17 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class PhoneController extends AbstractController
 
 {
-    #[Route('/phone/delete/{id}', name: 'phone_delete', methods: ['DELETE'])]
-    public function delete(Request $request, Phone $phone, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$phone->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($phone);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('phone_list');
-    }
-
     #[Route('/phones', name: 'phone_list')]
     public function index(PhoneRepository $phoneRepository): Response
     {
@@ -53,4 +42,16 @@ class PhoneController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/phone/delete/{id}', name: 'phone_delete', methods: ['POST'])]
+    public function delete(Request $request, Phone $phone, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$phone->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($phone);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('phone_list');
+    }
+
+
 }
