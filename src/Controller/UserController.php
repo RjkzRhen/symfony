@@ -1,49 +1,49 @@
 <?php
 
-namespace App\Controller; // Îïðåäåëÿåì ïðîñòðàíñòâî èìåí äëÿ êîíòðîëëåðà
+namespace App\Controller; // ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÐ¼ Ð¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÑ‚Ð²Ð¾ Ð¸Ð¼ÐµÐ½ Ð´Ð»Ñ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°
 
-use App\Entity\User; // Ïîäêëþ÷àåì ñóùíîñòü User
-use App\Form\UserType; // Ïîäêëþ÷àåì ôîðìó UserType
-use Doctrine\ORM\EntityManagerInterface; // Ïîäêëþ÷àåì èíòåðôåéñ EntityManager
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; // Ïîäêëþ÷àåì áàçîâûé êëàññ êîíòðîëëåðà
-use Symfony\Component\HttpFoundation\Request; // Ïîäêëþ÷àåì êëàññ Request äëÿ îáðàáîòêè HTTP çàïðîñîâ
-use Symfony\Component\HttpFoundation\Response; // Ïîäêëþ÷àåì êëàññ Response äëÿ âîçâðàòà HTTP îòâåòîâ
-use Symfony\Component\Routing\Annotation\Route; // Ïîäêëþ÷àåì àííîòàöèþ Route äëÿ îïðåäåëåíèÿ ìàðøðóòîâ
+use App\Entity\User; // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ ÑÑƒÑ‰Ð½Ð¾ÑÑ‚ÑŒ User
+use App\Form\UserType; // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ñ„Ð¾Ñ€Ð¼Ñƒ UserType
+use Doctrine\ORM\EntityManagerInterface; // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð¸Ð½Ñ‚ÐµÑ€Ñ„ÐµÐ¹Ñ EntityManager
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð±Ð°Ð·Ð¾Ð²Ñ‹Ð¹ ÐºÐ»Ð°ÑÑ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°
+use Symfony\Component\HttpFoundation\Request; // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ ÐºÐ»Ð°ÑÑ Request Ð´Ð»Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ HTTP Ð·Ð°Ð¿Ñ€Ð¾ÑÐ¾Ð²
+use Symfony\Component\HttpFoundation\Response; // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ ÐºÐ»Ð°ÑÑ Response Ð´Ð»Ñ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‚Ð° HTTP Ð¾Ñ‚Ð²ÐµÑ‚Ð¾Ð²
+use Symfony\Component\Routing\Annotation\Route; // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð°Ð½Ð½Ð¾Ñ‚Ð°Ñ†Ð¸ÑŽ Route Ð´Ð»Ñ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ñ Ð¼Ð°Ñ€ÑˆÑ€ÑƒÑ‚Ð¾Ð²
 
-class UserController extends AbstractController // Îïðåäåëÿåì êëàññ êîíòðîëëåðà, íàñëåäóþùèéñÿ îò AbstractController
+class UserController extends AbstractController // ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÐ¼ ÐºÐ»Ð°ÑÑ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°, Ð½Ð°ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ÑÑ Ð¾Ñ‚ AbstractController
 {
-    // Ìàðøðóò äëÿ îòîáðàæåíèÿ ñïèñêà âñåõ ïîëüçîâàòåëåé
-    #[Route('/users', name: 'app_users')] // Îïðåäåëÿåì ìàðøðóò äëÿ îòîáðàæåíèÿ ñïèñêà ïîëüçîâàòåëåé
-    public function index(EntityManagerInterface $entityManager): Response // Îïðåäåëÿåì ìåòîä index, êîòîðûé ïðèíèìàåò EntityManager
+    // ÐœÐ°Ñ€ÑˆÑ€ÑƒÑ‚ Ð´Ð»Ñ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ ÑÐ¿Ð¸ÑÐºÐ° Ð²ÑÐµÑ… Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹
+    #[Route('/users', name: 'app_users')] // ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÐ¼ Ð¼Ð°Ñ€ÑˆÑ€ÑƒÑ‚ Ð´Ð»Ñ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ ÑÐ¿Ð¸ÑÐºÐ° Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹
+    public function index(EntityManagerInterface $entityManager): Response // ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÐ¼ Ð¼ÐµÑ‚Ð¾Ð´ index, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚ EntityManager
     {
-        // Ïîëó÷àåì âñåõ ïîëüçîâàòåëåé èç áàçû äàííûõ
-        $users = $entityManager->getRepository(User::class)->findAll(); // Ïîëó÷àåì âñå çàïèñè èç ðåïîçèòîðèÿ User
+        // ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð²ÑÐµÑ… Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð¸Ð· Ð±Ð°Ð·Ñ‹ Ð´Ð°Ð½Ð½Ñ‹Ñ…
+        $users = $entityManager->getRepository(User::class)->findAll(); // ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð²ÑÐµ Ð·Ð°Ð¿Ð¸ÑÐ¸ Ð¸Ð· Ñ€ÐµÐ¿Ð¾Ð·Ð¸Ñ‚Ð¾Ñ€Ð¸Ñ User
 
-        // Âîçâðàùàåì ïîëüçîâàòåëåé â øàáëîí
-        return $this->render('user/index.html.twig', [ // Ðåíäåðèì øàáëîí user/index.html.twig è ïåðåäàåì â íåãî ïåðåìåííóþ users
-            'users' => $users, // Ïåðåäàåì ìàññèâ ïîëüçîâàòåëåé â øàáëîí
+        // Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð² ÑˆÐ°Ð±Ð»Ð¾Ð½
+        return $this->render('user/index.html.twig', [ // Ð ÐµÐ½Ð´ÐµÑ€Ð¸Ð¼ ÑˆÐ°Ð±Ð»Ð¾Ð½ user/index.html.twig Ð¸ Ð¿ÐµÑ€ÐµÐ´Ð°ÐµÐ¼ Ð² Ð½ÐµÐ³Ð¾ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½ÑƒÑŽ users
+            'users' => $users, // ÐŸÐµÑ€ÐµÐ´Ð°ÐµÐ¼ Ð¼Ð°ÑÑÐ¸Ð² Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð² ÑˆÐ°Ð±Ð»Ð¾Ð½
         ]);
     }
 
-    // Ìàðøðóò äëÿ ñîçäàíèÿ íîâîãî ïîëüçîâàòåëÿ
-    #[Route('/user/new', name: 'user_new')] // Îïðåäåëÿåì ìàðøðóò äëÿ ñîçäàíèÿ íîâîãî ïîëüçîâàòåëÿ
-    public function new(Request $request, EntityManagerInterface $entityManager): Response // Îïðåäåëÿåì ìåòîä new, êîòîðûé ïðèíèìàåò Request è EntityManager
+    // ÐœÐ°Ñ€ÑˆÑ€ÑƒÑ‚ Ð´Ð»Ñ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ñ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ
+    #[Route('/user/new', name: 'user_new')] // ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÐ¼ Ð¼Ð°Ñ€ÑˆÑ€ÑƒÑ‚ Ð´Ð»Ñ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ñ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ
+    public function new(Request $request, EntityManagerInterface $entityManager): Response // ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÐ¼ Ð¼ÐµÑ‚Ð¾Ð´ new, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚ Request Ð¸ EntityManager
     {
-        $user = new User(); // Ñîçäàåì íîâûé îáúåêò User
-        $form = $this->createForm(UserType::class, $user); // Ñîçäàåì ôîðìó äëÿ îáúåêòà User
+        $user = new User(); // Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð½Ð¾Ð²Ñ‹Ð¹ Ð¾Ð±ÑŠÐµÐºÑ‚ User
+        $form = $this->createForm(UserType::class, $user); // Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ñ„Ð¾Ñ€Ð¼Ñƒ Ð´Ð»Ñ Ð¾Ð±ÑŠÐµÐºÑ‚Ð° User
 
-        $form->handleRequest($request); // Îáðàáàòûâàåì çàïðîñ è çàïîëíÿåì ôîðìó äàííûìè èç çàïðîñà
-        if ($form->isSubmitted() && $form->isValid()) { // Ïðîâåðÿåì, áûëà ëè îòïðàâëåíà ôîðìà è ÿâëÿåòñÿ ëè îíà âàëèäíîé
-            // Ñîõðàíÿåì íîâîãî ïîëüçîâàòåëÿ â áàçå äàííûõ
-            $entityManager->persist($user); // Ãîâîðèì Doctrine ñîõðàíèòü îáúåêò User
-            $entityManager->flush(); // Âûïîëíÿåì çàïðîñ ê áàçå äàííûõ äëÿ ñîõðàíåíèÿ îáúåêòà
+        $form->handleRequest($request); // ÐžÐ±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð·Ð°Ð¿Ñ€Ð¾Ñ Ð¸ Ð·Ð°Ð¿Ð¾Ð»Ð½ÑÐµÐ¼ Ñ„Ð¾Ñ€Ð¼Ñƒ Ð´Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ð¸Ð· Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°
+        if ($form->isSubmitted() && $form->isValid()) { // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼, Ð±Ñ‹Ð»Ð° Ð»Ð¸ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð° Ñ„Ð¾Ñ€Ð¼Ð° Ð¸ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð»Ð¸ Ð¾Ð½Ð° Ð²Ð°Ð»Ð¸Ð´Ð½Ð¾Ð¹
+            // Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÑÐµÐ¼ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ Ð² Ð±Ð°Ð·Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ…
+            $entityManager->persist($user); // Ð“Ð¾Ð²Ð¾Ñ€Ð¸Ð¼ Doctrine ÑÐ¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð¾Ð±ÑŠÐµÐºÑ‚ User
+            $entityManager->flush(); // Ð’Ñ‹Ð¿Ð¾Ð»Ð½ÑÐµÐ¼ Ð·Ð°Ð¿Ñ€Ð¾Ñ Ðº Ð±Ð°Ð·Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð´Ð»Ñ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°
 
-            // Ïåðåíàïðàâëÿåì íà ñòðàíèöó ñïèñêà ïîëüçîâàòåëåé ïîñëå óñïåøíîãî äîáàâëåíèÿ
-            return $this->redirectToRoute('app_users'); // Ïåðåíàïðàâëÿåì ïîëüçîâàòåëÿ íà ìàðøðóò app_users
+            // ÐŸÐµÑ€ÐµÐ½Ð°Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼ Ð½Ð° ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñƒ ÑÐ¿Ð¸ÑÐºÐ° Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹ Ð¿Ð¾ÑÐ»Ðµ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾Ð³Ð¾ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ
+            return $this->redirectToRoute('app_users'); // ÐŸÐµÑ€ÐµÐ½Ð°Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ Ð½Ð° Ð¼Ð°Ñ€ÑˆÑ€ÑƒÑ‚ app_users
         }
 
-        return $this->render('user/new.html.twig', [ // Ðåíäåðèì øàáëîí user/new.html.twig è ïåðåäàåì â íåãî ôîðìó
-            'form' => $form->createView(), // Ïåðåäàåì ôîðìó â øàáëîí
+        return $this->render('user/new.html.twig', [ // Ð ÐµÐ½Ð´ÐµÑ€Ð¸Ð¼ ÑˆÐ°Ð±Ð»Ð¾Ð½ user/new.html.twig Ð¸ Ð¿ÐµÑ€ÐµÐ´Ð°ÐµÐ¼ Ð² Ð½ÐµÐ³Ð¾ Ñ„Ð¾Ñ€Ð¼Ñƒ
+            'form' => $form->createView(), // ÐŸÐµÑ€ÐµÐ´Ð°ÐµÐ¼ Ñ„Ð¾Ñ€Ð¼Ñƒ Ð² ÑˆÐ°Ð±Ð»Ð¾Ð½
         ]);
     }
 }

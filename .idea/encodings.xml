@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/config/packages/doctrine.yaml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Controller/PhoneController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Controller/UserController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Controller/UserCsvController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Entity/Phone.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Form/PhoneType.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Repository/PhoneRepository.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/phone/index.html.twig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/templates/phone/new.html.twig" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
 </project>

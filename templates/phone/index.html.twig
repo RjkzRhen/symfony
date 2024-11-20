@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Телефонный справочник</title>
+</head>
+<body>
+<h1>Телефонный справочник</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>ФИО Пользователя</th>
+        <th>Номер</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for phone in phones %}
+        <tr>
+            <td>{{ phone.id }}</td>
+            <td>{{ phone.user.lastName }} {{ phone.user.firstName }} {{ phone.user.middleName }}</td>
+            <td>{{ phone.value }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('phone_new') }}">Добавить номер</a>
+</body>
+</html>
