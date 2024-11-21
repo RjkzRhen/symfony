@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавить новый номер</title>
+    <title>Редактировать номер</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,11 +53,11 @@
 </head>
 <body>
 <div class="container">
-    <h1>Добавить новый номер</h1>
+    <h1>Редактировать номер</h1>
     {{ form_start(form) }}
     <div class="form-group">
-        {{ form_label(form.user) }}
-        {{ form_widget(form.user) }}
+        {{ form_label(form.value) }}
+        {{ form_widget(form.value) }}
     </div>
     <div class="form-group" id="phone_phones_container" data-prototype="{{ form_widget(form.phones.vars.prototype)|e('html_attr') }}">
         <label class="required">Номера телефонов</label>
@@ -71,7 +71,7 @@
         <button type="button" id="add_phone_button">Добавить номер</button>
     </div>
     <div class="form-group">
-        <button type="submit">Добавить</button>
+        <button type="submit">Сохранить</button>
     </div>
     {{ form_end(form) }}
 </div>

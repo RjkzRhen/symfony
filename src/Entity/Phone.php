@@ -20,6 +20,9 @@ class Phone
     #[ORM\Column(type: "string", length: 255)]
     private ?string $value = null;
 
+    // Временное свойство для работы с формой
+    private array $phones = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,17 @@ class Phone
     public function setValue(string $value): self
     {
         $this->value = $value;
+        return $this;
+    }
+
+    public function getPhones(): array
+    {
+        return $this->phones;
+    }
+
+    public function setPhones(array $phones): self
+    {
+        $this->phones = $phones;
         return $this;
     }
 }

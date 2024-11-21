@@ -86,21 +86,36 @@
         <tr>
             <th>ID</th>
             <th>ФИО Пользователя</th>
-            <th>Номер</th>
+            <th>Номера</th>
             <th>Действия</th>
         </tr>
         </thead>
         <tbody>
-        {% for phone in phones %}
+        {% for userPhones in groupedPhones %}
+            {% set user = userPhones.user %}
             <tr>
-                <td>{{ phone.id }}</td>
-                <td>{{ phone.user.lastName }} {{ phone.user.firstName }} {{ phone.user.middleName }}</td>
-                <td>{{ phone.value }}</td>
+                <td>{{ user.id }}</td>
+                <td>{{ user.lastName }} {{ user.firstName }} {{ user.middleName }}</td>
                 <td>
-                    <form action="{{ path('phone_delete', {'id': phone.id}) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить этот номер?');">
+                    <ul>
+                        {% for phone in userPhones.phones %}
+                            <li>{{ phone.value }}
+                                <a href="{{ path('phone_edit', {'id': phone.id}) }}">Редактировать</a>
+                                <form action="{{ path('phone_delete', {'id': phone.id}) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить этот номер?');" style="display: inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ phone.id) }}">
+                                    <button type="submit" class="delete-button">Удалить</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <a href="{{ path('phone_add_to_user', {'id': user.id}) }}">Добавить номер</a>
+                    <form action="{{ path('user_delete', {'id': user.id}) }}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить этого пользователя?');" style="display: inline;">
                         <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ phone.id) }}">
-                        <button type="submit" class="delete-button">Удалить</button>
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                        <button type="submit" class="delete-button">Удалить пользователя</button>
                     </form>
                 </td>
             </tr>
