@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block body %}
+    <h1>Добро пожаловать на главную страницу!</h1>
+    <p>Это главная страница вашего проекта.</p>
+
+    <h2>Справочник сотрудников</h2>
+    <a href="{{ path('employee_directory_new') }}" class="btn btn-primary">Добавить сотрудника</a>
+
+    <h2>CSV Пользователи</h2>
+    <a href="{{ path('user_csv_new') }}" class="btn btn-primary">Добавить пользователя</a>
+
+    <h2>Телефонный справочник</h2>
+    <a href="{{ path('phone_new') }}" class="btn btn-primary">Добавить номер</a>
+
+    <h2>Пользователи</h2>
+    <a href="{{ path('user_new') }}" class="btn btn-primary">Добавить пользователя</a>
+{% endblock %}

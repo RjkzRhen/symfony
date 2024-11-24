@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employee Directory - Show{% endblock %}
+
+{% block body %}
+    <h1>Employee Directory - Show</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>ID</th>
+            <td>{{ employee.id }}</td>
+        </tr>
+        <tr>
+            <th>Last Name</th>
+            <td>{{ employee.lastName }}</td>
+        </tr>
+        <tr>
+            <th>First Name</th>
+            <td>{{ employee.firstName }}</td>
+        </tr>
+        <tr>
+            <th>Middle Name</th>
+            <td>{{ employee.middleName }}</td>
+        </tr>
+        <tr>
+            <th>Position</th>
+            <td>{{ employee.position }}</td>
+        </tr>
+        <tr>
+            <th>Telegram ID</th>
+            <td>{{ employee.telegramId }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('employee_directory_index') }}" class="btn btn-secondary">Back to list</a>
+    <a href="{{ path('employee_directory_edit', {'id': employee.id}) }}" class="btn btn-primary">Edit</a>
+    <form action="{{ path('employee_directory_delete', {'id': employee.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this employee?');" style="display: inline;">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employee.id) }}">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+{% endblock %}

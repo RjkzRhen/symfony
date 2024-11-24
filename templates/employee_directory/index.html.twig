@@ -31,15 +31,15 @@
     </div>
 
     <h2>All Employees</h2>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="employee-table">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Middle Name</th>
-            <th>Position</th>
-            <th>Telegram ID</th>
+            <th data-sort="lastName">Last Name</th>
+            <th data-sort="firstName">First Name</th>
+            <th data-sort="middleName">Middle Name</th>
+            <th data-sort="position">Position</th>
+            <th data-sort="telegramId">Telegram ID</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -81,8 +81,29 @@
                 fetch(filterForm.action + '?' + new URLSearchParams(new FormData(filterForm)).toString())
                     .then(response => response.text())
                     .then(html => {
-                        document.querySelector('tbody').innerHTML = html;
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newTbody = doc.querySelector('tbody');
+                        document.querySelector('tbody').replaceWith(newTbody);
                     });
+            });
+
+            const tableHeaders = document.querySelectorAll('#employee-table th[data-sort]');
+            tableHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const sortBy = this.getAttribute('data-sort');
+                    const sortOrder = this.getAttribute('data-order') === 'asc' ? 'desc' : 'asc';
+                    this.setAttribute('data-order', sortOrder);
+
+                    fetch(`{{ path('employee_directory_index') }}?sortBy=${sortBy}&sortOrder=${sortOrder}`)
+                        .then(response => response.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newTbody = doc.querySelector('tbody');
+                            document.querySelector('tbody').replaceWith(newTbody);
+                        });
+                });
             });
         });
     </script>

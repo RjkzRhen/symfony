@@ -1,94 +1,41 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавить пользователя в CSV</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fa;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 30px;
-        }
-        .form-container {
-            background-color: #ffffff;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            width: 60%;
-            margin: 0 auto;
-        }
-        .form-container label {
-            font-weight: bold;
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            width: 100%;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .alert-success {
-            color: #fff;
-            background-color: #28a745;
-            border-color: #28a745;
-            border-radius: 5px;
-            padding: 10px;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html.twig' %}
 
-<h1>Добавить пользователя в CSV</h1>
+{% block title %}Добавить пользователя в CSV{% endblock %}
 
-<div class="form-container">
-    {{ form_start(form) }}
-    <div class="form-group">
-        {{ form_label(form.lastName) }}
-        {{ form_widget(form.lastName, { 'attr': { 'class': 'form-control' } }) }}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.firstName) }}
-        {{ form_widget(form.firstName, { 'attr': { 'class': 'form-control' } }) }}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.middleName) }}
-        {{ form_widget(form.middleName, { 'attr': { 'class': 'form-control' } }) }}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.age) }}
-        {{ form_widget(form.age, { 'attr': { 'class': 'form-control' } }) }}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.username) }}
-        {{ form_widget(form.username, { 'attr': { 'class': 'form-control' } }) }}
-    </div>
-    <div class="form-group">
-        {{ form_label(form.password) }}
-        {{ form_widget(form.password, { 'attr': { 'class': 'form-control' } }) }}
-    </div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-    {{ form_end(form) }}
+{% block body %}
+    <h1>Добавить пользователя в CSV</h1>
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
-</div>
+    <div class="form-container">
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.lastName) }}
+            {{ form_widget(form.lastName, { 'attr': { 'class': 'form-control' } }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.firstName) }}
+            {{ form_widget(form.firstName, { 'attr': { 'class': 'form-control' } }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.middleName) }}
+            {{ form_widget(form.middleName, { 'attr': { 'class': 'form-control' } }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.age) }}
+            {{ form_widget(form.age, { 'attr': { 'class': 'form-control' } }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username, { 'attr': { 'class': 'form-control' } }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.password) }}
+            {{ form_widget(form.password, { 'attr': { 'class': 'form-control' } }) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        {{ form_end(form) }}
 
-</body>
-</html>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endblock %}

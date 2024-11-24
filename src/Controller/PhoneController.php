@@ -20,7 +20,6 @@ class PhoneController extends AbstractController
     {
         $phones = $phoneRepository->findAll();
 
-        // Группируем номера телефонов по пользователю
         $groupedPhones = [];
         foreach ($phones as $phone) {
             $user = $phone->getUser();
