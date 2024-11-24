@@ -37,7 +37,7 @@ class EmployeeDirectoryController extends AbstractController
             }
         }
 
-        // Handle sorting from table headers
+
         $sortBy = $request->query->get('sortBy');
         $sortOrder = $request->query->get('sortOrder');
 

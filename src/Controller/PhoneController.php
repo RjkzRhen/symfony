@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Phone;
 use App\Entity\User;
 use App\Form\PhoneEditType;
+use App\Form\PhoneFilterType;
 use App\Form\PhoneType;
 use App\Repository\PhoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,9 +17,41 @@ use Symfony\Component\Routing\Annotation\Route;
 class PhoneController extends AbstractController
 {
     #[Route('/phones', name: 'phone_list')]
-    public function index(PhoneRepository $phoneRepository): Response
+    public function index(Request $request, PhoneRepository $phoneRepository, EntityManagerInterface $entityManager): Response
     {
-        $phones = $phoneRepository->findAll();
+        $filterForm = $this->createForm(PhoneFilterType::class, null, [
+            'method' => 'GET',
+        ]);
+
+        $filterForm->handleRequest($request);
+
+        $queryBuilder = $entityManager->getRepository(Phone::class)->createQueryBuilder('p');
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $data = $filterForm->getData();
+
+            if ($data['filterField'] && $data['filterValue']) {
+                if ($data['filterField'] === 'user') {
+                    $queryBuilder->join('p.user', 'u')
+                        ->andWhere('u.lastName LIKE :filterValue OR u.firstName LIKE :filterValue OR u.middleName LIKE :filterValue')
+                        ->setParameter('filterValue', '%' . $data['filterValue'] . '%');
+                } else {
+                    $queryBuilder->andWhere('p.' . $data['filterField'] . ' LIKE :filterValue')
+                        ->setParameter('filterValue', '%' . $data['filterValue'] . '%');
+                }
+            }
+
+            if ($data['sortBy']) {
+                if ($data['sortBy'] === 'user') {
+                    $queryBuilder->join('p.user', 'u')
+                        ->orderBy('u.lastName', $data['sortOrder'] ?? 'ASC');
+                } else {
+                    $queryBuilder->orderBy('p.' . $data['sortBy'], $data['sortOrder'] ?? 'ASC');
+                }
+            }
+        }
+
+        $phones = $queryBuilder->getQuery()->getResult();
 
         $groupedPhones = [];
         foreach ($phones as $phone) {
@@ -34,6 +67,7 @@ class PhoneController extends AbstractController
 
         return $this->render('phone/index.html.twig', [
             'groupedPhones' => $groupedPhones,
+            'filterForm' => $filterForm->createView(),
         ]);
     }
 

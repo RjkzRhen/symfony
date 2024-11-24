@@ -1,38 +1,91 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Список пользователей{% endblock %}
+{% block title %}User List{% endblock %}
 
 {% block body %}
-    <h1>Список пользователей</h1>
+    <h1>User List</h1>
 
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Filter and Sort</h2>
+            {{ form_start(filterForm, {'attr': {'id': 'filter-form'}}) }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form_row(filterForm.filterField, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(filterForm.filterValue, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(filterForm.sortBy, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(filterForm.sortOrder, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Apply Filter</button>
+                </div>
+            </div>
+            {{ form_end(filterForm) }}
+        </div>
+    </div>
+
+    <h2>All Users</h2>
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Фамилия</th>
-            <th>Имя</th>
-            <th>Отчество</th>
-            <th>Возраст</th>
-            <th>Имя пользователя</th>
-            <th>Пароль</th>
+            <th>ID</th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Age</th> <!-- Добавляем поле age -->
+            <th>Username</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
+                <td>{{ user.id }}</td>
                 <td>{{ user.lastName }}</td>
                 <td>{{ user.firstName }}</td>
                 <td>{{ user.middleName }}</td>
-                <td>{{ user.age }}</td>
+                <td>{{ user.age }}</td> <!-- Добавляем поле age -->
                 <td>{{ user.username }}</td>
-                <td>{{ user.password }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-info">Show</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ path('user_delete', {'id': user.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6" class="text-center">Нет пользователей</td>
+                <td colspan="7">No users found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('user_new') }}" class="btn btn-primary">Добавить нового пользователя</a>
+    <a href="{{ path('user_new') }}" class="btn btn-primary">Add New User</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterForm = document.getElementById('filter-form');
+            filterForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                fetch(filterForm.action + '?' + new URLSearchParams(new FormData(filterForm)).toString())
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('tbody').innerHTML = html;
+                    });
+            });
+        });
+    </script>
 {% endblock %}

@@ -20,7 +20,7 @@ class Phone
     #[ORM\Column(type: "string", length: 255)]
     private ?string $value = null;
 
-    // Временное свойство для работы с формой
+
     private array $phones = [];
 
     public function getId(): ?int
