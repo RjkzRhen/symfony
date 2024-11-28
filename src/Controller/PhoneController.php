@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PhoneController extends AbstractController
 {
-    #[Route('/phones', name: 'phone_list')]
+    #[Route('/phones', name: 'phone_index', methods: ['GET'])]
     public function index(Request $request, PhoneRepository $phoneRepository, EntityManagerInterface $entityManager): Response
     {
         $filterForm = $this->createForm(PhoneFilterType::class, null, [
@@ -26,6 +26,9 @@ class PhoneController extends AbstractController
         $filterForm->handleRequest($request);
 
         $queryBuilder = $entityManager->getRepository(Phone::class)->createQueryBuilder('p');
+
+        $sortBy = $request->query->get('sortBy', 'user.lastName'); // Значение по умолчанию
+        $sortOrder = $request->query->get('sortOrder', 'ASC'); // Значение по умолчанию
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
@@ -49,6 +52,14 @@ class PhoneController extends AbstractController
                     $queryBuilder->orderBy('p.' . $data['sortBy'], $data['sortOrder'] ?? 'ASC');
                 }
             }
+        } else {
+            if (strpos($sortBy, 'user.') === 0) {
+                $userField = substr($sortBy, 5); // Убираем 'user.' из строки
+                $queryBuilder->join('p.user', 'u')
+                    ->orderBy('u.' . $userField, $sortOrder);
+            } else {
+                $queryBuilder->orderBy('p.' . $sortBy, $sortOrder);
+            }
         }
 
         $phones = $queryBuilder->getQuery()->getResult();
@@ -68,6 +79,8 @@ class PhoneController extends AbstractController
         return $this->render('phone/index.html.twig', [
             'groupedPhones' => $groupedPhones,
             'filterForm' => $filterForm->createView(),
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
         ]);
     }
 

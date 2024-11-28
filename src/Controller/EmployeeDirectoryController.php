@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\EmployeeDirectory;
 use App\Form\EmployeeDirectoryFilterType;
+use App\Form\EmployeeDirectorySortType;
 use App\Form\EmployeeDirectoryType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +21,12 @@ class EmployeeDirectoryController extends AbstractController
             'method' => 'GET',
         ]);
 
+        $sortForm = $this->createForm(EmployeeDirectorySortType::class, null, [
+            'method' => 'GET',
+        ]);
+
         $filterForm->handleRequest($request);
+        $sortForm->handleRequest($request);
 
         $queryBuilder = $entityManager->getRepository(EmployeeDirectory::class)->createQueryBuilder('e');
 
@@ -31,21 +37,21 @@ class EmployeeDirectoryController extends AbstractController
                 $queryBuilder->andWhere('e.' . $data['filterField'] . ' LIKE :filterValue')
                     ->setParameter('filterValue', '%' . $data['filterValue'] . '%');
             }
+        }
+
+        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
+            $data = $sortForm->getData();
 
             if ($data['sortBy']) {
                 $queryBuilder->orderBy('e.' . $data['sortBy'], $data['sortOrder'] ?? 'ASC');
             }
         }
 
-
-        $sortBy = $request->query->get('sortBy');
-        $sortOrder = $request->query->get('sortOrder');
-
-        if ($sortBy) {
-            $queryBuilder->orderBy('e.' . $sortBy, $sortOrder ?? 'ASC');
-        }
-
         $employees = $queryBuilder->getQuery()->getResult();
+
+        // Извлекаем значения sortBy и sortOrder из запроса
+        $sortBy = $request->query->get('sortBy', 'lastName'); // По умолчанию сортировка по lastName
+        $sortOrder = $request->query->get('sortOrder', 'ASC'); // По умолчанию сортировка по возрастанию
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('employee_directory/_table.html.twig', [
@@ -56,6 +62,9 @@ class EmployeeDirectoryController extends AbstractController
         return $this->render('employee_directory/index.html.twig', [
             'employees' => $employees,
             'filterForm' => $filterForm->createView(),
+            'sortForm' => $sortForm->createView(),
+            'sortBy' => $sortBy, // Передаем sortBy в шаблон
+            'sortOrder' => $sortOrder, // Передаем sortOrder в шаблон
         ]);
     }
 

@@ -1,3 +1,4 @@
+<!-- base.html.twig -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,40 +7,125 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
     {% block stylesheets %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f8f9fa;
+                color: #343a40;
+                display: flex;
+                height: 100vh;
+            }
+            .sidebar {
+                width: 250px;
+                background-color: #343a40;
+                color: #ffffff;
+                padding: 20px;
+                box-sizing: border-box;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+            }
+            .sidebar a {
+                color: #ffffff;
+                text-decoration: none;
+                display: block;
+                padding: 10px 0;
+                transition: background-color 0.3s;
+                position: relative;
+            }
+            .sidebar a:hover {
+                background-color: #495057;
+            }
+            .sidebar a::after {
+                content: '▼';
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: transform 0.3s;
+            }
+            .sidebar a.open::after {
+                transform: translateY(-50%) rotate(180deg);
+            }
+            .sidebar .submenu {
+                display: none;
+                background-color: #495057;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+            .sidebar .submenu a {
+                display: block;
+                padding: 5px 0;
+                color: #ffffff;
+                text-decoration: none;
+                transition: background-color 0.3s;
+            }
+            .sidebar .submenu a:hover {
+                background-color: #5a6268;
+            }
+            .content {
+                flex: 1;
+                padding: 20px;
+                box-sizing: border-box;
+                margin-left: 250px;
+            }
+        </style>
     {% endblock %}
 
     {% block javascripts %}
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            function toggleSubmenu(id) {
+                var submenu = document.getElementById(id);
+                var link = document.getElementById(id + '-link');
+                if (submenu.style.display === 'block') {
+                    submenu.style.display = 'none';
+                    link.classList.remove('open');
+                } else {
+                    submenu.style.display = 'block';
+                    link.classList.add('open');
+                }
+            }
+        </script>
     {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ path('homepage') }}">Главная</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('employee_directory_index') }}">Справочник сотрудников</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('user_csv_index') }}">CSV Пользователи</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('phone_list') }}">Телефонный справочник</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('user_index') }}">Пользователи</a>
-            </li>
-        </ul>
+<div class="sidebar">
+    <a href="#" onclick="toggleSubmenu('homepage')" id="homepage-link">Меню</a>
+    <div class="submenu" id="homepage">
+        <a href="{{ path('homepage') }}">Домашняя Страница</a>
     </div>
-</nav>
 
-<div class="container mt-4">
-    {% block body %}{% endblock %}
+    <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link">Справочник сотрудников</a>
+    <div class="submenu" id="employee_directory">
+        <a href="{{ path('employee_directory_index') }}">Таблица</a>
+    </div>
+
+    <a href="#" onclick="toggleSubmenu('user_csv')" id="user_csv-link">CSV Пользователи</a>
+    <div class="submenu" id="user_csv">
+        <a href="{{ path('user_csv_index') }}">Таблица</a>
+    </div>
+
+    <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link">Телефонный справочник</a>
+    <div class="submenu" id="phone_list">
+        <a href="{{ path('phone_index') }}">Таблица</a>
+    </div>
+
+    <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link">Пользователи</a>
+    <div class="submenu" id="user_index">
+        <a href="{{ path('user_index') }}">Таблица</a>
+    </div>
+</div>
+
+<div class="content">
+    {% block body %}
+        <h1>Добро пожаловать!</h1>
+    {% endblock %}
 </div>
 </body>
 </html>

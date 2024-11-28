@@ -3,3 +3,62 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+employees_index:
+    path: /employees
+    controller: App\Controller\EmployeeController::index
+
+employees_create:
+    path: /employees/create
+    controller: App\Controller\EmployeeController::create
+
+employees_edit:
+    path: /employees/{id}/edit
+    controller: App\Controller\EmployeeController::edit
+    requirements:
+        id: \d+
+
+employees_destroy:
+    path: /employees/{id}/delete
+    controller: App\Controller\EmployeeController::delete
+    methods: [DELETE]
+    requirements:
+        id: \d+
+
+phone_index:
+    path: /phones
+    controller: App\Controller\PhoneController::index
+    methods: GET
+
+phone_new:
+    path: /phone/new
+    controller: App\Controller\PhoneController::new
+    methods: GET|POST
+
+phone_edit:
+    path: /phone/edit/{id}
+    controller: App\Controller\PhoneController::edit
+    methods: GET|POST
+    requirements:
+        id: \d+
+
+phone_delete:
+    path: /phone/delete/{id}
+    controller: App\Controller\PhoneController::delete
+    methods: POST
+    requirements:
+        id: \d+
+
+phone_add_to_user:
+    path: /phone/add-to-user/{id}
+    controller: App\Controller\PhoneController::addToUser
+    methods: GET|POST
+    requirements:
+        id: \d+
+
+user_delete:
+    path: /user/delete/{id}
+    controller: App\Controller\PhoneController::deleteUser
+    methods: POST
+    requirements:
+        id: \d+

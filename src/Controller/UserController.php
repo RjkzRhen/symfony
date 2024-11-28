@@ -24,6 +24,9 @@ class UserController extends AbstractController
 
         $queryBuilder = $entityManager->getRepository(User::class)->createQueryBuilder('u');
 
+        $sortBy = $request->query->get('sortBy', 'lastName'); // Значение по умолчанию
+        $sortOrder = $request->query->get('sortOrder', 'ASC'); // Значение по умолчанию
+
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
 
@@ -35,6 +38,8 @@ class UserController extends AbstractController
             if ($data['sortBy']) {
                 $queryBuilder->orderBy('u.' . $data['sortBy'], $data['sortOrder'] ?? 'ASC');
             }
+        } else {
+            $queryBuilder->orderBy('u.' . $sortBy, $sortOrder);
         }
 
         $users = $queryBuilder->getQuery()->getResult();
@@ -42,6 +47,8 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'users' => $users,
             'filterForm' => $filterForm->createView(),
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
         ]);
     }
 
