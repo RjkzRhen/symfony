@@ -1,4 +1,3 @@
-<!-- base.html.twig -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,29 +6,31 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
     {% block stylesheets %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <style>
             body {
                 font-family: 'Arial', sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #f8f9fa;
-                color: #343a40;
+                background-color: #2c3e50; /* Темнее фон */
+                color: #ecf0f1; /* Светлее текст */
                 display: flex;
                 height: 100vh;
             }
             .sidebar {
-                width: 250px;
-                background-color: #343a40;
-                color: #ffffff;
+                width: 300px; /* Увеличиваем ширину боковой панели */
+                background-color: #1e2a3a; /* Темно-синий фон боковой панели */
+                color: #ecf0f1; /* Светлее текст */
                 padding: 20px;
                 box-sizing: border-box;
                 position: fixed;
                 top: 0;
                 left: 0;
                 height: 100vh;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Тень для боковой панели */
             }
             .sidebar a {
-                color: #ffffff;
+                color: #ecf0f1; /* Светлее текст */
                 text-decoration: none;
                 display: block;
                 padding: 10px 0;
@@ -39,15 +40,16 @@
             .sidebar a:hover {
                 background-color: #495057;
             }
-            .sidebar a::after {
-                content: '▼';
+            .sidebar a.has-submenu::after {
+                content: '\F282'; /* Иконка стрелки вниз из Bootstrap Icons */
+                font-family: 'bootstrap-icons';
                 position: absolute;
-                right: 10px;
+                right: 20px; /* Добавляем отступ для иконки */
                 top: 50%;
                 transform: translateY(-50%);
                 transition: transform 0.3s;
             }
-            .sidebar a.open::after {
+            .sidebar a.has-submenu.open::after {
                 transform: translateY(-50%) rotate(180deg);
             }
             .sidebar .submenu {
@@ -59,7 +61,7 @@
             .sidebar .submenu a {
                 display: block;
                 padding: 5px 0;
-                color: #ffffff;
+                color: #ecf0f1; /* Светлее текст */
                 text-decoration: none;
                 transition: background-color 0.3s;
             }
@@ -70,7 +72,38 @@
                 flex: 1;
                 padding: 20px;
                 box-sizing: border-box;
-                margin-left: 250px;
+                margin-left: 300px; /* Увеличиваем отступ для контента */
+                background-color: #34495e; /* Темнее фон контента */
+                color: #ecf0f1; /* Светлее текст */
+            }
+            .sidebar a.active {
+                background-color: #007bff; /* Синий цвет для активного пункта меню */
+            }
+            .table tr:nth-child(even) {
+                background-color: rgba(242, 242, 242, 0.7); /* Светло-серый фон для четных строк */
+            }
+
+            .table tr:nth-child(odd) {
+                background-color: rgba(230, 230, 230, 0.35); /* Серый фон для нечетных строк */
+            }
+            .table th, .table td {
+                border: 1px solid #000; /* Черная обводка ячеек */
+                color: #000; /* Черный текст внутри ячеек */
+            }
+            .table thead th {
+                background-color: #34495e; /* Темно-синий фон для заголовков */
+                color: #ecf0f1; /* Светлее текст для заголовков */
+            }
+            .table-title {
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #000; /* Черная линия под названием таблицы */
+            }
+            .table-title h2 {
+                margin: 0;
+                font-size: 24px;
+                font-weight: bold;
+                color: #ecf0f1; /* Светлее текст для заголовка таблицы */
             }
         </style>
     {% endblock %}
@@ -96,27 +129,22 @@
 </head>
 <body>
 <div class="sidebar">
-    <a href="#" onclick="toggleSubmenu('homepage')" id="homepage-link">Меню</a>
+    <a href="#" onclick="toggleSubmenu('homepage')" id="homepage-link" class="has-submenu {% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}">Меню</a>
     <div class="submenu" id="homepage">
         <a href="{{ path('homepage') }}">Домашняя Страница</a>
     </div>
 
-    <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link">Справочник сотрудников</a>
+    <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
     <div class="submenu" id="employee_directory">
         <a href="{{ path('employee_directory_index') }}">Таблица</a>
     </div>
 
-    <a href="#" onclick="toggleSubmenu('user_csv')" id="user_csv-link">CSV Пользователи</a>
-    <div class="submenu" id="user_csv">
-        <a href="{{ path('user_csv_index') }}">Таблица</a>
-    </div>
-
-    <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link">Телефонный справочник</a>
+    <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link" class="has-submenu {% if app.request.attributes.get('_route') == 'phone_index' %}active{% endif %}">Телефонный справочник</a>
     <div class="submenu" id="phone_list">
         <a href="{{ path('phone_index') }}">Таблица</a>
     </div>
 
-    <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link">Пользователи</a>
+    <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link" class="has-submenu {% if app.request.attributes.get('_route') == 'user_index' %}active{% endif %}">Пользователи</a>
     <div class="submenu" id="user_index">
         <a href="{{ path('user_index') }}">Таблица</a>
     </div>
