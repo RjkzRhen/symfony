@@ -62,3 +62,23 @@ user_delete:
     methods: POST
     requirements:
         id: \d+
+
+app_register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+    methods: [GET, POST]
+
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+    methods: [GET, POST]
+
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+    methods: [GET]
+
+app_profile:
+    path: /profile
+    controller: App\Controller\ProfileController::profile
+    methods: [GET]

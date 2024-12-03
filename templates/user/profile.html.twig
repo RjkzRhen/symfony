@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3" style="color: black;">{{ user.username }}</h5>
+                        <p class="text-muted mb-1">{{ user.firstName }} {{ user.lastName }}</p>
+                        <p class="text-muted mb-4">{{ user.age }} years old</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method="post" action="{{ path('app_profile_update') }}">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="mb-0" style="color: black;">Last Name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="lastName" class="form-control" value="{{ user.lastName }}" />
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="mb-0" style="color: black;">First Name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="firstName" class="form-control" value="{{ user.firstName }}" />
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="mb-0" style="color: black;">Middle Name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="middleName" class="form-control" value="{{ user.middleName }}" />
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="mb-0" style="color: black;">Age</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="number" name="age" class="form-control" value="{{ user.age }}" />
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="mb-0" style="color: black;">Username</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" name="username" class="form-control" value="{{ user.username }}" />
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-3">
+                            <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

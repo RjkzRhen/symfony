@@ -1,111 +1,156 @@
 <?php
 
-namespace App\Entity; // Определяем пространство имен для сущности
+namespace App\Entity;
 
-use App\Repository\UserRepository; // Подключаем репозиторий UserRepository
-use Doctrine\ORM\Mapping as ORM; // Подключаем аннотации ORM для маппинга сущности
+use App\Repository\UserRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)] // Определяем сущность и связываем её с репозиторием UserRepository
-class User // Определяем класс сущности User
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id] // Определяем поле как первичный ключ
-    #[ORM\GeneratedValue] // Указываем, что значение будет генерироваться автоматически
-    #[ORM\Column] // Определяем поле как столбец в таблице
-    private ?int $id = null; // Определяем свойство id с типом int и значением по умолчанию null
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(length: 255)] // Определяем поле как столбец в таблице с длиной 255 символов
-    private ?string $lastName = null; // Определяем свойство lastName с типом string и значением по умолчанию null
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
 
-    #[ORM\Column(length: 255)] // Определяем поле как столбец в таблице с длиной 255 символов
-    private ?string $firstName = null; // Определяем свойство firstName с типом string и значением по умолчанию null
+    #[ORM\Column(length: 255)]
+    private ?string $firstName = null;
 
-    #[ORM\Column(length: 255)] // Определяем поле как столбец в таблице с длиной 255 символов
-    private ?string $middleName = null; // Определяем свойство middleName с типом string и значением по умолчанию null
+    #[ORM\Column(length: 255)]
+    private ?string $middleName = null;
 
-    #[ORM\Column(type: "integer")] // Определяем поле как столбец в таблице с типом integer
-    private ?int $age = null; // Определяем свойство age с типом int и значением по умолчанию null
+    #[ORM\Column(type: "integer")]
+    private ?int $age = null;
 
-    #[ORM\Column(length: 255)] // Определяем поле как столбец в таблице с длиной 255 символов
-    private ?string $username = null; // Определяем свойство username с типом string и значением по умолчанию null
+    #[ORM\Column(length: 255)]
+    private ?string $username = null;
 
-    #[ORM\Column(length: 255)] // Определяем поле как столбец в таблице с длиной 255 символов
-    private ?string $password = null; // Определяем свойство password с типом string и значением по умолчанию null
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
 
-    public function getId(): ?int // Определяем метод для получения значения свойства id
+    public function getId(): ?int
     {
-        return $this->id; // Возвращаем значение свойства id
+        return $this->id;
     }
 
-    public function getLastName(): ?string // Определяем метод для получения значения свойства lastName
+    public function getLastName(): ?string
     {
-        return $this->lastName; // Возвращаем значение свойства lastName
+        return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static // Определяем метод для установки значения свойства lastName
+    public function setLastName(string $lastName): static
     {
-        $this->lastName = $lastName; // Устанавливаем значение свойства lastName
+        $this->lastName = $lastName;
 
-        return $this; // Возвращаем текущий объект для возможности цепочки вызовов
+        return $this;
     }
 
-    public function getFirstName(): ?string // Определяем метод для получения значения свойства firstName
+    public function getFirstName(): ?string
     {
-        return $this->firstName; // Возвращаем значение свойства firstName
+        return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static // Определяем метод для установки значения свойства firstName
+    public function setFirstName(string $firstName): static
     {
-        $this->firstName = $firstName; // Устанавливаем значение свойства firstName
+        $this->firstName = $firstName;
 
-        return $this; // Возвращаем текущий объект для возможности цепочки вызовов
+        return $this;
     }
 
-    public function getMiddleName(): ?string // Определяем метод для получения значения свойства middleName
+    public function getMiddleName(): ?string
     {
-        return $this->middleName; // Возвращаем значение свойства middleName
+        return $this->middleName;
     }
 
-    public function setMiddleName(string $middleName): static // Определяем метод для установки значения свойства middleName
+    public function setMiddleName(string $middleName): static
     {
-        $this->middleName = $middleName; // Устанавливаем значение свойства middleName
+        $this->middleName = $middleName;
 
-        return $this; // Возвращаем текущий объект для возможности цепочки вызовов
+        return $this;
     }
 
-    public function getAge(): ?int // Определяем метод для получения значения свойства age
+    public function getAge(): ?int
     {
-        return $this->age; // Возвращаем значение свойства age
+        return $this->age;
     }
 
-    public function setAge(int $age): self // Определяем метод для установки значения свойства age
+    public function setAge(int $age): self
     {
-        $this->age = $age; // Устанавливаем значение свойства age
+        $this->age = $age;
 
-        return $this; // Возвращаем текущий объект для возможности цепочки вызовов
+        return $this;
     }
 
-    public function getUsername(): ?string // Определяем метод для получения значения свойства username
+    public function getUsername(): ?string
     {
-        return $this->username; // Возвращаем значение свойства username
+        return $this->username;
     }
 
-    public function setUsername(string $username): static // Определяем метод для установки значения свойства username
+    public function setUsername(string $username): static
     {
-        $this->username = $username; // Устанавливаем значение свойства username
+        $this->username = $username;
 
-        return $this; // Возвращаем текущий объект для возможности цепочки вызовов
+        return $this;
     }
 
-    public function getPassword(): ?string // Определяем метод для получения значения свойства password
+    public function getPassword(): ?string
     {
-        return $this->password; // Возвращаем значение свойства password
+        return $this->password;
     }
 
-    public function setPassword(string $password): static // Определяем метод для установки значения свойства password
+    public function setPassword(string $password): static
     {
-        $this->password = $password; // Устанавливаем значение свойства password
+        $this->password = $password;
 
-        return $this; // Возвращаем текущий объект для возможности цепочки вызовов
+        return $this;
     }
 
+    /**
+     * Returns the roles granted to the user.
+     *
+     * @return string[] The user roles
+     */
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * Returns the salt that was originally used to hash the password.
+     *
+     * This can return null if the password was not hashed using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
 }

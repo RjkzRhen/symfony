@@ -148,7 +148,16 @@
     <div class="submenu" id="user_index">
         <a href="{{ path('user_index') }}">Таблица</a>
     </div>
+
+    <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
+    <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
+
+    {# Добавляем ссылку на профиль, если пользователь авторизован #}
+    {% if app.user %}
+        <a href="{{ path('app_profile') }}" class="{% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}">Профиль</a>
+    {% endif %}
 </div>
+
 
 <div class="content">
     {% block body %}

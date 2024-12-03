@@ -179,6 +179,6 @@ class PhoneController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('phone_list');
+        return $this->redirectToRoute('user_index');
     }
 }
