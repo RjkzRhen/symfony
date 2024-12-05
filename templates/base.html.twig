@@ -129,35 +129,50 @@
 </head>
 <body>
 <div class="sidebar">
-    <a href="#" onclick="toggleSubmenu('homepage')" id="homepage-link" class="has-submenu {% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}">Меню</a>
-    <div class="submenu" id="homepage">
-        <a href="{{ path('homepage') }}">Домашняя Страница</a>
-    </div>
+    <a href="{{ path('homepage') }}" class="{% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}">Домашняя Страница</a>
 
-    <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
-    <div class="submenu" id="employee_directory">
-        <a href="{{ path('employee_directory_index') }}">Таблица</a>
-    </div>
-
-    <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link" class="has-submenu {% if app.request.attributes.get('_route') == 'phone_index' %}active{% endif %}">Телефонный справочник</a>
-    <div class="submenu" id="phone_list">
-        <a href="{{ path('phone_index') }}">Таблица</a>
-    </div>
-
-    <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link" class="has-submenu {% if app.request.attributes.get('_route') == 'user_index' %}active{% endif %}">Пользователи</a>
-    <div class="submenu" id="user_index">
-        <a href="{{ path('user_index') }}">Таблица</a>
-    </div>
-
-    <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
-    <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
-
-    {# Добавляем ссылку на профиль, если пользователь авторизован #}
     {% if app.user %}
         <a href="{{ path('app_profile') }}" class="{% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}">Профиль</a>
+
+        {% if app.request.attributes.get('_route') not in ['app_profile', 'homepage'] %}
+            <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
+            <div class="submenu" id="employee_directory">
+                <a href="{{ path('employee_directory_index') }}">Таблица</a>
+            </div>
+
+            <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link" class="has-submenu {% if app.request.attributes.get('_route') == 'phone_index' %}active{% endif %}">Телефонный справочник</a>
+            <div class="submenu" id="phone_list">
+                <a href="{{ path('phone_index') }}">Таблица</a>
+            </div>
+
+            <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link" class="has-submenu {% if app.request.attributes.get('_route') == 'user_index' %}active{% endif %}">Пользователи</a>
+            <div class="submenu" id="user_index">
+                <a href="{{ path('user_index') }}">Таблица</a>
+            </div>
+
+            <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
+            <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
+        {% endif %}
+    {% else %}
+        <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
+        <div class="submenu" id="employee_directory">
+            <a href="{{ path('employee_directory_index') }}">Таблица</a>
+        </div>
+
+        <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link" class="has-submenu {% if app.request.attributes.get('_route') == 'phone_index' %}active{% endif %}">Телефонный справочник</a>
+        <div class="submenu" id="phone_list">
+            <a href="{{ path('phone_index') }}">Таблица</a>
+        </div>
+
+        <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link" class="has-submenu {% if app.request.attributes.get('_route') == 'user_index' %}active{% endif %}">Пользователи</a>
+        <div class="submenu" id="user_index">
+            <a href="{{ path('user_index') }}">Таблица</a>
+        </div>
+
+        <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
+        <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
     {% endif %}
 </div>
-
 
 <div class="content">
     {% block body %}

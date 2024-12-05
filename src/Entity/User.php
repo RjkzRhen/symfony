@@ -21,7 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $middleName = null;
 
     #[ORM\Column(type: "integer")]
@@ -32,6 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
 
     public function getId(): ?int
     {
@@ -46,7 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
-
         return $this;
     }
 
@@ -58,7 +60,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(string $firstName): static
     {
         $this->firstName = $firstName;
-
         return $this;
     }
 
@@ -67,10 +68,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->middleName;
     }
 
-    public function setMiddleName(string $middleName): static
+    public function setMiddleName(?string $middleName): static
     {
         $this->middleName = $middleName;
-
         return $this;
     }
 
@@ -82,7 +82,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAge(int $age): self
     {
         $this->age = $age;
-
         return $this;
     }
 
@@ -94,7 +93,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -106,49 +104,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
-    /**
-     * Returns the roles granted to the user.
-     *
-     * @return string[] The user roles
-     */
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER'; // Роль по умолчанию.
+        return array_unique($roles);
     }
 
-    /**
-     * Returns the salt that was originally used to hash the password.
-     *
-     * This can return null if the password was not hashed using a salt.
-     *
-     * @return string|null The salt
-     */
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
     public function getSalt(): ?string
     {
-        return null;
+        return null; // Не используется с современными хэшерами.
     }
 
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // Очищаем временные данные (например, plainPassword).
     }
 
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->username;

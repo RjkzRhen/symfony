@@ -104,7 +104,7 @@ class PhoneController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('phone_list');
+            return $this->redirectToRoute('phone_index');
         }
 
         return $this->render('phone/new.html.twig', [
@@ -121,7 +121,7 @@ class PhoneController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('phone_list');
+            return $this->redirectToRoute('phone_index');
         }
 
         return $this->render('phone/edit.html.twig', [
@@ -138,7 +138,7 @@ class PhoneController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('phone_list');
+        return $this->redirectToRoute('phone_index');
     }
 
     #[Route('/phone/add-to-user/{id}', name: 'phone_add_to_user')]
@@ -162,7 +162,7 @@ class PhoneController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('phone_list');
+            return $this->redirectToRoute('phone_index');
         }
 
         return $this->render('phone/add_to_user.html.twig', [

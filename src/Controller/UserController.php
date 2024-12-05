@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -19,13 +20,12 @@ class UserController extends AbstractController
         $filterForm = $this->createForm(UserFilterType::class, null, [
             'method' => 'GET',
         ]);
-
         $filterForm->handleRequest($request);
 
         $queryBuilder = $entityManager->getRepository(User::class)->createQueryBuilder('u');
 
-        $sortBy = $request->query->get('sortBy', 'lastName'); // Значение по умолчанию
-        $sortOrder = $request->query->get('sortOrder', 'ASC'); // Значение по умолчанию
+        $sortBy = $request->query->get('sortBy', 'lastName');
+        $sortOrder = $request->query->get('sortOrder', 'ASC');
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
@@ -53,13 +53,18 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/new', name: 'user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['is_admin' => true]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($hashedPassword);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -67,6 +72,40 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/user/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    public function edit(
+        Request $request,
+        User $user,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $currentUser = $this->getUser();
+
+        if (!$this->isGranted('ROLE_ADMIN') && $currentUser->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException('You cannot edit this profile.');
+        }
+
+        $form = $this->createForm(UserType::class, $user, [
+            'is_admin' => $this->isGranted('ROLE_ADMIN'),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($user->getPassword()) {
+                $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+                $user->setPassword($hashedPassword);
+            }
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
@@ -79,32 +118,17 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    #[Route('/create-admin', name: 'create_admin')]
+    public function createAdmin(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $user = new User();
+        $user->setUsername('admin');
+        $user->setPassword($passwordHasher->hashPassword($user, 'admin123')); // Безопасный пароль
+        $user->setRoles(['ROLE_ADMIN']); // Установка роли администратора
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
-        }
-
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/user/{id}/delete', name: 'user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('user_index');
+        return new Response('Администратор создан с логином "admin" и паролем "admin123".');
     }
 }
