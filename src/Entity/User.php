@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -24,9 +23,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $middleName = null;
 
-    #[ORM\Column(type: "integer")]
-    private ?int $age = null;
-
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
@@ -35,6 +31,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $age = null;
 
     public function getId(): ?int
     {
@@ -46,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
         return $this;
@@ -57,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
         return $this;
@@ -68,20 +67,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->middleName;
     }
 
-    public function setMiddleName(?string $middleName): static
+    public function setMiddleName(?string $middleName): self
     {
         $this->middleName = $middleName;
-        return $this;
-    }
-
-    public function getAge(): ?int
-    {
-        return $this->age;
-    }
-
-    public function setAge(int $age): self
-    {
-        $this->age = $age;
         return $this;
     }
 
@@ -90,7 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): static
+    public function setUsername(string $username): self
     {
         $this->username = $username;
         return $this;
@@ -101,7 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
         return $this;
@@ -110,7 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER'; // Роль по умолчанию.
+        $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
 
@@ -120,18 +108,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSalt(): ?string
-    {
-        return null; // Не используется с современными хэшерами.
-    }
-
     public function eraseCredentials(): void
     {
-        // Очищаем временные данные (например, plainPassword).
+        // Очищаем временные данные (например, plainPassword)
     }
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->username;
+        return $this->username;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): self
+    {
+        $this->age = $age;
+        return $this;
     }
 }

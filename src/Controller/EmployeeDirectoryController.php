@@ -17,6 +17,8 @@ class EmployeeDirectoryController extends AbstractController
     #[Route('/employee/directory', name: 'employee_directory_index', methods: ['GET'])]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $filterForm = $this->createForm(EmployeeDirectoryFilterType::class, null, [
             'method' => 'GET',
         ]);
@@ -71,6 +73,8 @@ class EmployeeDirectoryController extends AbstractController
     #[Route('/employee/directory/new', name: 'employee_directory_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $employee = new EmployeeDirectory();
         $form = $this->createForm(EmployeeDirectoryType::class, $employee);
 
@@ -98,6 +102,8 @@ class EmployeeDirectoryController extends AbstractController
     #[Route('/employee/directory/{id}/edit', name: 'employee_directory_edit')]
     public function edit(Request $request, EmployeeDirectory $employee, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(EmployeeDirectoryType::class, $employee);
 
         $form->handleRequest($request);
@@ -116,6 +122,8 @@ class EmployeeDirectoryController extends AbstractController
     #[Route('/employee/directory/{id}/delete', name: 'employee_directory_delete', methods: ['POST'])]
     public function delete(Request $request, EmployeeDirectory $employee, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$employee->getId(), $request->request->get('_token'))) {
             $entityManager->remove($employee);
             $entityManager->flush();

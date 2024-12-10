@@ -30,7 +30,7 @@ class PhoneType extends AbstractType
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference' => false,
-
+                'label' => false, // Убираем метку для поля phones
             ]);
     }
 

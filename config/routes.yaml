@@ -82,3 +82,10 @@ app_profile:
     path: /profile
     controller: App\Controller\ProfileController::profile
     methods: [GET]
+
+
+settings_show:
+    path: /settings
+    controller: App\Controller\SettingController::show
+    methods: GET
+

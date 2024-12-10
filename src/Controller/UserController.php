@@ -17,6 +17,8 @@ class UserController extends AbstractController
     #[Route('/users', name: 'user_index', methods: ['GET'])]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $filterForm = $this->createForm(UserFilterType::class, null, [
             'method' => 'GET',
         ]);
@@ -58,6 +60,8 @@ class UserController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
     ): Response {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user, ['is_admin' => true]);
 
@@ -124,6 +128,10 @@ class UserController extends AbstractController
         $user = new User();
         $user->setUsername('admin');
         $user->setPassword($passwordHasher->hashPassword($user, 'admin123')); // Безопасный пароль
+        $user->setLastName('Admin'); // Добавьте значение для last_name
+        $user->setFirstName('Admin'); // Добавьте значение для first_name
+        $user->setMiddleName('Admin'); // Добавьте значение для middle_name
+        $user->setAge(30); // Добавьте значение для age
         $user->setRoles(['ROLE_ADMIN']); // Установка роли администратора
 
         $entityManager->persist($user);

@@ -19,6 +19,8 @@ class PhoneController extends AbstractController
     #[Route('/phones', name: 'phone_index', methods: ['GET'])]
     public function index(Request $request, PhoneRepository $phoneRepository, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $filterForm = $this->createForm(PhoneFilterType::class, null, [
             'method' => 'GET',
         ]);
@@ -87,6 +89,8 @@ class PhoneController extends AbstractController
     #[Route('/phone/new', name: 'phone_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $phone = new Phone();
         $form = $this->createForm(PhoneType::class, $phone);
 
@@ -115,6 +119,8 @@ class PhoneController extends AbstractController
     #[Route('/phone/edit/{id}', name: 'phone_edit')]
     public function edit(Request $request, Phone $phone, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(PhoneEditType::class, $phone);
 
         $form->handleRequest($request);
@@ -133,6 +139,8 @@ class PhoneController extends AbstractController
     #[Route('/phone/delete/{id}', name: 'phone_delete', methods: ['POST'])]
     public function delete(Request $request, Phone $phone, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$phone->getId(), $request->request->get('_token'))) {
             $entityManager->remove($phone);
             $entityManager->flush();
@@ -144,6 +152,8 @@ class PhoneController extends AbstractController
     #[Route('/phone/add-to-user/{id}', name: 'phone_add_to_user')]
     public function addToUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $phone = new Phone();
         $phone->setUser($user);
 
@@ -174,6 +184,8 @@ class PhoneController extends AbstractController
     #[Route('/user/delete/{id}', name: 'user_delete', methods: ['POST'])]
     public function deleteUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();

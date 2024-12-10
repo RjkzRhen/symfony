@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать настройки{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="table-title mb-4">Настройки</h1>
+        <div class="card shadow-sm" style="max-width: 200px;">
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'class': 'form-compact'}}) }}
+                <div class="form-group mb-3">
+                    <label for="{{ form.tax_rate.vars.id }}" class="form-label">Налоговая ставка (%)</label>
+                    <div class="input-group">
+                        <input type="number" id="{{ form.tax_rate.vars.id }}" name="{{ form.tax_rate.vars.full_name }}"
+                               class="form-control form-control-sm" placeholder="Введите налоговую ставку"
+                               step="0.01" min="0" max="99.99"
+                               value="{{ form.tax_rate.vars.value|number_format(2, '.', '') }}"
+                               style="width: 7em;">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm mt-3">Сохранить</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

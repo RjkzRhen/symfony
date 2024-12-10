@@ -5,7 +5,7 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
     {% block stylesheets %}
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <style>
             body {
@@ -68,6 +68,7 @@
             .sidebar .submenu a:hover {
                 background-color: #5a6268;
             }
+            
             .content {
                 flex: 1;
                 padding: 20px;
@@ -79,20 +80,19 @@
             .sidebar a.active {
                 background-color: #007bff; /* Синий цвет для активного пункта меню */
             }
-            .table tr:nth-child(even) {
-                background-color: rgba(242, 242, 242, 0.7); /* Светло-серый фон для четных строк */
+            .table-responsive table.table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
             }
-
-            .table tr:nth-child(odd) {
-                background-color: rgba(230, 230, 230, 0.35); /* Серый фон для нечетных строк */
+            .table-responsive table.table th, .table-responsive table.table td {
+                border: 2px solid rgba(0, 0, 0, 0.28) !important; /* Черная обводка ячеек */
+                padding: 8px;
+                color: #ffffff !important; /* Черный текст внутри ячеек */
             }
-            .table th, .table td {
-                border: 1px solid #000; /* Черная обводка ячеек */
-                color: #000; /* Черный текст внутри ячеек */
-            }
-            .table thead th {
-                background-color: #34495e; /* Темно-синий фон для заголовков */
-                color: #ecf0f1; /* Светлее текст для заголовков */
+            .table-responsive table.table thead th {
+                background-color: #34495e !important; /* Темно-синий фон для заголовков */
+                color: #ecf0f1 !important; /* Светлее текст для заголовков */
             }
             .table-title {
                 margin-bottom: 10px;
@@ -104,6 +104,10 @@
                 font-size: 24px;
                 font-weight: bold;
                 color: #ecf0f1; /* Светлее текст для заголовка таблицы */
+            }
+            /* Добавляем класс для ячеек с данными */
+            .table-responsive table.table tbody td {
+                background-color: #5d708a;
             }
         </style>
     {% endblock %}
@@ -124,6 +128,20 @@
                     link.classList.add('open');
                 }
             }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var currentRoute = window.location.pathname;
+
+                if (currentRoute.includes('employees')) {
+                    toggleSubmenu('employee_directory');
+                } else if (currentRoute.includes('phones')) {
+                    toggleSubmenu('phone_list');
+                } else if (currentRoute.includes('users')) {
+                    toggleSubmenu('user_index');
+                } else if (currentRoute.includes('settings')) {
+                    toggleSubmenu('settings');
+                }
+            });
         </script>
     {% endblock %}
 </head>
@@ -134,7 +152,7 @@
     {% if app.user %}
         <a href="{{ path('app_profile') }}" class="{% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}">Профиль</a>
 
-        {% if app.request.attributes.get('_route') not in ['app_profile', 'homepage'] %}
+        {% if is_granted('ROLE_ADMIN') %}
             <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
             <div class="submenu" id="employee_directory">
                 <a href="{{ path('employee_directory_index') }}">Таблица</a>
@@ -150,9 +168,11 @@
                 <a href="{{ path('user_index') }}">Таблица</a>
             </div>
 
-            <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
-            <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
+            <a href="{{ path('settings_edit') }}" class="{% if app.request.attributes.get('_route') == 'settings_edit' %}active{% endif %}">Настройки</a>
         {% endif %}
+
+        <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
+        <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
     {% else %}
         <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
         <div class="submenu" id="employee_directory">
