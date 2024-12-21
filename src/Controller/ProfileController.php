@@ -20,6 +20,7 @@ class ProfileController extends AbstractController
         ]);
     }
 
+
     #[Route('/profile/update', name: 'app_profile_update', methods: ['POST'])]
     public function updateProfile(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -39,4 +40,5 @@ class ProfileController extends AbstractController
 
         return $this->redirectToRoute('app_profile');
     }
+
 }

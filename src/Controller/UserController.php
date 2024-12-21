@@ -139,4 +139,12 @@ class UserController extends AbstractController
 
         return new Response('Администратор создан с логином "admin" и паролем "admin123".');
     }
+
+    #[Route('/user/{id}/profile', name: 'user_profile', methods: ['GET'])]
+    public function profile(User $user): Response
+    {
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
+        ]);
+    }
 }

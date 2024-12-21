@@ -7,52 +7,29 @@
         <h1 class="display-4 text-primary mb-4">Сотрудники</h1>
         <a href="{{ path('employee_directory_new') }}" class="btn btn-success mb-3">Добавить нового сотрудника</a>
 
-        <form action="{{ path('employee_directory_index') }}" method="GET" class="mb-4">
-            <div class="input-group">
-                <select id="filterField" name="filterField" class="form-select" style="max-width: 200px;">
-                    <option value="">Выберите поле</option>
-                    <option value="lastName" {{ app.request.query.get('filterField') == 'lastName' ? 'selected' : '' }}>Last Name</option>
-                    <option value="firstName" {{ app.request.query.get('filterField') == 'firstName' ? 'selected' : '' }}>First Name</option>
-                    <option value="middleName" {{ app.request.query.get('filterField') == 'middleName' ? 'selected' : '' }}>Middle Name</option>
-                    <option value="position" {{ app.request.query.get('filterField') == 'position' ? 'selected' : '' }}>Position</option>
-                </select>
-                <input type="text" id="filterValue" name="filterValue" value="{{ app.request.query.get('filterValue') }}" class="form-control" placeholder="Искать...">
-                <button type="submit" class="btn btn-primary">Filter</button>
-            </div>
-        </form>
-
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-                <thead class="thead-dark">
-                <tr>
-                    <th><a href="{{ path('employee_directory_index', {'sortBy': 'lastName', 'sortOrder': sortBy == 'lastName' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Last Name</a></th>
-                    <th><a href="{{ path('employee_directory_index', {'sortBy': 'firstName', 'sortOrder': sortBy == 'firstName' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">First Name</a></th>
-                    <th><a href="{{ path('employee_directory_index', {'sortBy': 'middleName', 'sortOrder': sortBy == 'middleName' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Middle Name</a></th>
-                    <th><a href="{{ path('employee_directory_index', {'sortBy': 'position', 'sortOrder': sortBy == 'position' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Position</a></th>
-                    <th><a href="{{ path('employee_directory_index', {'sortBy': 'telegramId', 'sortOrder': sortBy == 'telegramId' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Telegram ID</a></th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for employee in employees %}
-                    <tr>
-                        <td>{{ employee.lastName }}</td>
-                        <td>{{ employee.firstName }}</td>
-                        <td>{{ employee.middleName }}</td>
-                        <td>{{ employee.position }}</td>
-                        <td>{{ employee.telegramId }}</td>
-                        <td class="actions">
+        <div class="row">
+            {% for employee in employees %}
+                <div class="col-md-4">
+                    <div class="user-card">
+                        <h3>{{ employee.lastName }} {{ employee.firstName }}</h3>
+                        <p><strong>Отчество:</strong> {{ employee.middleName }}</p>
+                        <p><strong>Должность:</strong> {{ employee.position }}</p>
+                        <p><strong>Telegram ID:</strong> {{ employee.telegramId }}</p>
+                        <div class="actions">
                             <a href="{{ path('employee_directory_edit', {'id': employee.id}) }}" class="btn btn-primary btn-sm">Изменить</a>
                             <form action="{{ path('employee_directory_delete', {'id': employee.id}) }}" method="POST" style="display:inline;">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employee.id) }}">
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p>No employees found</p>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

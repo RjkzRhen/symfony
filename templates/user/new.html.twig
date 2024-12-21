@@ -3,58 +3,51 @@
 {% block title %}Add New User{% endblock %}
 
 {% block body %}
-    <h1>Add New User</h1>
+    <div class="container register-form">
+        <div class="form">
+            <div class="note">
+                <p>Добавить пользователя</p>
+            </div>
 
-    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            {{ form_label(form.lastName, 'Last Name:', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.lastName, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
-            <div class="invalid-feedback">
-                Пожалуйста, введите фамилию.
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            {{ form_label(form.firstName, 'First Name:', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
-            <div class="invalid-feedback">
-                Пожалуйста, введите имя.
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            {{ form_label(form.middleName, 'Middle Name:', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.middleName, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            {{ form_label(form.age, 'Age:', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.age, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
-            <div class="invalid-feedback">
-                Пожалуйста, введите возраст.
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            {{ form_label(form.username, 'Username:', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.username, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
-            <div class="invalid-feedback">
-                Пожалуйста, введите имя пользователя.
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            {{ form_label(form.password, 'Password:', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.password, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
-            <div class="invalid-feedback">
-                Пожалуйста, введите пароль.
+            <div class="form-content">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.lastName, 'Фамилия:') }}
+                            {{ form_widget(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Фамилия'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.firstName, 'Имя:') }}
+                            {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Имя'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.middleName, 'Отчество:') }}
+                            {{ form_widget(form.middleName, {'attr': {'class': 'form-control', 'placeholder': 'Отчество'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.age, 'Возраст:') }}
+                            {{ form_widget(form.age, {'attr': {'class': 'form-control', 'placeholder': 'Возраст'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.username, 'Имя пользователя:') }}
+                            {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Имя пользователя'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.password, 'Пароль:') }}
+                            {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Пароль'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.roles, 'Роль:') }}
+                            {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btnSubmit">Добавить</button>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </div>
-    {{ form_end(form) }}
-
-    <a href="{{ path('user_index') }}" class="btn btn-secondary mt-3">Back to list</a>
 {% endblock %}

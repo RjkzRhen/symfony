@@ -3,57 +3,75 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <section class="vh-100 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
-        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-            <div class="container h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-12 col-md-7 col-lg-6 col-xl-5">
-                        <div class="card" style="border-radius: 15px;">
-                            <div class="card-body p-4">
-                                <h3 class="text-uppercase text-center mb-4" style="color: black;">Create an account</h3>
+    <div class="register-form-container">
+        <h3 class="text-center">Регистрация</h3>
+        {{ form_start(registrationForm) }}
 
-                                {{ form_start(registrationForm) }}
-
-                                <div class="form-outline mb-3">
-                                    {{ form_widget(registrationForm.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Last Name'}}) }}
-                                </div>
-
-                                <div class="form-outline mb-3">
-                                    {{ form_widget(registrationForm.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'First Name'}}) }}
-                                </div>
-
-                                <div class="form-outline mb-3">
-                                    {{ form_widget(registrationForm.middleName, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Middle Name'}}) }}
-                                </div>
-
-                                <div class="form-outline mb-3">
-                                    {{ form_widget(registrationForm.age, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Age'}}) }}
-                                </div>
-
-                                <div class="form-outline mb-3">
-                                    {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Username'}}) }}
-                                </div>
-
-                                <div class="form-outline mb-3">
-                                    {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Password'}}) }}
-                                </div>
-
-                                <div class="form-outline mb-3">
-                                    {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'Confirm Password'}}) }}
-                                </div>
-
-                                <div class="d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-primary btn-block btn-sm gradient-custom-4 text-body">Register</button>
-                                </div>
-
-                                <p class="text-center text-muted mt-3" style="color: black;">Already have an account? <a href="{{ path('app_login') }}" class="fw-bold text-body"><u>Login here</u></a></p>
-
-                                {{ form_end(registrationForm) }}
-                            </div>
-                        </div>
-                    </div>
+        <!-- Первая строка -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(registrationForm.firstName, 'Имя:') }}
+                    {{ form_widget(registrationForm.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Имя'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(registrationForm.username, 'Имя пользователя:') }}
+                    {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control', 'placeholder': 'Имя пользователя'}}) }}
                 </div>
             </div>
         </div>
-    </section>
+
+        <!-- Вторая строка -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(registrationForm.lastName, 'Фамилия:') }}
+                    {{ form_widget(registrationForm.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Фамилия'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(registrationForm.plainPassword, 'Пароль:') }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Пароль'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Третья строка -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(registrationForm.middleName, 'Отчество:') }}
+                    {{ form_widget(registrationForm.middleName, {'attr': {'class': 'form-control', 'placeholder': 'Отчество'}}) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(registrationForm.confirmPassword, 'Подтверждение пароля:') }}
+                    {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'form-control', 'placeholder': 'Подтверждение пароля'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Четвертая строка -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(registrationForm.age, 'Возраст:') }}
+                    {{ form_widget(registrationForm.age, {'attr': {'class': 'form-control', 'placeholder': 'Возраст'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка отправки -->
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+            </div>
+        </div>
+
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

@@ -3,150 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-    {% block stylesheets %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <style>
-            body {
-                font-family: 'Arial', sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #2c3e50; /* Темнее фон */
-                color: #ecf0f1; /* Светлее текст */
-                display: flex;
-                height: 100vh;
-            }
-            .sidebar {
-                width: 300px; /* Увеличиваем ширину боковой панели */
-                background-color: #1e2a3a; /* Темно-синий фон боковой панели */
-                color: #ecf0f1; /* Светлее текст */
-                padding: 20px;
-                box-sizing: border-box;
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Тень для боковой панели */
-            }
-            .sidebar a {
-                color: #ecf0f1; /* Светлее текст */
-                text-decoration: none;
-                display: block;
-                padding: 10px 0;
-                transition: background-color 0.3s;
-                position: relative;
-            }
-            .sidebar a:hover {
-                background-color: #495057;
-            }
-            .sidebar a.has-submenu::after {
-                content: '\F282'; /* Иконка стрелки вниз из Bootstrap Icons */
-                font-family: 'bootstrap-icons';
-                position: absolute;
-                right: 20px; /* Добавляем отступ для иконки */
-                top: 50%;
-                transform: translateY(-50%);
-                transition: transform 0.3s;
-            }
-            .sidebar a.has-submenu.open::after {
-                transform: translateY(-50%) rotate(180deg);
-            }
-            .sidebar .submenu {
-                display: none;
-                background-color: #495057;
-                padding: 10px;
-                box-sizing: border-box;
-            }
-            .sidebar .submenu a {
-                display: block;
-                padding: 5px 0;
-                color: #ecf0f1; /* Светлее текст */
-                text-decoration: none;
-                transition: background-color 0.3s;
-            }
-            .sidebar .submenu a:hover {
-                background-color: #5a6268;
-            }
-            
-            .content {
-                flex: 1;
-                padding: 20px;
-                box-sizing: border-box;
-                margin-left: 300px; /* Увеличиваем отступ для контента */
-                background-color: #34495e; /* Темнее фон контента */
-                color: #ecf0f1; /* Светлее текст */
-            }
-            .sidebar a.active {
-                background-color: #007bff; /* Синий цвет для активного пункта меню */
-            }
-            .table-responsive table.table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 20px;
-            }
-            .table-responsive table.table th, .table-responsive table.table td {
-                border: 2px solid rgba(0, 0, 0, 0.28) !important; /* Черная обводка ячеек */
-                padding: 8px;
-                color: #ffffff !important; /* Черный текст внутри ячеек */
-            }
-            .table-responsive table.table thead th {
-                background-color: #34495e !important; /* Темно-синий фон для заголовков */
-                color: #ecf0f1 !important; /* Светлее текст для заголовков */
-            }
-            .table-title {
-                margin-bottom: 10px;
-                padding-bottom: 10px;
-                border-bottom: 2px solid #000; /* Черная линия под названием таблицы */
-            }
-            .table-title h2 {
-                margin: 0;
-                font-size: 24px;
-                font-weight: bold;
-                color: #ecf0f1; /* Светлее текст для заголовка таблицы */
-            }
-            /* Добавляем класс для ячеек с данными */
-            .table-responsive table.table tbody td {
-                background-color: #5d708a;
-            }
-        </style>
-    {% endblock %}
-
-    {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            function toggleSubmenu(id) {
-                var submenu = document.getElementById(id);
-                var link = document.getElementById(id + '-link');
-                if (submenu.style.display === 'block') {
-                    submenu.style.display = 'none';
-                    link.classList.remove('open');
-                } else {
-                    submenu.style.display = 'block';
-                    link.classList.add('open');
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var currentRoute = window.location.pathname;
-
-                if (currentRoute.includes('employees')) {
-                    toggleSubmenu('employee_directory');
-                } else if (currentRoute.includes('phones')) {
-                    toggleSubmenu('phone_list');
-                } else if (currentRoute.includes('users')) {
-                    toggleSubmenu('user_index');
-                } else if (currentRoute.includes('settings')) {
-                    toggleSubmenu('settings');
-                }
-            });
-        </script>
-    {% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body>
-<div class="sidebar">
+<aside>
     <a href="{{ path('homepage') }}" class="{% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}">Домашняя Страница</a>
 
     {% if app.user %}
@@ -173,6 +34,9 @@
 
         <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
         <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
+
+        <!-- Добавляем кнопку "Выйти" -->
+        <a href="{{ path('app_logout') }}" class="logout-button">Выйти</a>
     {% else %}
         <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
         <div class="submenu" id="employee_directory">
@@ -192,12 +56,42 @@
         <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
         <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
     {% endif %}
-</div>
+</aside>
 
 <div class="content">
     {% block body %}
         <h1>Добро пожаловать!</h1>
     {% endblock %}
 </div>
+
+{% block javascripts %}
+    <script>
+        function toggleSubmenu(id) {
+            var submenu = document.getElementById(id);
+            var link = document.getElementById(id + '-link');
+            if (submenu.style.display === 'block') {
+                submenu.style.display = 'none';
+                link.classList.remove('open');
+            } else {
+                submenu.style.display = 'block';
+                link.classList.add('open');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentRoute = window.location.pathname;
+
+            if (currentRoute.includes('employees')) {
+                toggleSubmenu('employee_directory');
+            } else if (currentRoute.includes('phones')) {
+                toggleSubmenu('phone_list');
+            } else if (currentRoute.includes('users')) {
+                toggleSubmenu('user_index');
+            } else if (currentRoute.includes('settings')) {
+                toggleSubmenu('settings');
+            }
+        });
+    </script>
+{% endblock %}
 </body>
 </html>

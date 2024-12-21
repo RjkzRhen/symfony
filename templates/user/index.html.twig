@@ -3,62 +3,33 @@
 {% block title %}User List{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1 class="display-4 text-primary mb-4">Список пользователей</h1>
-        <a href="{{ path('user_new') }}" class="btn btn-success mb-3">Добавить нового пользователя</a>
+    <div class="content">
+        <h1 class="mb-4">Список пользователей</h1>
+        <a href="{{ path('user_new') }}" class="btn btn-primary mb-3">Добавить пользователя</a>
 
-        <form action="{{ path('user_index') }}" method="GET" class="mb-4">
-            <div class="input-group">
-                <select id="filterField" name="filterField" class="form-select" style="max-width: 200px;">
-                    <option value="">Выберите поле</option>
-                    <option value="lastName" {{ app.request.query.get('filterField') == 'lastName' ? 'selected' : '' }}>Last Name</option>
-                    <option value="firstName" {{ app.request.query.get('filterField') == 'firstName' ? 'selected' : '' }}>First Name</option>
-                    <option value="middleName" {{ app.request.query.get('filterField') == 'middleName' ? 'selected' : '' }}>Middle Name</option>
-                    <option value="username" {{ app.request.query.get('filterField') == 'username' ? 'selected' : '' }}>Username</option>
-                    <option value="age" {{ app.request.query.get('filterField') == 'age' ? 'selected' : '' }}>Age</option>
-                </select>
-                <input type="text" id="filterValue" name="filterValue" value="{{ app.request.query.get('filterValue') }}" class="form-control" placeholder="Искать...">
-                <button type="submit" class="btn btn-primary">Filter</button>
-            </div>
-        </form>
-
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-                <thead class="thead-dark">
-                <tr>
-                    <th><a href="{{ path('user_index', {'sortBy': 'lastName', 'sortOrder': sortBy == 'lastName' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Last Name</a></th>
-                    <th><a href="{{ path('user_index', {'sortBy': 'firstName', 'sortOrder': sortBy == 'firstName' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">First Name</a></th>
-                    <th><a href="{{ path('user_index', {'sortBy': 'middleName', 'sortOrder': sortBy == 'middleName' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Middle Name</a></th>
-                    <th><a href="{{ path('user_index', {'sortBy': 'username', 'sortOrder': sortBy == 'username' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Username</a></th>
-                    <th><a href="{{ path('user_index', {'sortBy': 'age', 'sortOrder': sortBy == 'age' and sortOrder == 'ASC' ? 'DESC' : 'ASC'}) }}">Age</a></th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
-                    <tr>
-                        <td>{{ user.lastName }}</td>
-                        <td>{{ user.firstName }}</td>
-                        <td>{{ user.middleName }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.age }}</td>
-                        <td class="actions">
-                            <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-info btn-sm">Show</a>
-                            <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary btn-sm">Изменить</a>
-                            <form action="{{ path('user_delete', {'id': user.id}) }}" method="POST" style="display:inline;">
+        <div class="row">
+            {% for user in users %}
+                <div class="col-md-4">
+                    <div class="user-card">
+                        <h3>{{ user.lastName }} {{ user.firstName }}</h3>
+                        <p><strong>Отчество:</strong> {{ user.middleName }}</p>
+                        <p><strong>Возраст:</strong> {{ user.age }}</p>
+                        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+                        <div class="actions">
+                            <form action="{{ path('user_delete', {'id': user.id}) }}" method="POST" class="d-inline">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить этого пользователя?')">Удалить</button>
                             </form>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="6">No users found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                            <a href="{{ path('user_profile', {'id': user.id}) }}" class="btn btn-info btn-sm">Профиль</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p>No users found</p>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\CallbackTransformer;
 
 class UserType extends AbstractType
 {
@@ -43,10 +44,24 @@ class UserType extends AbstractType
                     'Пользователь' => 'ROLE_USER',
                     'Администратор' => 'ROLE_ADMIN',
                 ],
-                'multiple' => true,
-                'expanded' => true,
-                'label' => 'Роли',
+                'multiple' => false, // Изменяем на false, чтобы выбирать только одну роль
+                'expanded' => false, // Изменяем на false, чтобы использовать выпадающий список
+                'label' => 'Роль',
+                'placeholder' => 'Выберите роль', // Добавляем плейсхолдер
             ]);
+
+            // Добавляем преобразователь данных для поля roles
+            $builder->get('roles')
+                ->addModelTransformer(new CallbackTransformer(
+                    function ($rolesArray) {
+                        // Преобразуем массив в строку для отображения
+                        return count($rolesArray) ? $rolesArray[0] : null;
+                    },
+                    function ($rolesString) {
+                        // Преобразуем строку обратно в массив
+                        return [$rolesString];
+                    }
+                ));
         }
     }
 

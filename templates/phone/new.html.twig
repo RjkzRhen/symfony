@@ -3,38 +3,42 @@
 {% block title %}Добавить новый номер{% endblock %}
 
 {% block body %}
-    <h1>Добавить новый номер</h1>
-    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            {{ form_label(form.user, 'Пользователь:', {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.user, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
-            <div class="invalid-feedback">
-                Пожалуйста, выберите пользователя.
+    <div class="container register-form">
+        <div class="form">
+            <div class="note">
+                <p>Добавить новый номер</p>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Телефоны:</label>
-            <div id="phone_phones_container" data-prototype="{{ form_widget(form.phones.vars.prototype)|e('html_attr') }}">
-                <div id="phone_phones">
-                    {% for phone in form.phones %}
-                        <div class="form-group mb-3">
-                            {{ form_widget(phone, {'attr': {'class': 'form-control'}}) }}
+
+            <div class="form-content">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.user, 'Пользователь:') }}
+                            {{ form_widget(form.user, {'attr': {'class': 'form-control', 'placeholder': 'Пользователь'}}) }}
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
-                <button type="button" id="add_phone_button" class="btn btn-secondary mb-3">Добавить номер</button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="form-label">Телефоны:</label>
+                        <div id="phone_phones_container" data-prototype="{{ form_widget(form.phones.vars.prototype)|e('html_attr') }}">
+                            <div id="phone_phones">
+                                {% for phone in form.phones %}
+                                    <div class="form-group mb-3">
+                                        {{ form_widget(phone, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" id="add_phone_button" class="btn btn-secondary mb-3">Добавить номер</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btnSubmit">Сохранить</button>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-        </div>
-    </div>
-    {{ form_end(form) }}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
