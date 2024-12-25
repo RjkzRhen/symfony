@@ -7,56 +7,36 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body>
-<aside>
-    <a href="{{ path('homepage') }}" class="{% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}">Домашняя Страница</a>
-
-    {% if app.user %}
-        <a href="{{ path('app_profile') }}" class="{% if app.request.attributes.get('_route') == 'app_profile' %}active{% endif %}">Профиль</a>
-
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
-            <div class="submenu" id="employee_directory">
-                <a href="{{ path('employee_directory_index') }}">Таблица</a>
-            </div>
-
-            <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link" class="has-submenu {% if app.request.attributes.get('_route') == 'phone_index' %}active{% endif %}">Телефонный справочник</a>
-            <div class="submenu" id="phone_list">
-                <a href="{{ path('phone_index') }}">Таблица</a>
-            </div>
-
-            <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link" class="has-submenu {% if app.request.attributes.get('_route') == 'user_index' %}active{% endif %}">Пользователи</a>
-            <div class="submenu" id="user_index">
-                <a href="{{ path('user_index') }}">Таблица</a>
-            </div>
-
-            <a href="{{ path('settings_edit') }}" class="{% if app.request.attributes.get('_route') == 'settings_edit' %}active{% endif %}">Настройки</a>
-        {% endif %}
-
-        <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
-        <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
-
-        <!-- Добавляем кнопку "Выйти" -->
-        <a href="{{ path('app_logout') }}" class="logout-button">Выйти</a>
-    {% else %}
-        <a href="#" onclick="toggleSubmenu('employee_directory')" id="employee_directory-link" class="has-submenu {% if app.request.attributes.get('_route') == 'employee_directory_index' %}active{% endif %}">Справочник сотрудников</a>
-        <div class="submenu" id="employee_directory">
-            <a href="{{ path('employee_directory_index') }}">Таблица</a>
+<header>
+    <!-- Основное меню -->
+    <nav class="main-menu">
+        <div class="menu-left">
+            <a href="{{ path('homepage') }}" class="nav-link {{ app.request.attributes.get('_route') == 'homepage' ? 'active' : '' }}">Главная</a>
+            {% if app.user %}
+                <a href="{{ path('app_profile') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_profile' ? 'active' : '' }}">Профиль</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="#" onclick="toggleSubmenu('tables')" id="tables-link" class="nav-link has-submenu {{ app.request.attributes.get('_route') starts with 'employee_directory_index' or app.request.attributes.get('_route') starts with 'phone_index' or app.request.attributes.get('_route') starts with 'user_index' ? 'active' : '' }}">Таблицы</a>
+                    <div class="submenu" id="tables" style="position: absolute; top: 100%; left: 10%;">
+                        <a href="{{ path('employee_directory_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'employee_directory_index' ? 'active' : '' }}">Сотрудники</a>
+                        <a href="{{ path('phone_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'phone_index' ? 'active' : '' }}">Телефоны</a>
+                        <a href="{{ path('user_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'user_index' ? 'active' : '' }}">Пользователи</a>
+                    </div>
+                    <a href="{{ path('settings_edit') }}" class="nav-link {{ app.request.attributes.get('_route') == 'settings_edit' ? 'active' : '' }}">Настройки</a>
+                {% endif %}
+            {% else %}
+                <a href="{{ path('app_register') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_register' ? 'active' : '' }}">Регистрация</a>
+                <a href="{{ path('app_login') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_login' ? 'active' : '' }}">Войти в профиль</a>
+            {% endif %}
         </div>
-
-        <a href="#" onclick="toggleSubmenu('phone_list')" id="phone_list-link" class="has-submenu {% if app.request.attributes.get('_route') == 'phone_index' %}active{% endif %}">Телефонный справочник</a>
-        <div class="submenu" id="phone_list">
-            <a href="{{ path('phone_index') }}">Таблица</a>
+        <div class="menu-right">
+            {% if app.user %}
+                <div class="logout-container">
+                    <a href="{{ path('app_logout') }}" class="logout-button">Выйти</a>
+                </div>
+            {% endif %}
         </div>
-
-        <a href="#" onclick="toggleSubmenu('user_index')" id="user_index-link" class="has-submenu {% if app.request.attributes.get('_route') == 'user_index' %}active{% endif %}">Пользователи</a>
-        <div class="submenu" id="user_index">
-            <a href="{{ path('user_index') }}">Таблица</a>
-        </div>
-
-        <a href="{{ path('app_register') }}" class="{% if app.request.attributes.get('_route') == 'app_register' %}active{% endif %}">Регистрация</a>
-        <a href="{{ path('app_login') }}" class="{% if app.request.attributes.get('_route') == 'app_login' %}active{% endif %}">Войти в профиль</a>
-    {% endif %}
-</aside>
+    </nav>
+</header>
 
 <div class="content">
     {% block body %}
@@ -64,34 +44,28 @@
     {% endblock %}
 </div>
 
-{% block javascripts %}
-    <script>
-        function toggleSubmenu(id) {
-            var submenu = document.getElementById(id);
-            var link = document.getElementById(id + '-link');
-            if (submenu.style.display === 'block') {
-                submenu.style.display = 'none';
-                link.classList.remove('open');
-            } else {
-                submenu.style.display = 'block';
-                link.classList.add('open');
-            }
+<script>
+    // Функция для переключения видимости подменю
+    function toggleSubmenu(id) {
+        var submenu = document.getElementById(id);
+        var link = document.getElementById(id + '-link');
+        if (submenu.style.display === 'block') {
+            submenu.style.display = 'none'; // Скрываем подменю
+            link.classList.remove('open');
+        } else {
+            submenu.style.display = 'block'; // Показываем подменю
+            link.classList.add('open');
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var currentRoute = window.location.pathname;
+    // Автоматическое открытие подменю в зависимости от текущего маршрута
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentRoute = window.location.pathname;
 
-            if (currentRoute.includes('employees')) {
-                toggleSubmenu('employee_directory');
-            } else if (currentRoute.includes('phones')) {
-                toggleSubmenu('phone_list');
-            } else if (currentRoute.includes('users')) {
-                toggleSubmenu('user_index');
-            } else if (currentRoute.includes('settings')) {
-                toggleSubmenu('settings');
-            }
-        });
-    </script>
-{% endblock %}
+        if (currentRoute.includes('employees') || currentRoute.includes('phones') || currentRoute.includes('users')) {
+            toggleSubmenu('tables');
+        }
+    });
+</script>
 </body>
 </html>

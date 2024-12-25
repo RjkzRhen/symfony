@@ -29,38 +29,18 @@ class PhoneController extends AbstractController
 
         $queryBuilder = $entityManager->getRepository(Phone::class)->createQueryBuilder('p');
 
-        $sortBy = $request->query->get('sortBy', 'user.lastName'); // Значение по умолчанию
-        $sortOrder = $request->query->get('sortOrder', 'ASC'); // Значение по умолчанию
-
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
 
-            if ($data['filterField'] && $data['filterValue']) {
-                if ($data['filterField'] === 'user') {
-                    $queryBuilder->join('p.user', 'u')
-                        ->andWhere('u.lastName LIKE :filterValue OR u.firstName LIKE :filterValue OR u.middleName LIKE :filterValue')
-                        ->setParameter('filterValue', '%' . $data['filterValue'] . '%');
-                } else {
-                    $queryBuilder->andWhere('p.' . $data['filterField'] . ' LIKE :filterValue')
-                        ->setParameter('filterValue', '%' . $data['filterValue'] . '%');
-                }
+            if ($data['phone']) {
+                $queryBuilder->andWhere('p.value LIKE :phone')
+                    ->setParameter('phone', '%' . $data['phone'] . '%');
             }
 
-            if ($data['sortBy']) {
-                if ($data['sortBy'] === 'user') {
-                    $queryBuilder->join('p.user', 'u')
-                        ->orderBy('u.lastName', $data['sortOrder'] ?? 'ASC');
-                } else {
-                    $queryBuilder->orderBy('p.' . $data['sortBy'], $data['sortOrder'] ?? 'ASC');
-                }
-            }
-        } else {
-            if (strpos($sortBy, 'user.') === 0) {
-                $userField = substr($sortBy, 5); // Убираем 'user.' из строки
+            if ($data['user']) {
                 $queryBuilder->join('p.user', 'u')
-                    ->orderBy('u.' . $userField, $sortOrder);
-            } else {
-                $queryBuilder->orderBy('p.' . $sortBy, $sortOrder);
+                    ->andWhere('u.lastName LIKE :user OR u.firstName LIKE :user OR u.middleName LIKE :user')
+                    ->setParameter('user', '%' . $data['user'] . '%');
             }
         }
 
@@ -81,8 +61,6 @@ class PhoneController extends AbstractController
         return $this->render('phone/index.html.twig', [
             'groupedPhones' => $groupedPhones,
             'filterForm' => $filterForm->createView(),
-            'sortBy' => $sortBy,
-            'sortOrder' => $sortOrder,
         ]);
     }
 

@@ -19,10 +19,12 @@ class EmployeeDirectoryController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        // Форма для фильтрации
         $filterForm = $this->createForm(EmployeeDirectoryFilterType::class, null, [
             'method' => 'GET',
         ]);
 
+        // Форма для сортировки
         $sortForm = $this->createForm(EmployeeDirectorySortType::class, null, [
             'method' => 'GET',
         ]);
@@ -32,6 +34,7 @@ class EmployeeDirectoryController extends AbstractController
 
         $queryBuilder = $entityManager->getRepository(EmployeeDirectory::class)->createQueryBuilder('e');
 
+        // Применение фильтрации
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
 
@@ -41,6 +44,7 @@ class EmployeeDirectoryController extends AbstractController
             }
         }
 
+        // Применение сортировки
         if ($sortForm->isSubmitted() && $sortForm->isValid()) {
             $data = $sortForm->getData();
 
@@ -51,22 +55,10 @@ class EmployeeDirectoryController extends AbstractController
 
         $employees = $queryBuilder->getQuery()->getResult();
 
-        // Извлекаем значения sortBy и sortOrder из запроса
-        $sortBy = $request->query->get('sortBy', 'lastName'); // По умолчанию сортировка по lastName
-        $sortOrder = $request->query->get('sortOrder', 'ASC'); // По умолчанию сортировка по возрастанию
-
-        if ($request->isXmlHttpRequest()) {
-            return $this->render('employee_directory/_table.html.twig', [
-                'employees' => $employees,
-            ]);
-        }
-
         return $this->render('employee_directory/index.html.twig', [
             'employees' => $employees,
             'filterForm' => $filterForm->createView(),
             'sortForm' => $sortForm->createView(),
-            'sortBy' => $sortBy, // Передаем sortBy в шаблон
-            'sortOrder' => $sortOrder, // Передаем sortOrder в шаблон
         ]);
     }
 

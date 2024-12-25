@@ -27,25 +27,6 @@ class EmployeeDirectoryFilterType extends AbstractType
             ->add('filterValue', TextType::class, [
                 'label' => 'Filter Value',
                 'required' => false,
-            ])
-            ->add('sortBy', ChoiceType::class, [
-                'label' => 'Sort By',
-                'choices' => [
-                    'Last Name' => 'lastName',
-                    'First Name' => 'firstName',
-                    'Middle Name' => 'middleName',
-                    'Position' => 'position',
-                    'Telegram ID' => 'telegramId',
-                ],
-                'required' => false,
-            ])
-            ->add('sortOrder', ChoiceType::class, [
-                'label' => 'Sort Order',
-                'choices' => [
-                    'Ascending' => 'ASC',
-                    'Descending' => 'DESC',
-                ],
-                'required' => false,
             ]);
     }
 

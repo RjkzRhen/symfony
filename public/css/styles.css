@@ -1,124 +1,177 @@
-/* Общие стили */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('../images/background.jpg'); /* Путь к вашей фотографии */
+    background-image: url('../images/background.jpg');
     background-size: cover;
     background-position: center;
 }
 
-/* Стили для сайдбара */
-aside {
-    color: #fff;
-    width: 220px;
-    padding-left: 20px;
-    height: 100vh;
-    background-image: url('../images/fon2.jpg'); /* Путь к вашей фотографии */
-    background-size: cover;
-    background-position: center;
-    border-top-right-radius: 80px;
+/* Стили для меню */
+header {
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    background-image: url('../images/fon23.jpg');
+    background-size: cover;
+    background-position: center;
     z-index: 1000;
 }
 
-aside a {
-    font-size: 18px;
+.main-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.menu-left, .menu-right {
+    display: flex;
+    align-items: center;
+}
+
+.main-menu a {
     color: #fff;
-    display: block;
-    padding: 15px;
-    padding-left: 35px;
+    padding: 10px 15px;
     text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-    font-weight: 500;
+    transition: background-color 0.3s;
 }
 
-aside a:hover {
-    color: #ff0000;
-    outline: none;
+.main-menu a:hover {
+    background-color: #575757;
+}
+
+.main-menu .has-submenu {
     position: relative;
-    background: #fff;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
 }
 
-aside a:hover::after {
-    content: "";
-    position: absolute;
-    background-color: transparent;
-    bottom: 100%;
-    right: 0;
-    height: 35px;
-    width: 35px;
-    border-bottom-right-radius: 18px;
-    box-shadow: 0 20px 0 0 #fff;
-}
-
-aside a:hover::before {
-    content: "";
-    position: absolute;
-    background-color: transparent;
-    top: 38px;
-    right: 0;
-    height: 35px;
-    width: 35px;
-    border-top-right-radius: 18px;
-    box-shadow: 0 -20px 0 0 #fff;
-}
-
-aside .submenu {
+.main-menu .submenu {
     display: none;
-    padding-left: 20px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    min-width: 160px;
+    z-index: 1001;
 }
 
-aside .submenu a {
-    font-size: 14px;
-    padding-left: 45px;
+.main-menu .submenu a {
+    display: block;
+    padding: 10px 15px;
 }
 
-aside .submenu a:hover {
-    background: #e9ecef;
-    color: #3f5efb;
+.main-menu .submenu a:hover {
+    background-color: #575757;
 }
 
-aside p {
-    margin: 0;
-    padding: 40px 0;
+.main-menu .has-submenu.open .submenu {
+    display: block;
 }
 
-/* Кнопка выхода */
-aside form button {
+.logout-button {
+    color: #fff;
     background: none;
     border: none;
-    color: #fff;
     cursor: pointer;
-    font-size: 14px;
-    padding: 12px;
-    padding-left: 30px;
-    display: block;
-    width: 100%;
-    text-align: left;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
 }
 
-aside form button:hover {
-    color: #3f5efb;
-    background: #fff;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+.logout-button:hover {
+    background-color: #e74c3c;
 }
 
-/* Контент */
 .content {
-    margin-left: 220px;
+    margin-top: 50px;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0);
     min-height: 100vh;
 }
 
+/* Стили для приветственной страницы */
+.welcome-background {
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
 
+.welcome-content {
+    text-align: center;
+    color: #fff;
+}
 
+.welcome-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-subtitle {
+    font-size: 24px;
+    margin-bottom: 40px;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.welcome-buttons .btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.welcome-buttons .btn-primary {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.welcome-buttons .btn-primary:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+.welcome-buttons .btn-success {
+    background-color: #2ecc71;
+    color: #fff;
+}
+
+.welcome-buttons .btn-success:hover {
+    background-color: #27ae60;
+    transform: scale(1.05);
+}
+
+/* Стили для кнопок "Вход" и "Регистрация" */
+.welcome-buttons button {
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 15px 66px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.welcome-buttons button:hover {
+    background-color: #2980b9;
+}
 /* Стиль карточек пользователей */
 .user-card {
     background-image: url('../images/fon.jpg'); /* Путь к вашей фотографии */
@@ -150,12 +203,13 @@ aside form button:hover {
 
 .user-card .actions {
     margin-top: 15px;
+    display: flex;
+    gap: 10px; /* Расстояние между кнопками */
 }
 
 .user-card .btn {
     font-size: 14px;
     padding: 5px 10px;
-    margin-right: 10px;
     border-radius: 6px;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -166,22 +220,25 @@ aside form button:hover {
     color: #fff;
 }
 
-.user-card .btn-info {
+.user-card .btn-primary {
     background-color: #3498db;
     border-color: #3498db;
+    color: #fff;
+}
+
+.user-card .btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
     color: #fff;
 }
 
 .user-card .btn:hover {
     transform: scale(1.05);
 }
+
 .user-card ul li {
     color: #ffffff; /* Белый цвет текста */
 }
-
-/* Стили для фонового изображения */
-
-
 /* Стили для кнопок "Вход" и "Регистрация" */
 .welcome-buttons {
     position: absolute;
@@ -554,4 +611,28 @@ aside form button:hover {
     padding: 10px;
     border-radius: 6px;
     margin-top: 20px;
+}
+/* Стили для контейнера кнопки "Выйти" */
+.logout-container {
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 43px; /* Отступ снизу */
+    right: 20px; /* Отступ справа */
+    z-index: 1000; /* Убедимся, что кнопка находится поверх других элементов */
+}
+
+/* Стили для кнопки "Выйти" */
+.logout-button {
+    background-color: #e74c3c; /* Красный фон */
+    color: #fff; /* Белый текст */
+    padding: 8px 12px; /* Уменьшенные внутренние отступы */
+    border: none; /* Убираем границу */
+    border-radius: 6px; /* Скругление углов */
+    cursor: pointer; /* Курсор в виде указателя */
+    font-size: 14px; /* Уменьшенный размер шрифта */
+    transition: background-color 0.3s ease; /* Плавный переход для фона */
+    text-decoration: none; /* Убираем подчеркивание ссылки */
+}
+
+.logout-button:hover {
+    background-color: #c0392b; /* Темно-красный фон при наведении */
 }

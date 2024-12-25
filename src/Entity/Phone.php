@@ -6,6 +6,7 @@ use App\Repository\PhoneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
+
 class Phone
 {
     #[ORM\Id]
@@ -60,4 +61,5 @@ class Phone
         $this->phones = $phones;
         return $this;
     }
+
 }

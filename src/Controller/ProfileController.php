@@ -33,6 +33,10 @@ class ProfileController extends AbstractController
         $user->setAge((int)$request->request->get('age'));
         $user->setUsername($request->request->get('username'));
 
+        // Обработка номера телефона
+        $phoneValue = $request->request->get('phone');
+        $user->setPhoneValue($phoneValue);
+
         $entityManager->persist($user);
         $entityManager->flush();
 

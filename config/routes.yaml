@@ -81,7 +81,11 @@ app_logout:
 app_profile:
     path: /profile
     controller: App\Controller\ProfileController::profile
-    methods: [GET]
+
+app_profile_update:
+    path: /profile/update
+    controller: App\Controller\ProfileController::updateProfile
+    methods: [POST]
 
 
 settings_show:
@@ -89,10 +93,3 @@ settings_show:
     controller: App\Controller\SettingController::show
     methods: GET
 
-
-user_profile:
-    path: /user/{id}/profile
-    controller: App\Controller\UserController::profile
-    methods: [GET]
-    requirements:
-        id: \d+

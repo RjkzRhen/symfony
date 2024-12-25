@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,6 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $age = null;
+
+    #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: "user", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private Collection $phones;
+
+    public function __construct()
+    {
+        $this->phones = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,4 +139,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->age = $age;
         return $this;
     }
+
+    public function getPhones(): Collection
+    {
+        return $this->phones;
+    }
+
+    public function addPhone(Phone $phone): self
+    {
+        if (!$this->phones->contains($phone)) {
+            $this->phones[] = $phone;
+            $phone->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhone(Phone $phone): self
+    {
+        if ($this->phones->removeElement($phone)) {
+            if ($phone->getUser() === $this) {
+                $phone->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPhoneValue(): ?string
+    {
+        return $this->phones->first() ? $this->phones->first()->getValue() : null;
+    }
+
+    public function setPhoneValue(?string $phoneValue): self
+    {
+        if ($phoneValue) {
+            $phone = $this->phones->first() ?: new Phone();
+            $phone->setValue($phoneValue);
+            $this->addPhone($phone);
+        }
+
+        return $this;
+    }
+
 }
