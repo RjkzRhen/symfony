@@ -12,9 +12,22 @@
                     <h5 class="my-3" style="color: black;">{{ user.username }}</h5>
                     <p class="text-muted mb-1">{{ user.firstName }} {{ user.lastName }}</p>
                     <p class="text-muted mb-4">{{ user.age }} years old</p>
+                    <p class="text-muted mb-4">Email: {{ user.email }}</p>
                     <p class="text-muted mb-4">Phone: {{ user.phoneValue }}</p>
                 </div>
                 <div class="card-body">
+                    {# Отображение flash-сообщений #}
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
                     <form method="post" action="{{ path('app_profile_update') }}">
                         <div class="row">
                             <div class="col-sm-3">
@@ -63,10 +76,40 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
+                                <label class="mb-0" style="color: black;">Email</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="email" name="email" class="form-control" value="{{ user.email }}" />
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
                                 <label class="mb-0" style="color: black;">Phone</label>
                             </div>
                             <div class="col-sm-9">
                                 <input type="text" name="phone" class="form-control" value="{{ user.phoneValue }}" />
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="mb-0" style="color: black;">2FA Method</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select name="twoFactorMethod" class="form-control">
+                                    <option value="email" {{ user.twoFactorMethod == 'email' ? 'selected' : '' }}>Email</option>
+                                    <option value="telegram" {{ user.twoFactorMethod == 'telegram' ? 'selected' : '' }}>Telegram</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" id="telegramIdField" style="display: {{ user.twoFactorMethod == 'telegram' ? 'block' : 'none' }};">
+                            <div class="col-sm-3">
+                                <label class="mb-0" style="color: black;">Telegram ID</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" name="telegramId" class="form-control" value="{{ user.telegramId }}" />
                             </div>
                         </div>
                         <hr>
@@ -81,4 +124,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Показываем/скрываем поле Telegram ID в зависимости от выбранного метода 2FA
+        document.querySelector('select[name="twoFactorMethod"]').addEventListener('change', function() {
+            const telegramIdField = document.getElementById('telegramIdField');
+            if (this.value === 'telegram') {
+                telegramIdField.style.display = 'block';
+            } else {
+                telegramIdField.style.display = 'none';
+            }
+        });
+    </script>
 {% endblock %}

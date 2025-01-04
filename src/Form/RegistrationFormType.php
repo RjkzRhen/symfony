@@ -42,8 +42,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Please confirm your password',
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -93,3 +93,31 @@ settings_show:
     controller: App\Controller\SettingController::show
     methods: GET
 
+apartment_index:
+    path: /apartments
+    controller: App\Controller\ApartmentController::index
+    methods: GET
+
+apartment_new:
+    path: /apartment/new
+    controller: App\Controller\ApartmentController::new
+    methods: [GET, POST]
+
+apartment_show:
+    path: /apartment/{id}
+    controller: App\Controller\ApartmentController::show
+    methods: GET
+
+apartment_edit:
+    path: /apartment/{id}/edit
+    controller: App\Controller\ApartmentController::edit
+    methods: [GET, POST]
+
+apartment_delete:
+    path: /apartment/{id}
+    controller: App\Controller\ApartmentController::delete
+    methods: POST
+
+app_credit_calculator:
+    path: /credit-calculator
+    controller: App\Controller\CreditCalculatorController::index

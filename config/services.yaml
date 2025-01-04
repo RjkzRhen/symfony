@@ -1,13 +1,14 @@
 parameters:
+    recaptcha.site_key: '6LfoZq0qAAAAAOTj4Sd60mGCM0ehB4Eom5p_UKBu'
+    recaptcha.secret_key: '6LfoZq0qAAAAACpvPWoruK5B5YaDpCqu5CUoPQUd'
+    telegram_bot_token: '7859789005:AAGgrF47UKcFM5ZA4peAg8oYbCsFIT6qKEU'
+    telegram_chat_id: '966762680'  # Добавьте Chat ID для Telegram
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
         exclude:
@@ -15,12 +16,13 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # Custom services
     App\Security\CustomUserProvider:
         arguments: ['@doctrine.orm.entity_manager']
 
     App\Security\CustomAuthenticator:
         arguments: ['@security.password_encoder', '@router']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Service\TwoFactorAuthService:
+        arguments:
+            $telegramBotToken: '%telegram_bot_token%'
+            $telegramChatId: '%telegram_chat_id%'  # Добавьте Chat ID в аргументы

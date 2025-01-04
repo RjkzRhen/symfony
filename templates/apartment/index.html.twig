@@ -1,0 +1,38 @@
+{# templates/apartment/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Список апартаментов{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1 class="mb-4">Список апартаментов</h1>
+        <a href="{{ path('apartment_new') }}" class="btn btn-primary mb-3">Добавить апартамент</a>
+
+        <div class="row">
+            {% for apartment in apartments %}
+                <div class="col-md-4">
+                    <div class="user-card">
+                        <h3>Квартира №{{ apartment.apartmentNumber }}</h3>
+                        <p><strong>Владелец:</strong> {{ apartment.ownerName ?? 'Пусто' }}</p>
+                        <p><strong>Телефон:</strong> {{ apartment.phoneNumber ?? 'Пусто' }}</p>
+                        <p><strong>Домофон:</strong> {{ apartment.intercomNumber ?? 'Пусто' }}</p>
+                        <p><strong>Проживает:</strong> {{ apartment.residentsCount ?? 'Пусто' }}</p>
+                        <p><strong>Комнат:</strong> {{ apartment.roomsCount ?? 'Пусто' }}</p>
+                        <div class="actions">
+                            <form action="{{ path('apartment_delete', {'id': apartment.id}) }}" method="POST" class="d-inline">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ apartment.id) }}">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить этот апартамент?')">Удалить</button>
+                            </form>
+                            <a href="{{ path('apartment_show', {'id': apartment.id}) }}" class="btn btn-info btn-sm">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p>Апартаменты не найдены</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

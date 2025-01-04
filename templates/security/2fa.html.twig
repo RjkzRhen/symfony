@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Two-Factor Authentication{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h3 class="text-center">Enter 2FA Code</h3>
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+        <form method="post">
+            <div class="form-group">
+                <input type="text" name="code" class="form-control" placeholder="Enter Code" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Verify</button>
+        </form>
+    </div>
+{% endblock %}

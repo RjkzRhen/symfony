@@ -21,6 +21,9 @@
                         <a href="{{ path('phone_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'phone_index' ? 'active' : '' }}">Телефоны</a>
                         <a href="{{ path('user_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'user_index' ? 'active' : '' }}">Пользователи</a>
                     </div>
+
+                    <a href="{{ path('apartment_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'apartment_index' ? 'active' : '' }}">Квартиры</a>
+                    <a href="{{ path('app_credit_calculator') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_credit_calculator' ? 'active' : '' }}">Кредит</a>
                     <a href="{{ path('settings_edit') }}" class="nav-link {{ app.request.attributes.get('_route') == 'settings_edit' ? 'active' : '' }}">Настройки</a>
                 {% endif %}
             {% else %}
@@ -67,5 +70,6 @@
         }
     });
 </script>
+
 </body>
 </html>

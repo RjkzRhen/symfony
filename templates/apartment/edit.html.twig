@@ -1,0 +1,64 @@
+{# templates/apartment/edit.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать апартамент{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Редактировать апартамент</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                        <div class="form-group row mb-3">
+                            {{ form_label(form.apartmentNumber, 'Номер квартиры', {'label_attr': {'class': 'col-sm-4 col-form-label text-end'}}) }}
+                            <div class="col-sm-8">
+                                {{ form_widget(form.apartmentNumber, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            {{ form_label(form.ownerName, 'ФИО владельца', {'label_attr': {'class': 'col-sm-4 col-form-label text-end'}}) }}
+                            <div class="col-sm-8">
+                                {{ form_widget(form.ownerName, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            {{ form_label(form.phoneNumber, 'Номер телефона', {'label_attr': {'class': 'col-sm-4 col-form-label text-end'}}) }}
+                            <div class="col-sm-8">
+                                {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            {{ form_label(form.intercomNumber, 'Номер домофона', {'label_attr': {'class': 'col-sm-4 col-form-label text-end'}}) }}
+                            <div class="col-sm-8">
+                                {{ form_widget(form.intercomNumber, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            {{ form_label(form.residentsCount, 'Количество проживающих', {'label_attr': {'class': 'col-sm-4 col-form-label text-end'}}) }}
+                            <div class="col-sm-8">
+                                {{ form_widget(form.residentsCount, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            {{ form_label(form.roomsCount, 'Количество комнат', {'label_attr': {'class': 'col-sm-4 col-form-label text-end'}}) }}
+                            <div class="col-sm-8">
+                                {{ form_widget(form.roomsCount, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-8 offset-sm-4">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <a href="{{ path('apartment_index') }}" class="btn btn-secondary">Отмена</a>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

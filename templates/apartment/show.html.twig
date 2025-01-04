@@ -1,0 +1,23 @@
+{# templates/apartment/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Профиль апартамента{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1>Профиль апартамента</h1>
+
+        <div class="user-card">
+            <h3>Квартира №{{ apartment.apartmentNumber }}</h3>
+            <p><strong>Владелец:</strong> {{ apartment.ownerName ?? 'Пусто' }}</p>
+            <p><strong>Телефон:</strong> {{ apartment.phoneNumber ?? 'Пусто' }}</p>
+            <p><strong>Домофон:</strong> {{ apartment.intercomNumber ?? 'Пусто' }}</p>
+            <p><strong>Проживает:</strong> {{ apartment.residentsCount ?? 'Пусто' }}</p>
+            <p><strong>Комнат:</strong> {{ apartment.roomsCount ?? 'Пусто' }}</p>
+            <div class="actions">
+                <a href="{{ path('apartment_edit', {'id': apartment.id}) }}" class="btn btn-secondary">Редактировать</a>
+                <a href="{{ path('apartment_index') }}" class="btn btn-primary">Назад к списку</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

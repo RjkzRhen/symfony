@@ -18,10 +18,11 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            // Кодирование пароля
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -29,9 +30,12 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Сохранение пользователя
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // Редирект после успешной регистрации
+            $this->addFlash('success', 'Регистрация прошла успешно!');
             return $this->redirectToRoute('app_login');
         }
 

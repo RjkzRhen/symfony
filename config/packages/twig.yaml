@@ -1,6 +1,9 @@
 twig:
-    file_name_pattern: '*.twig'
+    file_name_pattern: '*.twig'  # Паттерн для поиска файлов шаблонов
+    form_themes:
+        - 'bootstrap_5_layout.html.twig'  # Используемая тема для форм
+    default_path: '%kernel.project_dir%/templates'  # Путь к шаблонам по умолчанию
 
 when@test:
     twig:
-        strict_variables: true
+        strict_variables: true  # Включение строгой проверки переменных в тестовом окружении
