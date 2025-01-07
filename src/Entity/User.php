@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -56,6 +58,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
+
+    #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'user')]
+    private Collection $chats;
+
+    public function __construct()
+    {
+        $this->chats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -224,6 +234,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    public function setIsTwoFactorEnabled(bool $isEnabled): self
+    {
+        $this->isTwoFactorEnabled = $isEnabled;
+        return $this;
+    }
+
+    public function isTwoFactorCodeValid(string $code): bool
+    {
+        return $this->twoFactorCode === $code && $this->twoFactorCodeExpiry > new \DateTime();
+    }
+
+    /**
+     * @return Collection<int, Chat>
+     */
+    public function getChats(): Collection
+    {
+        return $this->chats;
+    }
+
+    public function addChat(Chat $chat): self
+    {
+        if (!$this->chats->contains($chat)) {
+            $this->chats[] = $chat;
+            $chat->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeChat(Chat $chat): self
+    {
+        if ($this->chats->removeElement($chat)) {
+            // Устанавливаем null для пользователя, если чат удален
+            if ($chat->getUser() === $this) {
+                $chat->setUser(null);
+            }
+        }
         return $this;
     }
 }

@@ -14,6 +14,7 @@
             <a href="{{ path('homepage') }}" class="nav-link {{ app.request.attributes.get('_route') == 'homepage' ? 'active' : '' }}">Главная</a>
             {% if app.user %}
                 <a href="{{ path('app_profile') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_profile' ? 'active' : '' }}">Профиль</a>
+                <a href="{{ path('app_chat') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_chat' ? 'active' : '' }}">Чат с поддержкой</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="#" onclick="toggleSubmenu('tables')" id="tables-link" class="nav-link has-submenu {{ app.request.attributes.get('_route') starts with 'employee_directory_index' or app.request.attributes.get('_route') starts with 'phone_index' or app.request.attributes.get('_route') starts with 'user_index' ? 'active' : '' }}">Таблицы</a>
                     <div class="submenu" id="tables" style="position: absolute; top: 100%; left: 10%;">
@@ -25,6 +26,7 @@
                     <a href="{{ path('apartment_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'apartment_index' ? 'active' : '' }}">Квартиры</a>
                     <a href="{{ path('app_credit_calculator') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_credit_calculator' ? 'active' : '' }}">Кредит</a>
                     <a href="{{ path('settings_edit') }}" class="nav-link {{ app.request.attributes.get('_route') == 'settings_edit' ? 'active' : '' }}">Настройки</a>
+                    <a href="{{ path('app_admin_chat') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_admin_chat' ? 'active' : '' }}">Чат поддержки (Админ)</a>
                 {% endif %}
             {% else %}
                 <a href="{{ path('app_register') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_register' ? 'active' : '' }}">Регистрация</a>

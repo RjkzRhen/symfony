@@ -25,6 +25,10 @@ security:
             logout:
                 path: app_logout
                 target: app_login
+            two_factor:
+                auth_form_path: app_2fa
+                check_path: app_2fa_check
+                default_target_path: app_profile
 
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
@@ -35,6 +39,9 @@ security:
         - { path: ^/phone, roles: ROLE_ADMIN }
         - { path: ^/users, roles: ROLE_ADMIN }
         - { path: ^/settings, roles: ROLE_ADMIN }
+        - { path: ^/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        - { path: ^/chat, roles: ROLE_USER }
+        - { path: ^/admin/chat, roles: ROLE_ADMIN }
 
 when@test:
     security:

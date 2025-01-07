@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Чат с поддержкой{% endblock %}
+
+{% block body %}
+    <div class="container bootstrap snippets bootdey">
+        <div class="row">
+            <div class="col-md-4 bg-white">
+                <div class="row border-bottom padding-sm" style="height: 40px;">
+                    Member
+                </div>
+                <ul class="friend-list">
+                    {% for chat in chats %}
+                        <li class="{% if loop.first %}active bounceInDown{% endif %}">
+                            <a href="#" class="clearfix">
+                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+                                <div class="friend-name">
+                                    <strong>{{ chat.user.username }}</strong>
+                                </div>
+                                <div class="last-message text-muted">Последнее сообщение</div>
+                                <small class="time text-muted">{{ chat.createdAt|date('Y-m-d H:i') }}</small>
+                                <small class="chat-alert label label-danger">1</small>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-8 bg-white">
+                <div class="chat-message">
+                    <ul class="chat" id="chat-messages">
+                        {% for message in messages %}
+                            <li class="{% if message.sender == app.user %}right{% else %}left{% endif %} clearfix">
+                                <span class="chat-img pull-{% if message.sender == app.user %}right{% else %}left{% endif %}">
+                                    <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
+                                </span>
+                                <div class="chat-body clearfix">
+                                    <div class="header">
+                                        <strong class="primary-font">{{ message.sender.username }}</strong>
+                                        <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> {{ message.createdAt|date('Y-m-d H:i') }}</small>
+                                    </div>
+                                    <p>{{ message.content }}</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="chat-box bg-white">
+                    {{ form_start(form, {'attr': {'id': 'chat-form'}}) }}
+                    <div class="input-group">
+                        {{ form_widget(form.content, {'attr': {'class': 'form-control border no-shadow no-rounded', 'placeholder': 'Type your message here', 'id': 'message-content'}}) }}
+                        <span class="input-group-btn">
+                            <button class="btn btn-success no-rounded" type="submit">Send</button>
+                        </span>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log("Скрипт загружен!"); // Проверка, что скрипт выполняется
+
+        document.getElementById('chat-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем стандартную отправку формы
+            console.log("Форма отправлена через AJAX"); // Проверка, что событие срабатывает
+
+            const formData = new FormData(this); // Собираем данные формы
+            const messageContent = document.getElementById('message-content').value;
+
+            fetch('{{ path('app_chat') }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest' // Указываем, что это AJAX-запрос
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Добавляем новое сообщение в чат
+                        const chatMessages = document.getElementById('chat-messages');
+                        const newMessage = document.createElement('li');
+                        newMessage.className = 'right clearfix'; // Сообщение от текущего пользователя
+                        newMessage.innerHTML = `
+                        <span class="chat-img pull-right">
+                            <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
+                        </span>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                <strong class="primary-font">{{ app.user.username }}</strong>
+                                <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ${new Date().toLocaleString()}</small>
+                            </div>
+                            <p>${messageContent}</p>
+                        </div>
+                    `;
+                        chatMessages.appendChild(newMessage);
+
+                        // Очищаем поле ввода
+                        document.getElementById('message-content').value = '';
+
+                        // Прокручиваем чат вниз
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    } else {
+                        alert('Ошибка при отправке сообщения');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+        });
+    </script>
+{% endblock %}

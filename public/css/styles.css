@@ -172,9 +172,10 @@ header {
 .welcome-buttons button:hover {
     background-color: #2980b9;
 }
+
 /* Стиль карточек пользователей */
 .user-card {
-    background-image: url('../images/fon.jpg'); /* Путь к вашей фотографии */
+    background-image: url('../images/fon.jpg');
     background-size: cover;
     background-position: center;
     border-radius: 42px;
@@ -204,7 +205,7 @@ header {
 .user-card .actions {
     margin-top: 15px;
     display: flex;
-    gap: 10px; /* Расстояние между кнопками */
+    gap: 10px;
 }
 
 .user-card .btn {
@@ -237,41 +238,13 @@ header {
 }
 
 .user-card ul li {
-    color: #ffffff; /* Белый цвет текста */
-}
-/* Стили для кнопок "Вход" и "Регистрация" */
-.welcome-buttons {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    z-index: 2;
-}
-
-.welcome-buttons button {
-    background-color: #3498db;
     color: #ffffff;
-    padding: 15px 66px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s ease;
-}
-
-.welcome-buttons button:hover {
-    background-color: #2980b9;
 }
 
 /* Стили для формы входа */
 .login-form-container {
-    display: block; /* Показывает форму по умолчанию */
-    position: absolute; /* Абсолютное позиционирование */
+    display: block;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -334,8 +307,8 @@ header {
 
 /* Стили для формы регистрации */
 .register-form-container {
-    display: block; /* Показывает форму по умолчанию */
-    position: absolute; /* Абсолютное позиционирование */
+    display: block;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -344,7 +317,7 @@ header {
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 600px; /* Уменьшим максимальную ширину формы */
+    max-width: 600px;
     z-index: 3;
 }
 
@@ -360,14 +333,14 @@ header {
 }
 
 .register-form-container .form-group {
-    margin-bottom: 15px; /* Уменьшим отступ между группами */
+    margin-bottom: 15px;
 }
 
 .register-form-container input[type="text"],
 .register-form-container input[type="number"],
 .register-form-container input[type="password"] {
     width: 100%;
-    padding: 10px; /* Уменьшим отступ внутри полей ввода */
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     background-color: #f9f9f9;
@@ -386,13 +359,13 @@ header {
     background-color: #27ae60;
     border: none;
     color: #ffffff;
-    padding: 10px 20px; /* Уменьшим отступ внутри кнопки */
+    padding: 10px 20px;
     border-radius: 6px;
     cursor: pointer;
     width: 100%;
     font-size: 16px;
     transition: background-color 0.3s ease;
-    margin-top: 15px; /* Добавим отступ сверху для кнопки */
+    margin-top: 15px;
 }
 
 .register-form-container button[type="submit"]:hover {
@@ -406,7 +379,7 @@ header {
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px; /* Уменьшим максимальную ширину формы */
+    max-width: 400px;
     margin: 0 auto;
     border: 1px solid #e0e0e0;
 }
@@ -420,7 +393,7 @@ header {
 }
 
 .register-form .form-group {
-    margin-bottom: 15px; /* Уменьшим отступ между группами */
+    margin-bottom: 15px;
 }
 
 .register-form label {
@@ -434,7 +407,7 @@ header {
 .register-form input[type="number"],
 .register-form input[type="password"] {
     width: 100%;
-    padding: 10px; /* Уменьшим отступ внутри полей ввода */
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     background-color: #f9f9f9;
@@ -453,19 +426,20 @@ header {
     background-color: #27ae60;
     border: none;
     color: #ffffff;
-    padding: 10px 20px; /* Уменьшим отступ внутри кнопки */
+    padding: 10px 20px;
     border-radius: 6px;
     cursor: pointer;
     width: 100%;
     font-size: 16px;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 15px; /* Добавим отступ сверху для кнопки */
+    margin-top: 15px;
 }
 
 .register-form button[type="submit"]:hover {
     background-color: #219653;
     transform: scale(1.02);
 }
+
 .auth-background {
     background-image: url('../images/background.jpg');
     background-size: cover;
@@ -537,12 +511,6 @@ header {
     z-index: 1110;
 }
 
-/* Стили для кнопки редактирования */
-.profile-card .btn-primary {
-    font-size: 18px;
-    padding: 10px 20px;
-}
-
 /* Стили для контейнера настроек */
 .settings-form-container {
     position: absolute;
@@ -612,27 +580,335 @@ header {
     border-radius: 6px;
     margin-top: 20px;
 }
+
 /* Стили для контейнера кнопки "Выйти" */
 .logout-container {
-    position: fixed; /* Фиксированное позиционирование */
-    bottom: 43px; /* Отступ снизу */
-    right: 20px; /* Отступ справа */
-    z-index: 1000; /* Убедимся, что кнопка находится поверх других элементов */
+    position: fixed;
+    bottom: 43px;
+    right: 20px;
+    z-index: 1000;
 }
 
 /* Стили для кнопки "Выйти" */
 .logout-button {
-    background-color: #e74c3c; /* Красный фон */
-    color: #fff; /* Белый текст */
-    padding: 8px 12px; /* Уменьшенные внутренние отступы */
-    border: none; /* Убираем границу */
-    border-radius: 6px; /* Скругление углов */
-    cursor: pointer; /* Курсор в виде указателя */
-    font-size: 14px; /* Уменьшенный размер шрифта */
-    transition: background-color 0.3s ease; /* Плавный переход для фона */
-    text-decoration: none; /* Убираем подчеркивание ссылки */
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .logout-button:hover {
-    background-color: #c0392b; /* Темно-красный фон при наведении */
+    background-color: #c0392b;
+}
+
+/* Общие стили для контейнера чата */
+.chat-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    height: 500px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Общие стили для сообщений */
+.message {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    max-width: 60%;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Стили для сообщений отправителя (пользователя) */
+.message-sent {
+    background-color: #3498db;
+    color: #fff;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+/* Стили для сообщений получателя (поддержки) */
+.message-received {
+    background-color: #e0e0e0;
+    color: #333;
+    margin-left: 10px;
+    margin-right: auto;
+}
+
+/* Стили для текста внутри сообщений */
+.message p {
+    margin: 0;
+    font-size: 16px;
+    color: inherit;
+}
+
+/* Стили для времени отправки сообщения */
+.message small {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
+    opacity: 0.8;
+}
+
+/* Стили для формы отправки сообщений */
+.chat-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для текстового поля в форме */
+.chat-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    font-size: 16px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+/* Стили для текстового поля при фокусе */
+.chat-form textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Стили для кнопки отправки */
+.chat-form button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Стили для кнопки при наведении */
+.chat-form button:hover {
+    background-color: #2980b9;
+}
+
+/* Стили для таблицы в админской панели */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* Стили для ячеек таблицы */
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Стили для заголовков таблицы */
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+/* Стили для строк таблицы при наведении */
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Общие стили для кнопок */
+.btn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Стили для основной кнопки */
+.btn-primary {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+}
+
+/* Стили для основной кнопки при наведении */
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Стили для кнопки успеха */
+.btn-success {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+}
+
+/* Стили для кнопки успеха при наведении */
+.btn-success:hover {
+    background-color: #27ae60;
+}
+
+/* Стили для кнопки опасности */
+.btn-danger {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+}
+
+/* Стили для кнопки опасности при наведении */
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* Стили для контейнера поддержки */
+.support-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для заголовка в контейнере поддержки */
+.support-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Стили для текстового поля в контейнере поддержки */
+.support-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Стили для кнопки в контейнере поддержки */
+.support-container button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Стили для кнопки при наведении в контейнере поддержки */
+.support-container button:hover {
+    background-color: #2980b9;
+}
+
+/* Стили для чата */
+.chat-message ul.chat {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-message ul.chat li {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.chat-message ul.chat li.left {
+    justify-content: flex-start;
+}
+
+.chat-message ul.chat li.right {
+    justify-content: flex-end;
+}
+
+.chat-message ul.chat li .chat-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.chat-message ul.chat li.right .chat-img {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.chat-message ul.chat li .chat-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.chat-message ul.chat li .chat-body {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+}
+
+.chat-message ul.chat li.right .chat-body {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.chat-message ul.chat li .chat-body .header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.chat-message ul.chat li .chat-body .header strong {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.chat-message ul.chat li .chat-body .header small {
+    font-size: 12px;
+    color: #666;
+}
+
+.chat-message ul.chat li.right .chat-body .header small {
+    color: #fff;
+}
+
+.chat-message ul.chat li .chat-body p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.chat-box {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chat-box .input-group {
+    display: flex;
+    align-items: center;
+}
+
+.chat-box .input-group .form-control {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.chat-box .input-group .btn {
+    flex: 0 0 auto;
 }

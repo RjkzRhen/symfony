@@ -13,34 +13,34 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('/register', name: 'app_register')]  // Определение маршрута для регистрации
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response  // Метод для регистрации
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $user = new User();  // Создаем новый объект пользователя
+        $form = $this->createForm(RegistrationFormType::class, $user);  // Создаем форму регистрации
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Кодирование пароля
+        $form->handleRequest($request);  // Обрабатываем запрос для формы
+        if ($form->isSubmitted() && $form->isValid()) {  // Если форма отправлена и валидна
+            // Хешируем пароль
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('plainPassword')->getData()  // Получаем пароль из формы
                 )
             );
 
-            // Сохранение пользователя
-            $entityManager->persist($user);
-            $entityManager->flush();
+            // Сохраняем пользователя
+            $entityManager->persist($user);  // Подготавливаем объект для сохранения
+            $entityManager->flush();  // Сохраняем изменения в базе данных
 
             // Редирект после успешной регистрации
-            $this->addFlash('success', 'Регистрация прошла успешно!');
-            return $this->redirectToRoute('app_login');
+            $this->addFlash('success', 'Регистрация прошла успешно!');  // Добавляем сообщение об успешной регистрации
+            return $this->redirectToRoute('app_login');  // Перенаправляем на страницу входа
         }
 
+        // Отображаем страницу регистрации
         return $this->render('security/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView(),  // Передаем форму
         ]);
     }
 }

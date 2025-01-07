@@ -2,7 +2,6 @@ parameters:
     recaptcha.site_key: '6LfoZq0qAAAAAOTj4Sd60mGCM0ehB4Eom5p_UKBu'
     recaptcha.secret_key: '6LfoZq0qAAAAACpvPWoruK5B5YaDpCqu5CUoPQUd'
     telegram_bot_token: '7859789005:AAGgrF47UKcFM5ZA4peAg8oYbCsFIT6qKEU'
-    telegram_chat_id: '966762680'  # Добавьте Chat ID для Telegram
 
 services:
     _defaults:
@@ -16,13 +15,6 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Security\CustomUserProvider:
-        arguments: ['@doctrine.orm.entity_manager']
-
-    App\Security\CustomAuthenticator:
-        arguments: ['@security.password_encoder', '@router']
-
     App\Service\TwoFactorAuthService:
         arguments:
             $telegramBotToken: '%telegram_bot_token%'
-            $telegramChatId: '%telegram_chat_id%'  # Добавьте Chat ID в аргументы

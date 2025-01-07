@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Чат с {{ currentChat.user.username }}{% endblock %}
+
+{% block body %}
+    <div class="container bootstrap snippets bootdey">
+        <div class="row">
+            <div class="col-md-4 bg-white">
+                <div class="row border-bottom padding-sm" style="height: 40px;">
+                    Чаты
+                </div>
+                <ul class="friend-list">
+                    {% for chat in chats %}
+                        <li class="{% if chat.id == currentChat.id %}active bounceInDown{% endif %}">
+                            <a href="{{ path('app_admin_chat_view', {'id': chat.id}) }}" class="clearfix">
+                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+                                <div class="friend-name">
+                                    <strong>{{ chat.user.username }}</strong>
+                                </div>
+                                <div class="last-message text-muted">
+                                    {% if chat.messages|length > 0 %}
+                                        {{ chat.messages|last.content|slice(0, 30) }}...
+                                    {% else %}
+                                        Нет сообщений
+                                    {% endif %}
+                                </div>
+                                <small class="time text-muted">{{ chat.createdAt|date('Y-m-d H:i') }}</small>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-8 bg-white">
+                <!-- Добавляем заголовок -->
+                <div class="chat-header text-center py-3">
+                    <h2 class="mb-0">Чат службы поддержки</h2>
+                    <small class="text-muted">Вы отвечаете пользователю: {{ currentChat.user.username }}</small>
+                </div>
+
+                <div class="chat-message">
+                    <ul class="chat">
+                        {% for message in messages %}
+                            <li class="{% if message.sender == app.user %}right{% else %}left{% endif %} clearfix">
+                                <span class="chat-img pull-{% if message.sender == app.user %}right{% else %}left{% endif %}">
+                                    <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
+                                </span>
+                                <div class="chat-body clearfix">
+                                    <div class="header">
+                                        <strong class="primary-font">{{ message.sender.username }}</strong>
+                                        <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> {{ message.createdAt|date('Y-m-d H:i') }}</small>
+                                    </div>
+                                    <p>{{ message.content }}</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="chat-box bg-white">
+                    {{ form_start(form) }}
+                    <div class="input-group">
+                        {{ form_widget(form.content, {'attr': {'class': 'form-control border no-shadow no-rounded', 'placeholder': 'Type your message here'}}) }}
+                        <span class="input-group-btn">
+                            <button class="btn btn-success no-rounded" type="submit">Send</button>
+                        </span>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

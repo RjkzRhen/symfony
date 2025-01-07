@@ -87,6 +87,15 @@ app_profile_update:
     controller: App\Controller\ProfileController::updateProfile
     methods: [POST]
 
+app_resend_2fa:
+    path: /resend-2fa-code
+    controller: App\Controller\SecurityController::resendTwoFactorCode
+    methods: [POST]
+
+app_2fa_settings:
+    path: /profile/2fa-settings
+    controller: App\Controller\ProfileController::twoFactorSettings
+    methods: [GET, POST]
 
 settings_show:
     path: /settings
@@ -121,3 +130,33 @@ apartment_delete:
 app_credit_calculator:
     path: /credit-calculator
     controller: App\Controller\CreditCalculatorController::index
+
+app_support:
+    path: /support
+    controller: App\Controller\SupportController::index
+    methods: [GET, POST]
+
+app_admin_support:
+    path: /admin/support
+    controller: App\Controller\SupportController::adminSupport
+    methods: [GET]
+
+app_admin_support_reply:
+    path: /admin/support/{id}/reply
+    controller: App\Controller\SupportController::replyToMessage
+    methods: [POST]
+
+app_chat:
+    path: /chat
+    controller: App\Controller\ChatController::index
+    methods: [GET, POST]
+
+app_admin_chat:
+    path: /admin/chat
+    controller: App\Controller\AdminChatController::index
+    methods: [GET]
+
+app_admin_chat_view:
+    path: /admin/chat/{id}
+    controller: App\Controller\AdminChatController::viewChat
+    methods: [GET, POST]

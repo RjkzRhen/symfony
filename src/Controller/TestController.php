@@ -11,25 +11,26 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TestController extends AbstractController
 {
-    #[Route('/test/email', name: 'app_test_email')]
-    public function testEmail(MailerInterface $mailer): Response
+    #[Route('/test/email', name: 'app_test_email')]  // Определение маршрута для тестирования email
+    public function testEmail(MailerInterface $mailer): Response  // Метод для тестирования отправки email
     {
-        $email = (new Email())
-            ->from('barannickoffnik@yandex.ru') // Новая почта отправителя
-            ->to('qwora1@bk.ru') // Получатель
-            ->subject('Тестовое сообщение')
-            ->text('Это тестовое сообщение от Symfony.');
+        $email = (new Email())  // Создаем email-сообщение
+        ->from('barannickoffnik@yandex.ru')  // Указываем email отправителя
+        ->to('qwora1@bk.ru')  // Указываем email получателя
+        ->subject('Тестовое сообщение')  // Указываем тему письма
+        ->text('Это тестовое сообщение от Symfony.');  // Указываем текст письма
 
-        $mailer->send($email);
+        $mailer->send($email);  // Отправляем email
 
-        return new Response('Тестовое email сообщение отправлено!');
+        return new Response('Тестовое email сообщение отправлено!');  // Возвращаем сообщение об успешной отправке
     }
-    #[Route('/test-telegram', name: 'test_telegram')]
-    public function testTelegram(TwoFactorAuthService $twoFactorAuthService): Response
+
+    #[Route('/test-telegram', name: 'test_telegram')]  // Определение маршрута для тестирования Telegram
+    public function testTelegram(TwoFactorAuthService $twoFactorAuthService): Response  // Метод для тестирования отправки сообщения в Telegram
     {
         // Отправка тестового сообщения в Telegram
-        $twoFactorAuthService->sendTelegramCode('123456');
+        $twoFactorAuthService->sendTelegramCode('123456');  // Отправляем тестовый код
 
-        return new Response('Test Telegram message sent!');
+        return new Response('Test Telegram message sent!');  // Возвращаем сообщение об успешной отправке
     }
 }
