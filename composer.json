@@ -16,9 +16,10 @@
         "excelwebzone/recaptcha-bundle": "^1.5",
         "google/recaptcha": "^1.3",
         "knplabs/knp-menu-bundle": "^3.4",
+        "mindplay/annotations": "^1.3",
         "nelmio/cors-bundle": "*",
-        "scheb/2fa-bundle": "^7.0",
-        "scheb/2fa-email": "^7.6",
+        "scheb/2fa-bundle": "^7.6",
+        "scheb/2fa-email": "*",
         "scheb/2fa-totp": "^7.6",
         "sonata-project/admin-bundle": "^4.33",
         "sonata-project/doctrine-orm-admin-bundle": "^4.4",
@@ -46,7 +47,8 @@
         "telegram-bot/api": "^2.5",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "twilio/sdk": "^8.3"
+        "twilio/sdk": "^8.3",
+        "vich/uploader-bundle": "^2.5"
     },
     "config": {
         "allow-plugins": {

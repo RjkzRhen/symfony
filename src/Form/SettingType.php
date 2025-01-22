@@ -14,12 +14,12 @@ class SettingType extends AbstractType
     {
         $builder
             ->add('tax_rate', NumberType::class, [
-                'label' => 'Налоговая ставка (%)',
+                'label' => 'Налоговая ставка (%)', // Поле для ввода налоговой ставки
                 'attr' => [
-                    'min' => 0,
-                    'max' => 99.99,
-                    'step' => 0.01,
-                    'placeholder' => 'Введите налоговую ставку',
+                    'min' => 0, // Минимальное значение
+                    'max' => 99.99, // Максимальное значение
+                    'step' => 0.01, // Шаг изменения
+                    'placeholder' => 'Введите налоговую ставку', // Плейсхолдер
                 ],
             ]);
     }
@@ -27,7 +27,7 @@ class SettingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Setting::class,
+            'data_class' => Setting::class, // Указываем, что форма связана с сущностью Setting
         ]);
     }
 }

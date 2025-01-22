@@ -15,34 +15,34 @@ class ApartmentType extends AbstractType
     {
         $builder
             ->add('apartmentNumber', TextType::class, [
-                'label' => 'Номер квартиры',
+                'label' => 'Номер квартиры', // Поле для ввода номера квартиры
             ])
             ->add('ownerName', TextType::class, [
-                'label' => 'ФИО владельца',
-                'required' => false,
+                'label' => 'ФИО владельца', // Поле для ввода ФИО владельца квартиры
+                'required' => false, // Поле не обязательно для заполнения
             ])
             ->add('phoneNumber', TextType::class, [
-                'label' => 'Номер телефона',
-                'required' => false,
+                'label' => 'Номер телефона', // Поле для ввода номера телефона владельца
+                'required' => false, // Поле не обязательно для заполнения
             ])
             ->add('intercomNumber', TextType::class, [
-                'label' => 'Номер домофона',
-                'required' => false,
+                'label' => 'Номер домофона', // Поле для ввода номера домофона
+                'required' => false, // Поле не обязательно для заполнения
             ])
             ->add('residentsCount', IntegerType::class, [
-                'label' => 'Количество проживающих',
-                'required' => false,
+                'label' => 'Количество проживающих', // Поле для ввода количества проживающих
+                'required' => false, // Поле не обязательно для заполнения
             ])
             ->add('roomsCount', IntegerType::class, [
-                'label' => 'Количество комнат',
-                'required' => false,
+                'label' => 'Количество комнат', // Поле для ввода количества комнат
+                'required' => false, // Поле не обязательно для заполнения
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Apartment::class,
+            'data_class' => Apartment::class, // Указываем, что форма связана с сущностью Apartment
         ]);
     }
 }

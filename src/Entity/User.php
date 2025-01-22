@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $middleName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
@@ -35,14 +36,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $age = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'user')]
+    private Collection $chats;
+
+    #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private Collection $phones;
+
+    #[ORM\Column(type: 'string', length: 6, nullable: true)]
+    private ?string $resetPasswordCode = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $resetPasswordCodeExpiry = null;
+
     #[ORM\Column(type: 'boolean')]
     private bool $isTwoFactorEnabled = false;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $twoFactorMethod = null; // email или telegram
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $telegramId = null; // ID Telegram пользователя
 
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private ?string $twoFactorCode = null;
@@ -50,21 +63,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $twoFactorCodeExpiry = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $age = null;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $phoneValue = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $email = null;
-
-    #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'user')]
-    private Collection $chats;
-
     public function __construct()
     {
         $this->chats = new ArrayCollection();
+        $this->phones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,7 +114,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setUsername(string $username): self
     {
-        $this->username = $username;
+        $this->username = strtolower($username);
         return $this;
     }
 
@@ -149,61 +151,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->username;
     }
 
-    public function isTwoFactorEnabled(): bool
-    {
-        return $this->isTwoFactorEnabled;
-    }
-
-    public function setTwoFactorEnabled(bool $isEnabled): self
-    {
-        $this->isTwoFactorEnabled = $isEnabled;
-        return $this;
-    }
-
-    public function getTwoFactorMethod(): ?string
-    {
-        return $this->twoFactorMethod;
-    }
-
-    public function setTwoFactorMethod(?string $method): self
-    {
-        $this->twoFactorMethod = $method;
-        return $this;
-    }
-
-    public function getTelegramId(): ?string
-    {
-        return $this->telegramId;
-    }
-
-    public function setTelegramId(?string $telegramId): self
-    {
-        $this->telegramId = $telegramId;
-        return $this;
-    }
-
-    public function getTwoFactorCode(): ?string
-    {
-        return $this->twoFactorCode;
-    }
-
-    public function setTwoFactorCode(?string $code): self
-    {
-        $this->twoFactorCode = $code;
-        return $this;
-    }
-
-    public function getTwoFactorCodeExpiry(): ?\DateTimeInterface
-    {
-        return $this->twoFactorCodeExpiry;
-    }
-
-    public function setTwoFactorCodeExpiry(?\DateTimeInterface $expiry): self
-    {
-        $this->twoFactorCodeExpiry = $expiry;
-        return $this;
-    }
-
     public function getAge(): ?int
     {
         return $this->age;
@@ -212,17 +159,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAge(?int $age): self
     {
         $this->age = $age;
-        return $this;
-    }
-
-    public function getPhoneValue(): ?string
-    {
-        return $this->phoneValue;
-    }
-
-    public function setPhoneValue(?string $phoneValue): self
-    {
-        $this->phoneValue = $phoneValue;
         return $this;
     }
 
@@ -237,20 +173,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function setIsTwoFactorEnabled(bool $isEnabled): self
-    {
-        $this->isTwoFactorEnabled = $isEnabled;
-        return $this;
-    }
-
-    public function isTwoFactorCodeValid(string $code): bool
-    {
-        return $this->twoFactorCode === $code && $this->twoFactorCodeExpiry > new \DateTime();
-    }
-
-    /**
-     * @return Collection<int, Chat>
-     */
     public function getChats(): Collection
     {
         return $this->chats;
@@ -268,11 +190,89 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeChat(Chat $chat): self
     {
         if ($this->chats->removeElement($chat)) {
-            // Устанавливаем null для пользователя, если чат удален
             if ($chat->getUser() === $this) {
                 $chat->setUser(null);
             }
         }
+        return $this;
+    }
+
+    public function getResetPasswordCode(): ?string
+    {
+        return $this->resetPasswordCode;
+    }
+
+    public function setResetPasswordCode(?string $resetPasswordCode): self
+    {
+        $this->resetPasswordCode = $resetPasswordCode;
+        return $this;
+    }
+
+    public function getResetPasswordCodeExpiry(): ?\DateTimeInterface
+    {
+        return $this->resetPasswordCodeExpiry;
+    }
+
+    public function setResetPasswordCodeExpiry(?\DateTimeInterface $resetPasswordCodeExpiry): self
+    {
+        $this->resetPasswordCodeExpiry = $resetPasswordCodeExpiry;
+        return $this;
+    }
+
+    public function getPhones(): Collection
+    {
+        return $this->phones;
+    }
+
+    public function addPhone(Phone $phone): self
+    {
+        if (!$this->phones->contains($phone)) {
+            $this->phones[] = $phone;
+            $phone->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removePhone(Phone $phone): self
+    {
+        if ($this->phones->removeElement($phone)) {
+            if ($phone->getUser() === $this) {
+                $phone->setUser(null);
+            }
+        }
+        return $this;
+    }
+
+    public function isTwoFactorEnabled(): bool
+    {
+        return $this->isTwoFactorEnabled;
+    }
+
+    public function setIsTwoFactorEnabled(bool $isTwoFactorEnabled): self
+    {
+        $this->isTwoFactorEnabled = $isTwoFactorEnabled;
+        return $this;
+    }
+
+    public function getTwoFactorCode(): ?string
+    {
+        return $this->twoFactorCode;
+    }
+
+    public function setTwoFactorCode(?string $twoFactorCode): self
+    {
+        $this->twoFactorCode = $twoFactorCode;
+        return $this;
+    }
+
+    public function getTwoFactorCodeExpiry(): ?\DateTimeInterface
+    {
+        return $this->twoFactorCodeExpiry;
+    }
+
+    public function setTwoFactorCodeExpiry(?\DateTimeInterface $twoFactorCodeExpiry): self
+    {
+        $this->twoFactorCodeExpiry = $twoFactorCodeExpiry;
         return $this;
     }
 }

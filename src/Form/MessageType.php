@@ -14,15 +14,15 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-                'label' => 'Ваше сообщение',
-                'attr' => ['rows' => 5],
+                'label' => 'Ваше сообщение', // Поле для ввода текста сообщения
+                'attr' => ['rows' => 5], // Устанавливаем количество строк в текстовом поле
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Message::class,
+            'data_class' => Message::class, // Указываем, что форма связана с сущностью Message
         ]);
     }
 }

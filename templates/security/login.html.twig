@@ -7,7 +7,7 @@
         <h3 class="text-center">Вход</h3>
         <form method="post">
             {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                <div class="alert alert-danger">{{ error }}</div>
             {% endif %}
 
             <div class="form-group">
@@ -20,18 +20,24 @@
                 <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             </div>
 
-            <!-- reCAPTCHA -->
+            <!-- Капча -->
             <div class="form-group">
-                <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
-                <input type="hidden" name="recaptcha" class="g-recaptcha-response">
+                <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}" data-callback="enableLoginButton"></div>
             </div>
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit" class="btn btn-primary btn-block">Войти</button>
+            <!-- Кнопка "Войти" с атрибутом disabled -->
+            <button type="submit" id="loginButton" class="btn btn-primary btn-block" disabled>Войти</button>
         </form>
     </div>
 
     <!-- Подключение скрипта reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <!-- Скрипт для активации кнопки "Войти" после прохождения капчи -->
+    <script>
+        function enableLoginButton() {
+            // Активируем кнопку "Войти"
+            document.getElementById('loginButton').disabled = false;
+        }
+    </script>
 {% endblock %}

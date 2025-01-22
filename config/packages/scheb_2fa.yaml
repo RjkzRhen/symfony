@@ -1,9 +1,8 @@
 scheb_two_factor:
     security_tokens:
         - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
-
     email:
         enabled: true
         mailer: Symfony\Component\Mailer\MailerInterface
-        sender_email: "rjkz.rjk1@mail.ru"
+        sender_email: "testSYMFONY25@yandex.com"
         sender_name: "My Symfony App"

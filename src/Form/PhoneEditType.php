@@ -15,22 +15,21 @@ class PhoneEditType extends AbstractType
     {
         $builder
             ->add('value', TextType::class, [
-                'label' => 'Номер телефона',
+                'label' => 'Номер телефона', // Поле для ввода номера телефона
             ])
             ->add('phones', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'prototype' => true,
-                'by_reference' => false,
-
+                'entry_type' => TextType::class, // Тип элементов коллекции (текстовое поле)
+                'allow_add' => true, // Разрешение на добавление новых элементов
+                'allow_delete' => true, // Разрешение на удаление элементов
+                'prototype' => true, // Включение прототипа для динамического добавления элементов
+                'by_reference' => false, // Изменения применяются напрямую к объекту
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Phone::class,
+            'data_class' => Phone::class, // Указываем, что форма связана с сущностью Phone
         ]);
     }
 }

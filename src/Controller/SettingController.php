@@ -12,32 +12,43 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SettingController extends AbstractController
 {
-    #[Route('/settings', name: 'settings_edit', methods: ['GET', 'POST'])]  // Определение маршрута для редактирования настроек
-    public function edit(Request $request, EntityManagerInterface $entityManager): Response  // Метод для редактирования настроек
+    // Определяет маршрут для редактирования настроек
+    #[Route('/settings', name: 'settings_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $settingRepository = $entityManager->getRepository(Setting::class);  // Получаем репозиторий для сущности Setting
-        $setting = $settingRepository->findOneBy([]);  // Ищем настройки в базе данных
+        // Получает репозиторий для сущности Setting
+        $settingRepository = $entityManager->getRepository(Setting::class);
+        // Находит настройки в базе данных
+        $setting = $settingRepository->findOneBy([]);
 
-        if (!$setting) {  // Если настройки не найдены, создаем новые
-            $setting = new Setting();  // Создаем новый объект настроек
-            $setting->setTaxRate(10.00);  // Устанавливаем налоговую ставку по умолчанию
-            $entityManager->persist($setting);  // Подготавливаем объект для сохранения
-            $entityManager->flush();  // Сохраняем изменения в базе данных
+        // Если настройки не найдены, создает новые
+        if (!$setting) {
+            $setting = new Setting(); // Создает новый объект настроек
+            $setting->setTaxRate(10.00); // Устанавливает налоговую ставку по умолчанию
+            $entityManager->persist($setting); // Подготавливает объект для сохранения
+            $entityManager->flush(); // Сохраняет изменения в базе данных
         }
 
-        $form = $this->createForm(SettingType::class, $setting);  // Создаем форму для редактирования настроек
-        $form->handleRequest($request);  // Обрабатываем запрос для формы
+        // Создает форму для редактирования настроек
+        $form = $this->createForm(SettingType::class, $setting);
+        $form->handleRequest($request); // Обрабатывает запрос для формы
 
-        if ($form->isSubmitted() && $form->isValid()) {  // Если форма отправлена и валидна
-            $entityManager->flush();  // Сохраняем изменения в базе данных
+        // Если форма отправлена и валидна, сохраняет изменения
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Если объект новый, вызываем persist()
+            if (!$setting->getId()) {
+                $entityManager->persist($setting);
+            }
+            $entityManager->flush(); // Сохраняет изменения в базе данных
 
-            return $this->redirectToRoute('settings_edit');  // Перенаправляем на страницу редактирования настроек
+            // Перенаправляет на страницу редактирования настроек
+            return $this->redirectToRoute('settings_edit');
         }
 
-        // Отображаем страницу редактирования настроек
+        // Отображает страницу редактирования настроек
         return $this->render('settings/edit.html.twig', [
-            'setting' => $setting,  // Передаем объект настроек
-            'form' => $form->createView(),  // Передаем форму
+            'setting' => $setting, // Объект настроек
+            'form' => $form->createView(), // Форма для редактирования настроек
         ]);
     }
 }

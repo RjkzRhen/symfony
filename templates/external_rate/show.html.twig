@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExternalRate{% endblock %}
+
+{% block body %}
+    <h1>ExternalRate</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ external_rate.id }}</td>
+            </tr>
+            <tr>
+                <th>EmployeeId</th>
+                <td>{{ external_rate.employeeId }}</td>
+            </tr>
+            <tr>
+                <th>StartDate</th>
+                <td>{{ external_rate.startDate ? external_rate.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndDate</th>
+                <td>{{ external_rate.endDate ? external_rate.endDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ external_rate.value }}</td>
+            </tr>
+            <tr>
+                <th>CounterpartyId</th>
+                <td>{{ external_rate.counterpartyId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_external_rate_index') }}">back to list</a>
+
+    <a href="{{ path('app_external_rate_edit', {'id': external_rate.id}) }}">edit</a>
+
+    {{ include('external_rate/_delete_form.html.twig') }}
+{% endblock %}

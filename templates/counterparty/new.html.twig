@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Добавить контрагента{% endblock %}
+
+{% block body %}
+    <div class="form-holder">
+        <div class="form-content">
+            <div class="form-items">
+                <h3>Добавить контрагента</h3>
+                {{ form_start(form, {'attr': {'class': 'requires-validation', 'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        {{ form_label(form.name, 'Название контрагента:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите название контрагента.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('app_counterparty_index') }}" class="btn btn-secondary mt-3">Назад к списку</a>
+{% endblock %}

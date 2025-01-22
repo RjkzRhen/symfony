@@ -31,16 +31,19 @@ class Apartment
     #[ORM\Column(type: 'string', length: 10)]
     private $apartmentNumber;
 
+    // Возвращает идентификатор квартиры
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Возвращает имя владельца квартиры
     public function getOwnerName(): ?string
     {
         return $this->ownerName;
     }
 
+    // Устанавливает имя владельца квартиры
     public function setOwnerName(?string $ownerName): self
     {
         $this->ownerName = $ownerName;
@@ -48,11 +51,13 @@ class Apartment
         return $this;
     }
 
+    // Возвращает номер телефона владельца квартиры
     public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
+    // Устанавливает номер телефона владельца квартиры
     public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
@@ -60,11 +65,13 @@ class Apartment
         return $this;
     }
 
+    // Возвращает номер домофона квартиры
     public function getIntercomNumber(): ?string
     {
         return $this->intercomNumber;
     }
 
+    // Устанавливает номер домофона квартиры
     public function setIntercomNumber(?string $intercomNumber): self
     {
         $this->intercomNumber = $intercomNumber;
@@ -72,11 +79,13 @@ class Apartment
         return $this;
     }
 
+    // Возвращает количество жильцов в квартире
     public function getResidentsCount(): ?int
     {
         return $this->residentsCount;
     }
 
+    // Устанавливает количество жильцов в квартире
     public function setResidentsCount(?int $residentsCount): self
     {
         $this->residentsCount = $residentsCount;
@@ -84,11 +93,13 @@ class Apartment
         return $this;
     }
 
+    // Возвращает количество комнат в квартире
     public function getRoomsCount(): ?int
     {
         return $this->roomsCount;
     }
 
+    // Устанавливает количество комнат в квартире
     public function setRoomsCount(?int $roomsCount): self
     {
         $this->roomsCount = $roomsCount;
@@ -96,11 +107,13 @@ class Apartment
         return $this;
     }
 
+    // Возвращает номер квартиры
     public function getApartmentNumber(): ?string
     {
         return $this->apartmentNumber;
     }
 
+    // Устанавливает номер квартиры
     public function setApartmentNumber(string $apartmentNumber): self
     {
         $this->apartmentNumber = $apartmentNumber;

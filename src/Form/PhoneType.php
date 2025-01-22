@@ -17,19 +17,19 @@ class PhoneType extends AbstractType
     {
         $builder
             ->add('user', EntityType::class, [
-                'class' => User::class,
+                'class' => User::class, // Указываем сущность User
                 'choice_label' => function(User $user) {
-                    return $user->getLastName() . ' ' . $user->getFirstName() . ' ' . $user->getMiddleName();
+                    return $user->getLastName() . ' ' . $user->getFirstName() . ' ' . $user->getMiddleName(); // Отображаем ФИО пользователя
                 },
-                'label' => 'Пользователь',
-                'disabled' => false, // Убедитесь, что поле не отключено
+                'label' => 'Пользователь', // Поле для выбора пользователя
+                'disabled' => false, // Поле не отключено
             ])
             ->add('phones', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'prototype' => true,
-                'by_reference' => false,
+                'entry_type' => TextType::class, // Тип элементов коллекции (текстовое поле)
+                'allow_add' => true, // Разрешение на добавление новых элементов
+                'allow_delete' => true, // Разрешение на удаление элементов
+                'prototype' => true, // Включение прототипа для динамического добавления элементов
+                'by_reference' => false, // Изменения применяются напрямую к объекту
                 'label' => false, // Убираем метку для поля phones
             ]);
     }
@@ -37,7 +37,7 @@ class PhoneType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Phone::class,
+            'data_class' => Phone::class, // Указываем, что форма связана с сущностью Phone
         ]);
     }
 }

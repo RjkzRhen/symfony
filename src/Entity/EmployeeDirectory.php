@@ -28,16 +28,19 @@ class EmployeeDirectory
     #[ORM\Column]
     private ?int $telegramId = null;
 
+    // Возвращает идентификатор сотрудника
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Возвращает фамилию сотрудника
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    // Устанавливает фамилию сотрудника
     public function setLastName(?string $lastName): static
     {
         $this->lastName = $lastName;
@@ -45,11 +48,13 @@ class EmployeeDirectory
         return $this;
     }
 
+    // Возвращает имя сотрудника
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
+    // Устанавливает имя сотрудника
     public function setFirstName(?string $firstName): static
     {
         $this->firstName = $firstName;
@@ -57,11 +62,13 @@ class EmployeeDirectory
         return $this;
     }
 
+    // Возвращает отчество сотрудника
     public function getMiddleName(): ?string
     {
         return $this->middleName;
     }
 
+    // Устанавливает отчество сотрудника
     public function setMiddleName(string $middleName): static
     {
         $this->middleName = $middleName;
@@ -69,11 +76,13 @@ class EmployeeDirectory
         return $this;
     }
 
+    // Возвращает должность сотрудника
     public function getPosition(): ?string
     {
         return $this->position;
     }
 
+    // Устанавливает должность сотрудника
     public function setPosition(?string $position): static
     {
         $this->position = $position;
@@ -81,11 +90,13 @@ class EmployeeDirectory
         return $this;
     }
 
+    // Возвращает ID Telegram сотрудника
     public function getTelegramId(): ?int
     {
         return $this->telegramId;
     }
 
+    // Устанавливает ID Telegram сотрудника
     public function setTelegramId(int $telegramId): static
     {
         $this->telegramId = $telegramId;

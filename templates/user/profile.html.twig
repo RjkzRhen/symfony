@@ -1,3 +1,5 @@
+{# templates/user/profile.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Profile{% endblock %}
@@ -5,116 +7,128 @@
 {% block body %}
     <div class="profile-background">
         <div class="profile-content">
-            <div class="profile-card">
-                <div class="card-body text-center">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                         class="rounded-circle img-fluid" style="width: 150px;">
-                    <h5 class="my-3" style="color: black;">{{ user.username }}</h5>
-                    <p class="text-muted mb-1">{{ user.firstName }} {{ user.lastName }}</p>
-                    <p class="text-muted mb-4">{{ user.age }} years old</p>
-                    <p class="text-muted mb-4">Email: {{ user.email }}</p>
-                    <p class="text-muted mb-4">Phone: {{ user.phoneValue }}</p>
-                </div>
-                <div class="card-body">
-                    {% for message in app.flashes('success') %}
-                        <div class="alert alert-success">
-                            {{ message }}
+            <div class="profile-container">
+                <!-- Левая колонка с фото и кнопками -->
+                <div class="profile-left">
+                    <div class="profile-card">
+                        <div class="card-body text-center">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                                 class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3" style="color: black;">{{ user.username }}</h5>
                         </div>
-                    {% endfor %}
-                    {% for message in app.flashes('error') %}
-                        <div class="alert alert-danger">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    </div>
 
-                    <form method="post" action="{{ path('app_profile_update') }}">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">Last Name</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="text" name="lastName" class="form-control" value="{{ user.lastName }}" />
-                            </div>
+                    <div class="profile-actions">
+                        <div class="text-center mt-3">
+                            <a href="{{ path('app_reset_password_request') }}" class="btn btn-primary">Change Password</a>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">First Name</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="text" name="firstName" class="form-control" value="{{ user.firstName }}" />
-                            </div>
+
+                        <div class="text-center mt-3">
+                            <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">Middle Name</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="text" name="middleName" class="form-control" value="{{ user.middleName }}" />
-                            </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка с информацией и формой -->
+                <div class="profile-right">
+                    <div class="profile-card">
+                        <div class="card-body">
+                            {% for message in app.flashes('success') %}
+                                <div class="alert alert-success">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                            {% for message in app.flashes('error') %}
+                                <div class="alert alert-danger">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+
+                            <form method="post" action="{{ path('app_profile_update') }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('update_profile') }}">
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" style="color: black;">Last Name</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="lastName" class="form-control" value="{{ user.lastName }}" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" style="color: black;">First Name</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="firstName" class="form-control" value="{{ user.firstName }}" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" style="color: black;">Middle Name</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="middleName" class="form-control" value="{{ user.middleName }}" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" style="color: black;">Age</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="number" name="age" class="form-control" value="{{ user.age }}" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" style="color: black;">Username</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="username" class="form-control" value="{{ user.username }}" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" style="color: black;">Email</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="email" name="email" class="form-control" value="{{ user.email }}" />
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="mb-0" style="color: black;">Phones</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div id="phone_phones_container">
+                                            {% for phone in user.phones %}
+                                                <div class="form-group mb-3">
+                                                    <input type="text" name="phones[]" class="form-control" value="{{ phone.value }}" />
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <button type="button" id="add_phone_button" class="btn btn-secondary mb-3">Add Phone</button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="text-center mt-3">
+                                    {% if app.user.isTwoFactorEnabled %}
+                                        <a href="{{ path('app_disable_2fa') }}" class="btn btn-warning">Отключить 2FA</a>
+                                    {% else %}
+                                        <a href="{{ path('app_enable_2fa') }}" class="btn btn-success">Включить 2FA</a>
+                                    {% endif %}
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">Age</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="number" name="age" class="form-control" value="{{ user.age }}" />
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">Username</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="text" name="username" class="form-control" value="{{ user.username }}" />
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">Email</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="email" name="email" class="form-control" value="{{ user.email }}" />
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">Phone</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="text" name="phone" class="form-control" value="{{ user.phoneValue }}" />
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">2FA Method</label>
-                            </div>
-                            <div class="text-center">
-                                <a href="{{ path('app_2fa_settings') }}" class="btn btn-primary">Manage 2FA Settings</a>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row" id="telegramIdField" style="display: {{ user.twoFactorMethod == 'telegram' ? 'block' : 'none' }};">
-                            <div class="col-sm-3">
-                                <label class="mb-0" style="color: black;">Telegram ID</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="text" name="telegramId" class="form-control" value="{{ user.telegramId }}" />
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
-                    <div class="text-center mt-3">
-                        <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
                     </div>
                 </div>
             </div>
@@ -122,13 +136,16 @@
     </div>
 
     <script>
-        document.querySelector('select[name="twoFactorMethod"]').addEventListener('change', function() {
-            const telegramIdField = document.getElementById('telegramIdField');
-            if (this.value === 'telegram') {
-                telegramIdField.style.display = 'block';
-            } else {
-                telegramIdField.style.display = 'none';
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('phone_phones_container');
+            const addButton = document.getElementById('add_phone_button');
+
+            addButton.addEventListener('click', function() {
+                const newField = document.createElement('div');
+                newField.classList.add('form-group', 'mb-3');
+                newField.innerHTML = '<input type="text" name="phones[]" class="form-control" />';
+                container.appendChild(newField);
+            });
         });
     </script>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}Phone Directory{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="workspace-content">
         <h1 class="display-4 text-primary mb-4">Телефонный справочник</h1>
         <a href="{{ path('phone_new') }}" class="btn btn-success mb-3">Добавить новый телефон</a>
 
@@ -17,34 +17,45 @@
         <button type="submit" class="btn btn-primary">Фильтр</button>
         {{ form_end(filterForm) }}
 
-        <div class="row">
+        <table class="table-modern">
+            <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Телефоны</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for group in groupedPhones %}
-                <div class="col-md-4">
-                    <div class="user-card">
-                        <h3>{{ group.user.lastName }} {{ group.user.firstName }}</h3>
-                        <p><strong>Отчество:</strong> {{ group.user.middleName }}</p>
-                        <p><strong>Телефоны:</strong></p>
+                <tr>
+                    <td>{{ group.user.lastName }}</td>
+                    <td>{{ group.user.firstName }}</td>
+                    <td>{{ group.user.middleName }}</td>
+                    <td>
                         <ul>
-                            {% for phone in group.phones %}
+                            {% for phone in group.user.phones %}
                                 <li>{{ phone.value }}</li>
                             {% endfor %}
                         </ul>
-                        <div class="actions">
-                            <a href="{{ path('phone_edit', {'id': group.phones[0].id}) }}" class="btn btn-primary btn-sm">Изменить</a>
-                            <a href="{{ path('phone_add_to_user', {'id': group.user.id}) }}" class="btn btn-success btn-sm">Добавить номер</a>
-                            <form action="{{ path('phone_delete', {'id': group.phones[0].id}) }}" method="POST" style="display:inline;">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ group.phones[0].id) }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                    </td>
+                    <td class="actions">
+                        <a href="{{ path('phone_edit', {'id': group.phones[0].id}) }}" class="btn btn-primary btn-sm">Изменить</a>
+                        <a href="{{ path('phone_add_to_user', {'id': group.user.id}) }}" class="btn btn-success btn-sm">Добавить номер</a>
+                        <form action="{{ path('phone_delete', {'id': group.phones[0].id}) }}" method="POST" style="display:inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ group.phones[0].id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
             {% else %}
-                <div class="col-md-12">
-                    <p>No phones found</p>
-                </div>
+                <tr>
+                    <td colspan="5">No phones found</td>
+                </tr>
             {% endfor %}
-        </div>
+            </tbody>
+        </table>
     </div>
 {% endblock %}

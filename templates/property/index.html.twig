@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Недвижимость{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Наша недвижимость</h1>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="text-right mb-4">
+                <a href="{{ path('property_new') }}" class="btn btn-success">Добавить квартиру</a>
+            </div>
+        {% endif %}
+        <div class="row">
+            {% for property in properties %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ asset('images/properties/' ~ property.image) }}" class="card-img-top" alt="{{ property.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ property.title }}</h5>
+                            <p class="card-text">{{ property.description }}</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Комнат: {{ property.rooms }}</li>
+                                <li class="list-group-item">Площадь: {{ property.area }} м²</li>
+                                <li class="list-group-item">Цена: {{ property.price }} ₽</li>
+                            </ul>
+                            <a href="{{ path('property_show', {'id': property.id}) }}" class="btn btn-primary mt-3">Подробнее</a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('property_edit', {'id': property.id}) }}" class="btn btn-warning mt-3">Редактировать</a>
+                                <form action="{{ path('property_delete', {'id': property.id}) }}" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить эту квартиру?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id) }}">
+                                    <button type="submit" class="btn btn-danger mt-3">Удалить</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

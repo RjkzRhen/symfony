@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Добавить детали записи в журнал прихода{% endblock %}
+
+{% block body %}
+    <div class="form-holder">
+        <div class="form-content">
+            <div class="form-items">
+                <h3>Добавить детали записи в журнал прихода</h3>
+                {{ form_start(form, {'attr': {'class': 'requires-validation', 'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.employee, 'Сотрудник:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.employee, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, выберите сотрудника.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.externalRate, 'Внешняя ставка:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.externalRate, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, выберите внешнюю ставку.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.counterparty, 'Контрагент:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.counterparty, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, выберите контрагента.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.unit, 'Единица измерения:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.unit, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, выберите единицу измерения.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.value, 'Значение:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.value, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите значение.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.amount, 'Сумма:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.amount, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите сумму.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('arrival_journal_show', {'id': arrival_journal.id}) }}" class="btn btn-secondary mt-3">Назад к записи</a>
+{% endblock %}

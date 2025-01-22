@@ -87,16 +87,6 @@ app_profile_update:
     controller: App\Controller\ProfileController::updateProfile
     methods: [POST]
 
-app_resend_2fa:
-    path: /resend-2fa-code
-    controller: App\Controller\SecurityController::resendTwoFactorCode
-    methods: [POST]
-
-app_2fa_settings:
-    path: /profile/2fa-settings
-    controller: App\Controller\ProfileController::twoFactorSettings
-    methods: [GET, POST]
-
 settings_show:
     path: /settings
     controller: App\Controller\SettingController::show
@@ -159,4 +149,196 @@ app_admin_chat:
 app_admin_chat_view:
     path: /admin/chat/{id}
     controller: App\Controller\AdminChatController::viewChat
+    methods: [GET, POST]
+
+app_reset_password_request:
+    path: /reset-password
+    controller: App\Controller\ResetPasswordController::request
+    methods: [GET, POST]
+
+app_reset_password_verify:
+    path: /reset-password/verify
+    controller: App\Controller\ResetPasswordController::verify
+    methods: [GET, POST]
+
+app_forgot_password:
+    path: /forgot-password
+    controller: App\Controller\SecurityController::forgotPassword
+    methods: [GET, POST]
+
+app_change_password_page:
+    path: /profile/change-password
+    controller: App\Controller\ProfileController::changePasswordPage
+    methods: [GET, POST]
+
+app_payment:
+    path: /payment
+    controller: App\Controller\PaymentController::index
+    methods: [GET, POST]
+
+property_index:
+    path: /properties
+    controller: App\Controller\PropertyController::index
+    methods: GET
+
+property_show:
+    path: /property/{id}
+    controller: App\Controller\PropertyController::show
+    methods: GET
+    requirements:
+        id: '\d+'
+
+property_new:
+    path: /property/new
+    controller: App\Controller\PropertyController::new
+    methods: [GET, POST]
+
+property_edit:
+    path: /property/{id}/edit
+    controller: App\Controller\PropertyController::edit
+    methods: [GET, POST]
+    requirements:
+        id: '\d+'
+
+property_delete:
+    path: /property/{id}/delete
+    controller: App\Controller\PropertyController::delete
+    methods: POST
+    requirements:
+        id: '\d+'
+
+about_us:
+    path: /about-us
+    controller: App\Controller\PropertyController::index
+
+external_rate_index:
+    path: /external-rate
+    controller: App\Controller\ExternalRateController::index
+    methods: GET
+
+external_rate_new:
+    path: /external-rate/new
+    controller: App\Controller\ExternalRateController::new
+    methods: [GET, POST]
+
+external_rate_edit:
+    path: /external-rate/{id}/edit
+    controller: App\Controller\ExternalRateController::edit
+    methods: [GET, POST]
+    requirements:
+        id: \d+
+
+external_rate_delete:
+    path: /external-rate/{id}/delete
+    controller: App\Controller\ExternalRateController::delete
+    methods: [DELETE]
+    requirements:
+        id: \d+
+
+unit_index:
+    path: /admin/unit
+    controller: App\Controller\UnitController::index
+    methods: GET
+
+unit_new:
+    path: /admin/unit/new
+    controller: App\Controller\UnitController::new
+    methods: [GET, POST]
+
+unit_show:
+    path: /admin/unit/{id}
+    controller: App\Controller\UnitController::show
+    methods: GET
+
+unit_edit:
+    path: /admin/unit/{id}/edit
+    controller: App\Controller\UnitController::edit
+    methods: [GET, POST]
+
+unit_delete:
+    path: /admin/unit/{id}
+    controller: App\Controller\UnitController::delete
+    methods: POST
+
+arrival_journal_index:
+    path: /admin/arrival-journal
+    controller: App\Controller\ArrivalJournalController::index
+    methods: GET
+
+arrival_journal_new:
+    path: /admin/arrival-journal/new
+    controller: App\Controller\ArrivalJournalController::new
+    methods: [GET, POST]
+
+arrival_journal_show:
+    path: /admin/arrival-journal/{id}
+    controller: App\Controller\ArrivalJournalController::show
+    methods: GET
+
+arrival_journal_edit:
+    path: /admin/arrival-journal/{id}/edit
+    controller: App\Controller\ArrivalJournalController::edit
+    methods: [GET, POST]
+
+arrival_journal_delete:
+    path: /admin/arrival-journal/{id}
+    controller: App\Controller\ArrivalJournalController::delete
+    methods: POST
+
+counterparty_index:
+    path: /counterparty
+    controller: App\Controller\CounterpartyController::index
+    methods: GET
+
+counterparty_new:
+    path: /counterparty/new
+    controller: App\Controller\CounterpartyController::new
+    methods: [GET, POST]
+
+counterparty_show:
+    path: /counterparty/{id}
+    controller: App\Controller\CounterpartyController::show
+    methods: GET
+
+counterparty_edit:
+    path: /counterparty/{id}/edit
+    controller: App\Controller\CounterpartyController::edit
+    methods: [GET, POST]
+
+counterparty_delete:
+    path: /counterparty/{id}
+    controller: App\Controller\CounterpartyController::delete
+    methods: POST
+
+arrival_journal_detail_edit:
+    path: /admin/arrival-journal-detail/{id}/edit
+    controller: App\Controller\ArrivalJournalController::editDetail
+    methods: [GET, POST]
+    requirements:
+        id: \d+
+
+suggest_address:
+    path: /suggest-address
+    controller: App\Controller\DaDataController::suggestAddress
+    methods: [GET, POST]
+
+
+app_verify_2fa:
+    path: /verify-2fa
+    controller: App\Controller\Verify2FAController::verify2FA
+    methods: [GET, POST]
+
+app_enable_2fa:
+    path: /enable-2fa
+    controller: App\Controller\TwoFactorAuthController::enable2FA
+    methods: [GET, POST]
+
+app_disable_2fa:
+    path: /disable-2fa
+    controller: App\Controller\TwoFactorAuthController::disable2FA
+    methods: [GET, POST]
+
+app_send_2fa_code:
+    path: /send-2fa-code
+    controller: App\Controller\SecurityController::send2FACode
     methods: [GET, POST]

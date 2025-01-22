@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExternalRate index{% endblock %}
+
+{% block body %}
+    <div class="workspace-content">
+        <h1 class="mb-4">ExternalRate index</h1>
+        <a href="{{ path('app_external_rate_new') }}" class="btn btn-primary mb-3">Create new</a>
+
+        <table class="table-modern">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>EmployeeId</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>Value</th>
+                <th>CounterpartyId</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for external_rate in external_rates %}
+                <tr>
+                    <td>{{ external_rate.id }}</td>
+                    <td>{{ external_rate.employeeId }}</td>
+                    <td>{{ external_rate.startDate ? external_rate.startDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ external_rate.endDate ? external_rate.endDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ external_rate.value }}</td>
+                    <td>{{ external_rate.counterpartyId }}</td>
+                    <td class="actions">
+                        <a href="{{ path('app_external_rate_show', {'id': external_rate.id}) }}" class="btn btn-info btn-sm">Show</a>
+                        <a href="{{ path('app_external_rate_edit', {'id': external_rate.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -7,67 +7,42 @@ body {
     background-position: center;
 }
 
-/* Стили для меню */
-header {
+/* Стили для боковой панели */
+.sidebar {
+    height: 100%;
+    width: 0;
     position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
-    width: 100%;
-    background-image: url('../images/fon23.jpg');
-    background-size: cover;
-    background-position: center;
-    z-index: 1000;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
 }
 
-.main-menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-}
-
-.menu-left, .menu-right {
-    display: flex;
-    align-items: center;
-}
-
-.main-menu a {
-    color: #fff;
+.sidebar a {
     padding: 10px 15px;
     text-decoration: none;
-    transition: background-color 0.3s;
+    font-size: 18px;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
 }
 
-.main-menu a:hover {
+.sidebar a:hover {
     background-color: #575757;
 }
 
-.main-menu .has-submenu {
-    position: relative;
-}
-
-.main-menu .submenu {
-    display: none;
+.sidebar .closebtn {
     position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #333;
-    min-width: 160px;
-    z-index: 1001;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }
 
-.main-menu .submenu a {
-    display: block;
-    padding: 10px 15px;
-}
 
-.main-menu .submenu a:hover {
-    background-color: #575757;
-}
-
-.main-menu .has-submenu.open .submenu {
-    display: block;
-}
 
 .logout-button {
     color: #fff;
@@ -239,6 +214,171 @@ header {
 
 .user-card ul li {
     color: #ffffff;
+}
+/* Рабочее пространство */
+.workspace {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.workspace-sidebar {
+    grid-column: 1 / 2;
+    grid-row: 1 / -1;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.workspace-header {
+    grid-column: 2 / -1;
+    grid-row: 1 / 2;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.workspace-content {
+    grid-column: 2 / -1;
+    grid-row: 2 / -1;
+    background-image: url('../images/backgroundd.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+/* Стили для профиля  */
+.profile-container {
+     display: flex;
+     flex-direction: row;
+     gap: 20px;
+ }
+
+.profile-left {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-right {
+    flex: 1;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+/* Стили для таблиц */
+.table-modern {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.table-modern th,
+.table-modern td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.table-modern th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+}
+
+.table-modern tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table-modern tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table-modern tr:nth-child(even):hover {
+    background-color: #f1f1f1;
+}
+
+.table-modern .actions {
+    display: flex;
+    gap: 10px;
+}
+
+.table-modern .btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.table-modern .btn-primary {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+}
+
+.table-modern .btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.table-modern .btn-danger {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+}
+
+.table-modern .btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.table-modern .btn-success {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+}
+
+.table-modern .btn-success:hover {
+    background-color: #27ae60;
+}
+.submenu {
+    display: none;
+    padding-left: 20px;
+}
+
+.submenu a {
+    font-size: 16px;
+}
+
+/* Стили для форм */
+.form-inline {
+    display: flex;
+    align-items: center;
+}
+
+.form-inline .form-group {
+    margin-right: 10px;
+}
+
+.form-inline .form-control {
+    margin-right: 10px;
 }
 
 /* Стили для формы входа */

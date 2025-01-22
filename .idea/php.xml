@@ -132,6 +132,9 @@
       <path value="$PROJECT_DIR$/vendor/scheb/2fa-email" />
       <path value="$PROJECT_DIR$/vendor/telegram-bot/api" />
       <path value="$PROJECT_DIR$/vendor/nelmio/cors-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jms/metadata" />
+      <path value="$PROJECT_DIR$/vendor/vich/uploader-bundle" />
+      <path value="$PROJECT_DIR$/vendor/mindplay/annotations" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

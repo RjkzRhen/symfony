@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Журнал прихода{% endblock %}
+
+{% block body %}
+    <div class="workspace-content">
+        <h1 class="mb-4">Журнал прихода</h1>
+        <a href="{{ path('arrival_journal_new') }}" class="btn btn-primary mb-3">Добавить запись</a>
+
+        <table class="table-modern">
+            <thead>
+            <tr>
+                <th>Наименование</th>
+                <th>Дата создания</th>
+                <th>Дата обновления</th>
+                <th>Дата удаления</th>
+                <th>Кто создал</th>
+                <th>Кто удалил</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for arrival_journal in arrival_journals %}
+                <tr>
+                    <td>{{ arrival_journal.name }}</td>
+                    <td>{{ arrival_journal.createdAt|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ arrival_journal.updatedAt|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ arrival_journal.deletedAt ? arrival_journal.deletedAt|date('Y-m-d H:i:s', 'Europe/Moscow') : '' }}</td>
+                    <td>{{ arrival_journal.createdBy.username }}</td>
+                    <td>{{ arrival_journal.deletedBy ? arrival_journal.deletedBy.username : '' }}</td>
+                    <td class="actions">
+                        <a href="{{ path('arrival_journal_show', {'id': arrival_journal.id}) }}" class="btn btn-info btn-sm">Просмотр</a>
+                        <a href="{{ path('arrival_journal_edit', {'id': arrival_journal.id}) }}" class="btn btn-warning btn-sm">Редактировать</a>
+                        <form action="{{ path('arrival_journal_delete', {'id': arrival_journal.id}) }}" method="POST" class="d-inline">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ arrival_journal.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Записи не найдены</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{# templates/reset_password/request.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Запрос восстановления пароля{% endblock %}
+
+{% block body %}
+    <div class="register-form-container">
+        <h3 class="text-center">Запрос восстановления пароля</h3>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary btn-block">Отправить код</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

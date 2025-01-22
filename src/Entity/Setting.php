@@ -17,16 +17,19 @@ class Setting
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
     private ?string $tax_rate = null;
 
+    // Возвращает идентификатор настройки
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Возвращает налоговую ставку
     public function getTaxRate(): ?string
     {
         return $this->tax_rate;
     }
 
+    // Устанавливает налоговую ставку
     public function setTaxRate(string $tax_rate): static
     {
         $this->tax_rate = $tax_rate;

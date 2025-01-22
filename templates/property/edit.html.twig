@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать квартиру{% endblock %}
+
+{% block body %}
+    <div class="container register-form">
+        <div class="form">
+            <div class="note">
+                <p>Редактировать квартиру</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.address, 'Адрес:') }}
+                        {{ form_widget(form.address, {'attr': {'class': 'form-control', 'placeholder': 'Адрес'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.rooms, 'Количество комнат:') }}
+                        {{ form_widget(form.rooms, {'attr': {'class': 'form-control', 'placeholder': 'Количество комнат'}}) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.area, 'Площадь:') }}
+                        {{ form_widget(form.area, {'attr': {'class': 'form-control', 'placeholder': 'Площадь'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.price, 'Цена:') }}
+                        {{ form_widget(form.price, {'attr': {'class': 'form-control', 'placeholder': 'Цена'}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-content">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.title, 'Название:') }}
+                            {{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'Название'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.description, 'Описание:') }}
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Описание', 'rows': 4}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.imageFile, 'Изображение:') }}
+                            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btnSubmit">Сохранить</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

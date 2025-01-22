@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Поиск адреса через DaData{% endblock %}
+
+{% block body %}
+    <h1>Поиск адреса</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.address) }}
+    <button type="submit" class="btn btn-primary">Найти</button>
+    {{ form_end(form) }}
+
+    {% if suggestions %}
+        <h2>Результаты:</h2>
+        <ul>
+            {% for suggestion in suggestions %}
+                <li>{{ suggestion.value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

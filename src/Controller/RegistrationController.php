@@ -1,5 +1,7 @@
 <?php
 
+// src/Controller/RegistrationController.php
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -10,37 +12,53 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]  // Определение маршрута для регистрации
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response  // Метод для регистрации
-    {
-        $user = new User();  // Создаем новый объект пользователя
-        $form = $this->createForm(RegistrationFormType::class, $user);  // Создаем форму регистрации
+    #[Route('/register', name: 'app_register')]
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator
+    ): Response {
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
 
-        $form->handleRequest($request);  // Обрабатываем запрос для формы
-        if ($form->isSubmitted() && $form->isValid()) {  // Если форма отправлена и валидна
-            // Хешируем пароль
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Приводим username к нижнему регистру
+            $username = strtolower($form->get('username')->getData());
+            $user->setUsername($username);
+
+            // Проверяем уникальность username
+            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+            if ($existingUser) {
+                $this->addFlash('error', 'Этот логин уже занят.');
+                return $this->redirectToRoute('app_register');
+            }
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()  // Получаем пароль из формы
+                    $form->get('plainPassword')->getData()
                 )
             );
 
-            // Сохраняем пользователя
-            $entityManager->persist($user);  // Подготавливаем объект для сохранения
-            $entityManager->flush();  // Сохраняем изменения в базе данных
+            $user->setEmail($form->get('email')->getData());
 
-            // Редирект после успешной регистрации
-            $this->addFlash('success', 'Регистрация прошла успешно!');  // Добавляем сообщение об успешной регистрации
-            return $this->redirectToRoute('app_login');  // Перенаправляем на страницу входа
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Регистрация прошла успешно!');
+            return $this->redirectToRoute('app_login');
         }
 
-        // Отображаем страницу регистрации
         return $this->render('security/register.html.twig', [
-            'registrationForm' => $form->createView(),  // Передаем форму
+            'registrationForm' => $form->createView(),
         ]);
     }
+
 }

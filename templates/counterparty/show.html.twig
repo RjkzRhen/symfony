@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Просмотр контрагента{% endblock %}
+
+{% block body %}
+    <div class="workspace-content">
+        <h1 class="mb-4">Просмотр контрагента</h1>
+
+        <table class="table-modern">
+            <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ counterparty.id }}</td>
+            </tr>
+            <tr>
+                <th>Название</th>
+                <td>{{ counterparty.name }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_counterparty_index') }}" class="btn btn-secondary mt-3">Назад к списку</a>
+    </div>
+{% endblock %}

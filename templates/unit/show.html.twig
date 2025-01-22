@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Просмотр единицы измерения{% endblock %}
+
+{% block body %}
+    <div class="workspace-content">
+        <h1 class="mb-4">Просмотр единицы измерения</h1>
+
+        <table class="table-modern">
+            <tbody>
+            <tr>
+                <th>Название</th>
+                <td>{{ unit.name }}</td>
+            </tr>
+            <tr>
+                <th>Код</th>
+                <td>{{ unit.code }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('unit_index') }}" class="btn btn-secondary mt-3">Назад к списку</a>
+    </div>
+{% endblock %}

@@ -13,6 +13,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
             lazy: true
             provider: app_user_provider
@@ -22,32 +23,32 @@ security:
                 username_parameter: username
                 password_parameter: password
                 default_target_path: app_profile
+
             logout:
                 path: app_logout
                 target: app_login
+
             two_factor:
-                auth_form_path: app_2fa
-                check_path: app_2fa_check
+                auth_form_path: app_send_2fa_code  # Промежуточный шаг для отправки кода
+                check_path: app_verify_2fa
                 default_target_path: app_profile
 
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/send-2fa-code, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }  # Новый маршрут для отправки кода
+        - { path: ^/verify-2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/employee/directory, roles: ROLE_ADMIN }
         - { path: ^/phone, roles: ROLE_ADMIN }
         - { path: ^/users, roles: ROLE_ADMIN }
         - { path: ^/settings, roles: ROLE_ADMIN }
-        - { path: ^/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         - { path: ^/chat, roles: ROLE_USER }
         - { path: ^/admin/chat, roles: ROLE_ADMIN }
-
-when@test:
-    security:
-        password_hashers:
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4
-                time_cost: 3
-                memory_cost: 10
+        - { path: ^/properties, roles: PUBLIC_ACCESS }
+        - { path: ^/property, roles: PUBLIC_ACCESS }
+        - { path: ^/external-rate, roles: ROLE_ADMIN }
+        - { path: ^/admin/unit, roles: ROLE_ADMIN }
+        - { path: ^/admin/arrival-journal, roles: ROLE_ADMIN }
+        - { path: ^/counterparty, roles: ROLE_ADMIN }

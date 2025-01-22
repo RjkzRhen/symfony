@@ -2,6 +2,7 @@ parameters:
     recaptcha.site_key: '6LfoZq0qAAAAAOTj4Sd60mGCM0ehB4Eom5p_UKBu'
     recaptcha.secret_key: '6LfoZq0qAAAAACpvPWoruK5B5YaDpCqu5CUoPQUd'
     telegram_bot_token: '7859789005:AAGgrF47UKcFM5ZA4peAg8oYbCsFIT6qKEU'
+    dadata_api_key: '%env(DADATA_API_KEY)%'
 
 services:
     _defaults:
@@ -12,9 +13,19 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+
             - '../src/Kernel.php'
+
+
+    App\Service\DaDataService:
+        arguments:
+            $dadataApiKey: '%dadata_api_key%'
 
     App\Service\TwoFactorAuthService:
         arguments:
-            $telegramBotToken: '%telegram_bot_token%'
+            $mailer: '@mailer'
+
+    App\Repository\ExternalRateRepository:
+        arguments:
+            $registry: '@doctrine'
+        tags: [ 'doctrine.repository_service' ]

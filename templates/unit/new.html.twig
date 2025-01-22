@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Добавить единицу измерения{% endblock %}
+
+{% block body %}
+    <div class="form-holder">
+        <div class="form-content">
+            <div class="form-items">
+                <h3>Добавить единицу измерения</h3>
+                {{ form_start(form, {'attr': {'class': 'requires-validation', 'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.name, 'Название:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите название.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.code, 'Код:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.code, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите код.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('unit_index') }}" class="btn btn-secondary mt-3">Назад к списку</a>
+{% endblock %}

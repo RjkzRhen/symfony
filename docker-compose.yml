@@ -14,8 +14,7 @@ services:
       - symfony_network
     environment:
       - DATABASE_URL=mysql://root:root@db:3306/symfony_project
-      - MAILER_DSN=smtp://mailhog:1025 # Используем MailHog для тестирования
-
+      - MAILER_DSN=smtp://testSYMFONY25:swityladtypyicos@smtp.yandex.com:465
   webserver:
     image: nginx:stable-alpine
     container_name: symfony_webserver
@@ -67,16 +66,6 @@ services:
       start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-    networks:
-      - symfony_network
-
-  mailhog:
-    image: mailhog/mailhog
-    container_name: symfony_mailhog
-    restart: unless-stopped
-    ports:
-      - "8025:8025" # Веб-интерфейс MailHog
-      - "1025:1025" # SMTP-сервер MailHog
     networks:
       - symfony_network
 

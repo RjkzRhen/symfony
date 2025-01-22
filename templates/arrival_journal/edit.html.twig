@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать запись в журнале прихода{% endblock %}
+
+{% block body %}
+    <div class="form-holder">
+        <div class="form-content">
+            <div class="form-items">
+                <h3>Редактировать запись в журнале прихода</h3>
+                {{ form_start(form, {'attr': {'class': 'requires-validation', 'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        {{ form_label(form.name, 'Наименование:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите наименование.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Детали записи</h2>
+    <table class="table-modern">
+        <thead>
+        <tr>
+            <th>Сотрудник</th>
+            <th>Внешняя ставка</th>
+            <th>Контрагент</th>
+            <th>Единица измерения</th>
+            <th>Значение</th>
+            <th>Сумма</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for detail in arrival_journal.details %}
+            <tr>
+                <td>{{ detail.employee.username }}</td>
+                <td>{{ detail.externalRate.value }}</td>
+                <td>{{ detail.counterparty.name }}</td>
+                <td>{{ detail.unit.name }}</td>
+                <td>{{ detail.value }}</td>
+                <td>{{ detail.amount }}</td>
+                <td>
+                    <a href="{{ path('arrival_journal_detail_edit', {'id': detail.id}) }}" class="btn btn-warning btn-sm">Редактировать</a>
+                    <form action="{{ path('arrival_journal_detail_delete', {'id': detail.id}) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ detail.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить эту деталь?')">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Детали записи не найдены</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('arrival_journal_detail', {'id': arrival_journal.id}) }}" class="btn btn-primary mt-3">Добавить детали</a>
+    <a href="{{ path('arrival_journal_index') }}" class="btn btn-secondary mt-3">Назад к списку</a>
+{% endblock %}

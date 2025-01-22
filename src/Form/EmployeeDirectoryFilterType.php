@@ -14,27 +14,27 @@ class EmployeeDirectoryFilterType extends AbstractType
     {
         $builder
             ->add('filterField', ChoiceType::class, [
-                'label' => 'Filter By',
+                'label' => 'Filter By', // Поле для выбора поля фильтрации
                 'choices' => [
-                    'Last Name' => 'lastName',
-                    'First Name' => 'firstName',
-                    'Middle Name' => 'middleName',
-                    'Position' => 'position',
-                    'Telegram ID' => 'telegramId',
+                    'Last Name' => 'lastName', // Фильтр по фамилии
+                    'First Name' => 'firstName', // Фильтр по имени
+                    'Middle Name' => 'middleName', // Фильтр по отчеству
+                    'Position' => 'position', // Фильтр по должности
+                    'Telegram ID' => 'telegramId', // Фильтр по ID Telegram
                 ],
-                'required' => false,
+                'required' => false, // Поле не обязательно для заполнения
             ])
             ->add('filterValue', TextType::class, [
-                'label' => 'Filter Value',
-                'required' => false,
+                'label' => 'Filter Value', // Поле для ввода значения фильтра
+                'required' => false, // Поле не обязательно для заполнения
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'method' => 'GET',
-            'csrf_protection' => false,
+            'method' => 'GET', // Метод отправки формы (GET)
+            'csrf_protection' => false, // Отключение защиты CSRF
         ]);
     }
 }

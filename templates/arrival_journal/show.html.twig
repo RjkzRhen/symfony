@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Просмотр записи в журнале прихода{% endblock %}
+
+{% block body %}
+    <div class="workspace-content">
+        <h1 class="mb-4">Просмотр записи в журнале прихода</h1>
+
+        <table class="table-modern">
+            <tbody>
+            <tr>
+                <th>Наименование</th>
+                <td>{{ arrival_journal.name }}</td>
+            </tr>
+            <tr>
+                <th>Дата создания</th>
+                <td>{{ arrival_journal.createdAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Дата обновления</th>
+                <td>{{ arrival_journal.updatedAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Дата удаления</th>
+                <td>{{ arrival_journal.deletedAt ? arrival_journal.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Кто создал</th>
+                <td>{{ arrival_journal.createdBy.username }}</td>
+            </tr>
+            <tr>
+                <th>Кто удалил</th>
+                <td>{{ arrival_journal.deletedBy ? arrival_journal.deletedBy.username : '' }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Детали записи</h2>
+        <table class="table-modern">
+            <thead>
+            <tr>
+                <th>Сотрудник</th>
+                <th>Внешняя ставка</th>
+                <th>Контрагент</th>
+                <th>Единица измерения</th>
+                <th>Значение</th>
+                <th>Сумма</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for detail in arrival_journal.details %}
+                <tr>
+                    <td>{{ detail.employee.username }}</td>
+                    <td>{{ detail.externalRate.value }}</td>
+                    <td>{{ detail.counterparty.name }}</td>
+                    <td>{{ detail.unit.name }}</td>
+                    <td>{{ detail.value }}</td>
+                    <td>{{ detail.amount }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Детали записи не найдены</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('arrival_journal_detail', {'id': arrival_journal.id}) }}" class="btn btn-primary mt-3">Добавить детали</a>
+        <a href="{{ path('arrival_journal_index') }}" class="btn btn-secondary mt-3">Назад к списку</a>
+    </div>
+{% endblock %}

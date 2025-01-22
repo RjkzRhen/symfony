@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Включение 2FA{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center">Включение двухфакторной аутентификации</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{{ path('app_enable_2fa') }}">
+                            <div class="form-group">
+                                <label for="email">Укажите email для получения кода:</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Включить 2FA</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -5,73 +5,76 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<header>
-    <!-- Основное меню -->
-    <nav class="main-menu">
-        <div class="menu-left">
-            <a href="{{ path('homepage') }}" class="nav-link {{ app.request.attributes.get('_route') == 'homepage' ? 'active' : '' }}">Главная</a>
-            {% if app.user %}
-                <a href="{{ path('app_profile') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_profile' ? 'active' : '' }}">Профиль</a>
-                <a href="{{ path('app_chat') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_chat' ? 'active' : '' }}">Чат с поддержкой</a>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="#" onclick="toggleSubmenu('tables')" id="tables-link" class="nav-link has-submenu {{ app.request.attributes.get('_route') starts with 'employee_directory_index' or app.request.attributes.get('_route') starts with 'phone_index' or app.request.attributes.get('_route') starts with 'user_index' ? 'active' : '' }}">Таблицы</a>
-                    <div class="submenu" id="tables" style="position: absolute; top: 100%; left: 10%;">
-                        <a href="{{ path('employee_directory_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'employee_directory_index' ? 'active' : '' }}">Сотрудники</a>
-                        <a href="{{ path('phone_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'phone_index' ? 'active' : '' }}">Телефоны</a>
-                        <a href="{{ path('user_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'user_index' ? 'active' : '' }}">Пользователи</a>
-                    </div>
+<div class="workspace">
+    <div class="workspace-sidebar" id="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
+        <a href="{{ path('homepage') }}" class="nav-link {{ app.request.attributes.get('_route') == 'homepage' ? 'active' : '' }}">Главная</a>
+        <a href="{{ path('property_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'property_index' ? 'active' : '' }}">О нас</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="#" onclick="toggleSubmenu('tables')" id="tables-link" class="nav-link has-submenu {{ app.request.attributes.get('_route') starts with 'employee_directory_index' or app.request.attributes.get('_route') starts with 'phone_index' or app.request.attributes.get('_route') starts with 'user_index' ? 'active' : '' }}">Таблицы</a>
+            <div class="submenu" id="tables">
+                <a href="{{ path('employee_directory_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'employee_directory_index' ? 'active' : '' }}">Сотрудники</a>
+                <a href="{{ path('phone_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'phone_index' ? 'active' : '' }}">Телефоны</a>
+                <a href="{{ path('user_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'user_index' ? 'active' : '' }}">Пользователи</a>
+            </div>
+            <a href="{{ path('app_payment') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_payment' ? 'active' : '' }}">Оплата</a>
+            <a href="{{ path('apartment_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'apartment_index' ? 'active' : '' }}">Квартиры</a>
+            <a href="{{ path('app_credit_calculator') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_credit_calculator' ? 'active' : '' }}">Кредит</a>
+            <a href="{{ path('settings_edit') }}" class="nav-link {{ app.request.attributes.get('_route') == 'settings_edit' ? 'active' : '' }}">Настройки</a>
+            <a href="{{ path('app_admin_chat') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_admin_chat' ? 'active' : '' }}">Чат поддержки (Админ)</a>
+            <a href="{{ path('external_rate_index') }}" class="nav-link">Внешние ставки</a>
+            <a href="{{ path('unit_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'unit_index' ? 'active' : '' }}">Единицы измерения</a>
+            <a href="{{ path('arrival_journal_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'arrival_journal_index' ? 'active' : '' }}">Журнал прихода</a>
+            <a href="{{ path('counterparty_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'counterparty_index' ? 'active' : '' }}">Контрагенты</a>
+        {% endif %}
+        {% if app.user %}
+            <a href="{{ path('app_profile') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_profile' ? 'active' : '' }}">Профиль</a>
+            <a href="{{ path('app_chat') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_chat' ? 'active' : '' }}">Чат с поддержкой</a>
+            <a href="{{ path('app_payment') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_payment' ? 'active' : '' }}">Оплата</a>
+        {% else %}
+            <a href="{{ path('app_register') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_register' ? 'active' : '' }}">Регистрация</a>
+            <a href="{{ path('app_login') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_login' ? 'active' : '' }}">Войти в профиль</a>
+        {% endif %}
+    </div>
 
-                    <a href="{{ path('apartment_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'apartment_index' ? 'active' : '' }}">Квартиры</a>
-                    <a href="{{ path('app_credit_calculator') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_credit_calculator' ? 'active' : '' }}">Кредит</a>
-                    <a href="{{ path('settings_edit') }}" class="nav-link {{ app.request.attributes.get('_route') == 'settings_edit' ? 'active' : '' }}">Настройки</a>
-                    <a href="{{ path('app_admin_chat') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_admin_chat' ? 'active' : '' }}">Чат поддержки (Админ)</a>
-                {% endif %}
-            {% else %}
-                <a href="{{ path('app_register') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_register' ? 'active' : '' }}">Регистрация</a>
-                <a href="{{ path('app_login') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_login' ? 'active' : '' }}">Войти в профиль</a>
-            {% endif %}
-        </div>
-        <div class="menu-right">
-            {% if app.user %}
-                <div class="logout-container">
-                    <a href="{{ path('app_logout') }}" class="logout-button">Выйти</a>
-                </div>
-            {% endif %}
-        </div>
-    </nav>
-</header>
+    <div class="workspace-header">
+        <button class="openbtn" onclick="toggleSidebar()">&#9776;</button>
+        <h1>{% block header %}Добро пожаловать!{% endblock %}</h1>
+        {% if app.user %}
+            <div class="logout-button">
+                <a href="{{ path('app_logout') }}" class="btn btn-danger">Выйти</a>
+            </div>
+        {% endif %}
+    </div>
 
-<div class="content">
-    {% block body %}
-        <h1>Добро пожаловать!</h1>
-    {% endblock %}
+    <div class="workspace-content">
+        {% block body %}
+            <h1>Добро пожаловать!</h1>
+        {% endblock %}
+    </div>
 </div>
 
 <script>
-    // Функция для переключения видимости подменю
-    function toggleSubmenu(id) {
-        var submenu = document.getElementById(id);
-        var link = document.getElementById(id + '-link');
-        if (submenu.style.display === 'block') {
-            submenu.style.display = 'none'; // Скрываем подменю
-            link.classList.remove('open');
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        if (sidebar.style.display === "none" || sidebar.style.display === "") {
+            sidebar.style.display = "block";
         } else {
-            submenu.style.display = 'block'; // Показываем подменю
-            link.classList.add('open');
+            sidebar.style.display = "none";
         }
     }
 
-    // Автоматическое открытие подменю в зависимости от текущего маршрута
-    document.addEventListener('DOMContentLoaded', function() {
-        var currentRoute = window.location.pathname;
-
-        if (currentRoute.includes('employees') || currentRoute.includes('phones') || currentRoute.includes('users')) {
-            toggleSubmenu('tables');
+    function toggleSubmenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "block") {
+            submenu.style.display = "none";
+        } else {
+            submenu.style.display = "block";
         }
-    });
+    }
 </script>
-
 </body>
 </html>

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ExternalRate{% endblock %}
+
+{% block body %}
+    <div class="form-holder">
+        <div class="form-content">
+            <div class="form-items">
+                <h3>Create new ExternalRate</h3>
+                {{ form_start(form, {'attr': {'class': 'requires-validation', 'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.employeeId, 'Employee ID:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.employeeId, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Please enter the employee ID.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.startDate, 'Start Date:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.startDate, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Please enter the start date.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.endDate, 'End Date:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.value, 'Value:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.value, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Please enter the value.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.counterpartyId, 'Counterparty ID:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.counterpartyId, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                        <div class="invalid-feedback">
+                            Please enter the counterparty ID.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('app_external_rate_index') }}" class="btn btn-secondary mt-3">Back to list</a>
+{% endblock %}

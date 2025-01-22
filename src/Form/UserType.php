@@ -18,36 +18,36 @@ class UserType extends AbstractType
     {
         $builder
             ->add('lastName', TextType::class, [
-                'label' => 'Фамилия',
+                'label' => 'Фамилия', // Поле для ввода фамилии пользователя
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Имя',
+                'label' => 'Имя', // Поле для ввода имени пользователя
             ])
             ->add('middleName', TextType::class, [
-                'label' => 'Отчество',
-                'required' => false,
+                'label' => 'Отчество', // Поле для ввода отчества пользователя
+                'required' => false, // Поле не обязательно для заполнения
             ])
             ->add('age', IntegerType::class, [
-                'label' => 'Возраст',
+                'label' => 'Возраст', // Поле для ввода возраста пользователя
             ])
             ->add('username', TextType::class, [
-                'label' => 'Имя пользователя',
+                'label' => 'Имя пользователя', // Поле для ввода имени пользователя
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Пароль',
+                'label' => 'Пароль', // Поле для ввода пароля
             ]);
 
         // Если форма создается администратором, добавляем поле ролей
         if ($options['is_admin']) {
             $builder->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'Пользователь' => 'ROLE_USER',
-                    'Администратор' => 'ROLE_ADMIN',
+                    'Пользователь' => 'ROLE_USER', // Роль пользователя
+                    'Администратор' => 'ROLE_ADMIN', // Роль администратора
                 ],
                 'multiple' => false, // Изменяем на false, чтобы выбирать только одну роль
                 'expanded' => false, // Изменяем на false, чтобы использовать выпадающий список
-                'label' => 'Роль',
-                'placeholder' => 'Выберите роль', // Добавляем плейсхолдер
+                'label' => 'Роль', // Метка для поля выбора роли
+                'placeholder' => 'Выберите роль', // Плейсхолдер для поля выбора роли
             ]);
 
             // Добавляем преобразователь данных для поля roles
@@ -68,7 +68,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => User::class, // Указываем, что форма связана с сущностью User
             'is_admin' => false, // По умолчанию форма создается без административных прав
         ]);
     }

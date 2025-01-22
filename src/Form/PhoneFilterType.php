@@ -13,22 +13,22 @@ class PhoneFilterType extends AbstractType
     {
         $builder
             ->add('phone', TextType::class, [
-                'label' => 'Фильтр по номеру телефона',
-                'required' => false,
-                'attr' => ['placeholder' => 'Введите номер телефона'],
+                'label' => 'Фильтр по номеру телефона', // Поле для фильтрации по номеру телефона
+                'required' => false, // Поле не обязательно для заполнения
+                'attr' => ['placeholder' => 'Введите номер телефона'], // Плейсхолдер для поля
             ])
             ->add('user', TextType::class, [
-                'label' => 'Фильтр по имени пользователя',
-                'required' => false,
-                'attr' => ['placeholder' => 'Введите имя пользователя'],
+                'label' => 'Фильтр по имени пользователя', // Поле для фильтрации по имени пользователя
+                'required' => false, // Поле не обязательно для заполнения
+                'attr' => ['placeholder' => 'Введите имя пользователя'], // Плейсхолдер для поля
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'method' => 'GET',
-            'csrf_protection' => false,
+            'method' => 'GET', // Метод отправки формы (GET)
+            'csrf_protection' => false, // Отключение защиты CSRF
         ]);
     }
 }

@@ -4,6 +4,8 @@ doctrine:
         server_version: '8.0'  # Укажите версию сервера MySQL
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+        options:
+            1002: 'SET time_zone = "+03:00"' # Например, для Москвы
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
