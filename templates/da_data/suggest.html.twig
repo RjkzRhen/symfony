@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Поиск адреса{% endblock %}
+
+{% block body %}
+    <h1>Поиск адреса</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">Поиск</button>
+    {{ form_end(form) }}
+
+    {% if suggestions %}
+        <h2>Результаты:</h2>
+        <ul>
+            {% for suggestion in suggestions %}
+                <li>{{ suggestion.value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -317,11 +317,6 @@ arrival_journal_detail_edit:
     requirements:
         id: \d+
 
-suggest_address:
-    path: /suggest-address
-    controller: App\Controller\DaDataController::suggestAddress
-    methods: [GET, POST]
-
 
 app_verify_2fa:
     path: /verify-2fa
@@ -342,3 +337,24 @@ app_send_2fa_code:
     path: /send-2fa-code
     controller: App\Controller\SecurityController::send2FACode
     methods: [GET, POST]
+
+# config/routes.yaml
+suggest_address:
+    path: /suggest-address
+    controller: App\Controller\DaDataController::suggestAddress
+    methods: [GET]
+
+suggest_party:
+    path: /suggest-party
+    controller: App\Controller\DaDataController::suggestParty
+    methods: [GET]
+
+clean_name:
+    path: /clean-name
+    controller: App\Controller\DaDataController::cleanName
+    methods: [GET]
+
+geolocate_address:
+    path: /geolocate-address
+    controller: App\Controller\DaDataController::geolocateAddress
+    methods: [GET]

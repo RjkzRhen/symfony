@@ -9,18 +9,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('address', TextType::class, [
-                'label' => 'Введите адрес',
-                'attr' => [
-                    'placeholder' => 'Москва, Ленина',
-                ],
+                'label' => 'Адрес',
+                'attr' => ['placeholder' => 'Введите адрес'],
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([]);
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3ef24d327052fe8b836095692d67b80",
+    "content-hash": "c87f1ce04a0a9a0b75f19eebbf21761a",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -8800,6 +8800,62 @@
                 "source": "https://github.com/twilio/twilio-php/tree/8.3.9"
             },
             "time": "2024-12-05T10:18:30+00:00"
+        },
+        {
+            "name": "velhron/dadata-bundle",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Velhron/dadata-bundle.git",
+                "reference": "118b5575a0391ff87afc6726471034813cd9f80e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Velhron/dadata-bundle/zipball/118b5575a0391ff87afc6726471034813cd9f80e",
+                "reference": "118b5575a0391ff87afc6726471034813cd9f80e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.1|^8.0",
+                "symfony/config": "^4.4|^5.0|^6.0|^7.0",
+                "symfony/dependency-injection": "^4.4|^5.0|^6.0|^7.0",
+                "symfony/http-client": "^4.4|^5.0|^6.0|^7.0",
+                "symfony/http-kernel": "^4.4|^5.0|^6.0|^7.0",
+                "symfony/yaml": "^4.4|^5.0|^6.0|^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.25",
+                "symfony/phpunit-bridge": "^4.4|^5.0|^6.0|^7.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Velhron\\DadataBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Velhron",
+                    "email": "velhron@gmail.com"
+                }
+            ],
+            "description": "DaData for Symfony",
+            "keywords": [
+                "DaData",
+                "symfony-bundle",
+                "symfony-dadata"
+            ],
+            "support": {
+                "issues": "https://github.com/Velhron/dadata-bundle/issues",
+                "source": "https://github.com/Velhron/dadata-bundle/tree/v1.6.0"
+            },
+            "time": "2024-06-28T07:27:11+00:00"
         },
         {
             "name": "vich/uploader-bundle",

@@ -2,46 +2,50 @@
 
 namespace App\Controller;
 
-use App\Form\AddressType;
-use App\Service\DaDataService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Velhron\DadataBundle\Service\DadataSuggest;
 
 class DaDataController extends AbstractController
 {
-    private $daDataService;
+    private $dadataSuggest;
 
-    // Внедряем сервис DaDataService через конструктор
-    public function __construct(DaDataService $daDataService)
+    public function __construct(DadataSuggest $dadataSuggest)
     {
-        $this->daDataService = $daDataService;
+        $this->dadataSuggest = $dadataSuggest;
     }
 
     /**
-     * @Route("/suggest-address", name="suggest_address")
+     * @Route("/suggest-address", name="suggest_address", methods={"GET"})
      */
-    public function suggestAddress(Request $request): Response
+    public function suggestAddress(Request $request): JsonResponse
     {
-        // Создаем форму для ввода адреса
-        $form = $this->createForm(AddressType::class);
-        $form->handleRequest($request);
+        $query = $request->query->get('query', '');
 
-        $suggestions = [];
-
-        // Если форма отправлена и валидна
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Получаем введенный адрес из формы
-            $addressQuery = $form->get('address')->getData();
-            // Получаем подсказки от сервиса DaData
-            $suggestions = $this->daDataService->suggestAddress($addressQuery);
+        if (empty($query)) {
+            return $this->json(['error' => 'Query is required'], 400);
         }
 
-        // Рендерим страницу с формой и подсказками
-        return $this->render('dadata/suggest.html.twig', [
-            'form' => $form->createView(),
-            'suggestions' => $suggestions['suggestions'] ?? [],
-        ]);
+        $response = $this->dadataSuggest->suggestAddress($query, ['count' => 5]);
+
+        return $this->json($response);
+    }
+
+    /**
+     * @Route("/suggest-party", name="suggest_party", methods={"GET"})
+     */
+    public function suggestParty(Request $request): JsonResponse
+    {
+        $query = $request->query->get('query', '');
+
+        if (empty($query)) {
+            return $this->json(['error' => 'Query is required'], 400);
+        }
+
+        $response = $this->dadataSuggest->suggestParty($query, ['count' => 5]);
+
+        return $this->json($response);
     }
 }

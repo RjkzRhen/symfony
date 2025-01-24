@@ -17,9 +17,6 @@ class DaDataService
         $this->baseUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs';
     }
 
-    /**
-     * Метод для автодополнения адресов.
-     */
     public function suggestAddress(string $query, int $count = 5): array
     {
         $url = $this->baseUrl . '/suggest/address';

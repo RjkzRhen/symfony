@@ -48,6 +48,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "twilio/sdk": "^8.3",
+        "velhron/dadata-bundle": "^1.6",
         "vich/uploader-bundle": "^2.5"
     },
     "config": {

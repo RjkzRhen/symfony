@@ -20,4 +20,6 @@ return [
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
+    Velhron\DadataBundle\VelhronDadataBundle::class => ['all' => true],
+
 ];

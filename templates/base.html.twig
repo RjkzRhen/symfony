@@ -13,6 +13,7 @@
         <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
         <a href="{{ path('homepage') }}" class="nav-link {{ app.request.attributes.get('_route') == 'homepage' ? 'active' : '' }}">Главная</a>
         <a href="{{ path('property_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'property_index' ? 'active' : '' }}">О нас</a>
+
         {% if is_granted('ROLE_ADMIN') %}
             <a href="#" onclick="toggleSubmenu('tables')" id="tables-link" class="nav-link has-submenu {{ app.request.attributes.get('_route') starts with 'employee_directory_index' or app.request.attributes.get('_route') starts with 'phone_index' or app.request.attributes.get('_route') starts with 'user_index' ? 'active' : '' }}">Таблицы</a>
             <div class="submenu" id="tables">
@@ -20,6 +21,9 @@
                 <a href="{{ path('phone_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'phone_index' ? 'active' : '' }}">Телефоны</a>
                 <a href="{{ path('user_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'user_index' ? 'active' : '' }}">Пользователи</a>
             </div>
+            <a href="{{ path('suggest_address') }}" class="nav-link {{ app.request.attributes.get('_route') == 'suggest_address' ? 'active' : '' }}">
+                DaData API
+            </a>
             <a href="{{ path('app_payment') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_payment' ? 'active' : '' }}">Оплата</a>
             <a href="{{ path('apartment_index') }}" class="nav-link {{ app.request.attributes.get('_route') == 'apartment_index' ? 'active' : '' }}">Квартиры</a>
             <a href="{{ path('app_credit_calculator') }}" class="nav-link {{ app.request.attributes.get('_route') == 'app_credit_calculator' ? 'active' : '' }}">Кредит</a>

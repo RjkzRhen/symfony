@@ -13,9 +13,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-
             - '../src/Kernel.php'
-
 
     App\Service\DaDataService:
         arguments:
